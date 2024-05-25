@@ -7,8 +7,8 @@ import kotlinx.serialization.Serializable
 data class NetworkSsoInfo(
     @SerialName("at")
     val at: String,
-    @SerialName("tgt")
-    val tgt: String,
     @SerialName("userId")
-    val userId: String
+    val userId: String,
+    @SerialName("tgt")
+    val ticket: String
 )

@@ -9,7 +9,7 @@ interface NetworkDataSource {
 
     suspend fun ssoLogin(username: String, password: String, captcha: String): NetworkSsoInfo
 
-    suspend fun ssoLogin(tgt: String): NetworkSsoInfo
+    suspend fun ssoLogin(ticket: String): NetworkSsoInfo
 
     suspend fun casLogin(at: String, userId: String): NetworkCasInfo
 
