@@ -21,11 +21,17 @@ internal class UserRepositoryImpl @Inject constructor(
         .map(UserPreferences::asExternalModel)
 
     override suspend fun userLogin(username: String, password: String, captcha: String) {
-        handleLogin(ssoInfo = networkDataSource.ssoLogin(username, password, captcha))
+        handleLogin(
+            ssoInfo = networkDataSource.ssoLogin(username, password, captcha)
+        )
     }
 
-    override suspend fun autoLogin(ticket: String) {
-        handleLogin(ssoInfo = networkDataSource.ssoLogin(ticket))
+    override suspend fun autoLogin() {
+        handleLogin(
+            ssoInfo = networkDataSource.ssoLogin(
+                ticket = userData.first().ticket
+            )
+        )
     }
 
     override suspend fun getUserId(): String {
@@ -50,7 +56,7 @@ internal class UserRepositoryImpl @Inject constructor(
     }
 
     private suspend fun refreshUserToken(): String {
-        autoLogin(ticket = userData.first().ticket)
+        autoLogin()
         return userData.first().token
     }
 }
