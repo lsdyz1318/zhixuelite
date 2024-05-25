@@ -8,7 +8,7 @@ data class NetworkReportInfoPage(
     @SerialName("hasNextPage")
     val hasNextPage: Boolean,
     @SerialName("examInfoList")
-    val list: List<NetworkReportInfo>
+    val reportInfoList: List<NetworkReportInfo>
 )
 
 @Serializable

@@ -34,7 +34,7 @@ class ReportInfoRemoteMediator(
                 type = type,
                 page = STARTING_PAGE,
                 token = userRepository.getUserToken()
-            ).list.first().id
+            ).reportInfoList.first().id
 
             check(localLatestId != networkLatestId)
 
@@ -70,10 +70,10 @@ class ReportInfoRemoteMediator(
             }
             // 插入新的数据
             remotePageDao.insertRemotePageEntity(
-                RemotePageEntity(label, nextPage = loadPage.inc())
+                RemotePageEntity(label, loadPage + 1)
             )
             reportInfoDao.insertReportInfoEntities(
-                response.list.mapToReportInfoEntities()
+                response.reportInfoList.mapToReportInfoEntities()
             )
 
             MediatorResult.Success(endOfPaginationReached = !response.hasNextPage)
