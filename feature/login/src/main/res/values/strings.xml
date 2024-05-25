@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login_title">账号密码登录</string>
+    <string name="login_subtitle">支持手机号 / 智学网学号</string>
+    <string name="login_username_hint">请输入您的账号</string>
+    <string name="login_password_hint">请输入您的密码</string>
+    <string name="login_navigate_to_register">还没有账号？点此注册</string>
+    <string name="login_navigate_to_forget_password">忘记密码？</string>
+    <string name="login_submit_forms">登录</string>
+</resources>

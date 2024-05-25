@@ -17,8 +17,8 @@ fun ZhixueLiteApp(isLoggedIn: Boolean) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .systemBarsPadding()
             .background(Theme.colorScheme.background)
+            .systemBarsPadding()
     ) {
         ZhixueLiteNavHost(
             navController = rememberNavController(),

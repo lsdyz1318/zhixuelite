@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
@@ -89,7 +88,6 @@ internal fun HomeScreen(
             onTabClick = onTabClick,
             modifier = Modifier
                 .fillMaxWidth()
-                .statusBarsPadding()
                 .padding(top = 24.dp, bottom = 12.dp)
         )
         Divider()
