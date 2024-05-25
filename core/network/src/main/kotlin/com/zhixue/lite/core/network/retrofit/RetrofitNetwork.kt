@@ -2,6 +2,10 @@ package com.zhixue.lite.core.network.retrofit
 
 import com.zhixue.lite.core.common.json.NetworkJson
 import com.zhixue.lite.core.network.NetworkDataSource
+import com.zhixue.lite.core.network.model.NetworkCasInfo
+import com.zhixue.lite.core.network.model.NetworkReportInfoPage
+import com.zhixue.lite.core.network.model.NetworkSsoInfo
+import com.zhixue.lite.core.network.model.NetworkUserInfo
 import com.zhixue.lite.core.network.retrofit.api.ChangYanApi
 import com.zhixue.lite.core.network.retrofit.api.ZhixueApi
 import dagger.Lazy
@@ -26,6 +30,30 @@ internal class RetrofitNetwork @Inject constructor(
 
     private val changYanApi: ChangYanApi = createNetworkApi(CHANG_YAN_BASE_URL)
     private val zhixueApi: ZhixueApi = createNetworkApi(ZHIXUE_BASE_URL)
+
+    override suspend fun ssoLogin(
+        username: String, password: String, captcha: String
+    ): NetworkSsoInfo {
+        return changYanApi.ssoLogin(username, password, captcha).data
+    }
+
+    override suspend fun ssoLogin(tgt: String): NetworkSsoInfo {
+        return changYanApi.ssoLogin(tgt).data
+    }
+
+    override suspend fun casLogin(at: String, userId: String): NetworkCasInfo {
+        return zhixueApi.casLogin(at, userId).result!!
+    }
+
+    override suspend fun getUserInfo(token: String): NetworkUserInfo {
+        return zhixueApi.getUserInfo(token).result!!
+    }
+
+    override suspend fun getReportInfoPage(
+        type: String, page: Int, token: String
+    ): NetworkReportInfoPage {
+        return zhixueApi.getReportInfoPage(type, page, token).result!!
+    }
 
     private inline fun <reified T> createNetworkApi(baseUrl: String): T {
         return Retrofit.Builder()
