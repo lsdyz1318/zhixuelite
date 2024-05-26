@@ -17,10 +17,10 @@ import com.zhixue.lite.core.designsystem.component.Divider
 import com.zhixue.lite.core.designsystem.component.Icon
 import com.zhixue.lite.core.designsystem.component.IconButton
 import com.zhixue.lite.core.designsystem.theme.Theme
-import com.zhixue.lite.feature.home.navigation.HomeRoute
-import com.zhixue.lite.feature.home.navigation.homeRoute
+import com.zhixue.lite.feature.home.navigation.Home
+import com.zhixue.lite.feature.home.navigation.homeScreen
 import com.zhixue.lite.feature.main.navigation.MainDestination
-import com.zhixue.lite.feature.profile.navigation.profileRoute
+import com.zhixue.lite.feature.profile.navigation.profileScreen
 
 @Composable
 internal fun MainRoute(
@@ -41,13 +41,13 @@ internal fun MainScreen(
     Column {
         NavHost(
             navController = mainState.navController,
-            startDestination = HomeRoute,
+            startDestination = Home,
             modifier = Modifier.weight(1f),
             enterTransition = { EnterTransition.None },
             exitTransition = { ExitTransition.None }
         ) {
-            homeRoute(onReportInfoClick = onReportInfoClick)
-            profileRoute()
+            homeScreen(onReportInfoClick = onReportInfoClick)
+            profileScreen()
         }
         Divider()
         MainBottomBar(

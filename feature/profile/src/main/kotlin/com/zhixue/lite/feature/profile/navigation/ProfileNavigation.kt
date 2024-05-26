@@ -8,14 +8,14 @@ import com.zhixue.lite.feature.profile.ProfileRoute
 import kotlinx.serialization.Serializable
 
 @Serializable
-object ProfileRoute
+object Profile
 
 fun NavController.navigateToProfile(navOptions: NavOptions? = null) {
-    navigate(ProfileRoute, navOptions)
+    navigate(Profile, navOptions)
 }
 
-fun NavGraphBuilder.profileRoute() {
-    composable<ProfileRoute> {
+fun NavGraphBuilder.profileScreen() {
+    composable<Profile> {
         ProfileRoute()
     }
 }

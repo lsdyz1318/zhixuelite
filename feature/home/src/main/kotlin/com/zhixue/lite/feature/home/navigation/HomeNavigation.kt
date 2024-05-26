@@ -8,16 +8,16 @@ import com.zhixue.lite.feature.home.HomeRoute
 import kotlinx.serialization.Serializable
 
 @Serializable
-object HomeRoute
+object Home
 
 fun NavController.navigateToHome(navOptions: NavOptions? = null) {
-    navigate(HomeRoute, navOptions)
+    navigate(Home, navOptions)
 }
 
-fun NavGraphBuilder.homeRoute(
+fun NavGraphBuilder.homeScreen(
     onReportInfoClick: (String) -> Unit
 ) {
-    composable<HomeRoute> {
+    composable<Home> {
         HomeRoute(onReportInfoClick = onReportInfoClick)
     }
 }

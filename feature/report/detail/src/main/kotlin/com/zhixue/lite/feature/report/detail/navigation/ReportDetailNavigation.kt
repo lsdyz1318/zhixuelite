@@ -8,14 +8,14 @@ import com.zhixue.lite.feature.report.detail.ReportDetailRoute
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ReportDetailRoute(val reportId: String)
+data class ReportDetail(val reportId: String)
 
 fun NavController.navigateToReportDetail(reportId: String, navOptions: NavOptions? = null) {
-    navigate(ReportDetailRoute(reportId), navOptions)
+    navigate(ReportDetail(reportId), navOptions)
 }
 
-fun NavGraphBuilder.reportDetailRoute() {
-    composable<ReportDetailRoute> {
+fun NavGraphBuilder.reportDetailScreen() {
+    composable<ReportDetail> {
         ReportDetailRoute()
     }
 }
