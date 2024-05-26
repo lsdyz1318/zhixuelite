@@ -6,23 +6,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.compose.rememberNavController
 import com.zhixue.lite.core.designsystem.theme.Theme
-import com.zhixue.lite.navigation.AuthGraph
-import com.zhixue.lite.navigation.MainGraph
 import com.zhixue.lite.navigation.ZhixueLiteNavHost
 
 @Composable
-fun ZhixueLiteApp(isLoggedIn: Boolean) {
+fun ZhixueLiteApp(appState: ZhixueLiteAppState) {
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(Theme.colorScheme.background)
             .systemBarsPadding()
     ) {
-        ZhixueLiteNavHost(
-            navController = rememberNavController(),
-            startDestination = if (isLoggedIn) MainGraph else AuthGraph
-        )
+        ZhixueLiteNavHost(appState = appState)
     }
 }

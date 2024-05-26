@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.zhixue.lite.core.designsystem.theme.ZhixueLiteTheme
 import com.zhixue.lite.ui.ZhixueLiteApp
+import com.zhixue.lite.ui.rememberAppState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,7 +29,9 @@ class ZhixueLiteActivity : ComponentActivity() {
         setContent {
             ZhixueLiteTheme {
                 if (viewModel.loginState != LoginState.Loading) {
-                    ZhixueLiteApp(isLoggedIn = viewModel.loginState == LoginState.LoggedIn)
+                    ZhixueLiteApp(
+                        appState = rememberAppState(loginState = viewModel.loginState)
+                    )
                 }
             }
         }
