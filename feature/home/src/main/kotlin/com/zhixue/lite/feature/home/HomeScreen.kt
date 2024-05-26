@@ -63,7 +63,7 @@ internal fun HomeRoute(
 }
 
 @Composable
-private fun HomeScreen(
+internal fun HomeScreen(
     homeState: HomeState,
     examReportInfoList: LazyPagingItems<ReportInfo>,
     homeworkReportInfoList: LazyPagingItems<ReportInfo>,
@@ -93,7 +93,7 @@ private fun HomeScreen(
 }
 
 @Composable
-private fun HomeTabs(
+internal fun HomeTabs(
     pageTitleIds: List<Int>,
     currentPage: Int,
     onTabClick: (Int) -> Unit,
@@ -116,7 +116,7 @@ private fun HomeTabs(
 }
 
 @Composable
-private fun HomeReportInfoPage(
+internal fun HomeReportInfoPage(
     reportInfoList: LazyPagingItems<ReportInfo>,
     onReportInfoClick: (Boolean, String) -> Unit,
     modifier: Modifier = Modifier
@@ -139,7 +139,7 @@ private fun HomeReportInfoPage(
     }
 }
 
-private fun LazyListScope.placeholderBody() {
+internal fun LazyListScope.placeholderBody() {
     items(20) {
         ReportInfoItemPlaceHolder(
             modifier = Modifier.padding(horizontal = 32.dp, vertical = 16.dp)
@@ -148,7 +148,7 @@ private fun LazyListScope.placeholderBody() {
     }
 }
 
-private fun LazyListScope.reportInfoBody(
+internal fun LazyListScope.reportInfoBody(
     reportInfoList: LazyPagingItems<ReportInfo>,
     onReportInfoClick: (Boolean, String) -> Unit
 ) {
@@ -176,7 +176,7 @@ private fun LazyListScope.reportInfoBody(
 }
 
 @Composable
-private fun ReportInfoItem(
+internal fun ReportInfoItem(
     name: String,
     dateTime: String,
     modifier: Modifier = Modifier
@@ -208,7 +208,7 @@ private fun ReportInfoItem(
 }
 
 @Composable
-private fun ReportInfoItemPlaceHolder(modifier: Modifier = Modifier) {
+internal fun ReportInfoItemPlaceHolder(modifier: Modifier = Modifier) {
     // 占位符Modifier
     val placeholderModifier = Modifier.placeholder(
         visible = true,

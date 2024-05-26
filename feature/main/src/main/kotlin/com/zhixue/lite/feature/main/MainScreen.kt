@@ -12,10 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import com.zhixue.lite.core.designsystem.component.Divider
 import com.zhixue.lite.core.designsystem.component.Icon
 import com.zhixue.lite.core.designsystem.component.IconButton
@@ -27,53 +24,36 @@ import com.zhixue.lite.feature.profile.navigation.profileRoute
 
 @Composable
 internal fun MainRoute(
-    onReportInfoClick: (String) -> Unit
+    onReportInfoClick: (String) -> Unit,
+    mainState: MainState = rememberMainState()
 ) {
-    val navController = rememberNavController()
-
     MainScreen(
-        navController = navController,
-        destinations = MainDestination.entries,
-        currentDestination = navController.currentBackStackEntryAsState().value?.destination,
-        onDestinationClick = { destination ->
-            navController.navigate(destination.route) {
-                popUpTo(navController.graph.id) {
-                    saveState = true
-                }
-                launchSingleTop = true
-                restoreState = true
-            }
-        },
+        mainState = mainState,
         onReportInfoClick = onReportInfoClick
     )
 }
 
 @Composable
 internal fun MainScreen(
-    navController: NavHostController,
-    destinations: List<MainDestination>,
-    currentDestination: NavDestination?,
-    onDestinationClick: (MainDestination) -> Unit,
+    mainState: MainState,
     onReportInfoClick: (String) -> Unit
 ) {
     Column {
         NavHost(
-            navController = navController,
+            navController = mainState.navController,
             startDestination = HomeRoute,
             modifier = Modifier.weight(1f),
             enterTransition = { EnterTransition.None },
             exitTransition = { ExitTransition.None }
         ) {
-            homeRoute(
-                onReportInfoClick = onReportInfoClick
-            )
+            homeRoute(onReportInfoClick = onReportInfoClick)
             profileRoute()
         }
         Divider()
         MainBottomBar(
-            destinations = destinations,
-            currentDestination = currentDestination,
-            onDestinationClick = onDestinationClick,
+            destinations = mainState.destinations,
+            currentDestination = mainState.currentDestination,
+            onDestinationClick = mainState::navigateToDestination,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 32.dp, vertical = 4.dp)
@@ -95,13 +75,12 @@ internal fun MainBottomBar(
         destinations.forEach { destination ->
             val isSelected =
                 currentDestination?.route?.contains(destination.name, ignoreCase = true) ?: false
-
             IconButton(
                 onClick = { onDestinationClick(destination) },
                 modifier = Modifier.weight(1f)
             ) {
                 Icon(
-                    painter = painterResource(destination.iconResId),
+                    painter = painterResource(destination.iconId),
                     tint = if (isSelected) Theme.colorScheme.primary else Theme.colorScheme.onBackgroundVariant
                 )
             }

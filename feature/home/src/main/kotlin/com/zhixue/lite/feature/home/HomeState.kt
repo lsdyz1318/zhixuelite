@@ -37,7 +37,7 @@ internal class HomeState(
     val currentPage: Int
         get() = pagerState.currentPage
 
-    val pageTitleIds = pages.map { it.titleId }
+    val pageTitleIds: List<Int> = pages.map { it.titleId }
 
     fun scrollToPage(index: Int) {
         coroutineScope.launch {
