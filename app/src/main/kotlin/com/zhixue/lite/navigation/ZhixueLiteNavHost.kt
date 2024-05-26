@@ -9,6 +9,8 @@ import com.zhixue.lite.feature.login.navigation.LoginRoute
 import com.zhixue.lite.feature.login.navigation.loginRoute
 import com.zhixue.lite.feature.main.navigation.MainRoute
 import com.zhixue.lite.feature.main.navigation.mainRoute
+import com.zhixue.lite.feature.report.detail.navigation.ReportDetailRoute
+import com.zhixue.lite.feature.report.detail.navigation.reportDetailRoute
 
 @Composable
 fun ZhixueLiteNavHost(
@@ -21,7 +23,7 @@ fun ZhixueLiteNavHost(
         startDestination = startDestination,
         modifier = modifier
     ) {
-        navigation<AuthGraph>(startDestination = LoginRoute) {
+        navigation<AuthGraph>(startDestination = LoginRoute::class) {
             loginRoute(
                 onLoginSuccess = {
                     navController.navigate(MainGraph) {
@@ -33,11 +35,15 @@ fun ZhixueLiteNavHost(
                 onForgetPasswordClick = {}
             )
         }
-        navigation<MainGraph>(startDestination = MainRoute) {
+        navigation<MainGraph>(startDestination = MainRoute::class) {
             mainRoute(
-                onReportInfoClick = {
+                onReportInfoClick = { reportId ->
+                    navController.navigate(ReportDetailRoute(reportId))
                 }
             )
+        }
+        navigation<ReportGraph>(startDestination = ReportDetailRoute::class) {
+            reportDetailRoute()
         }
     }
 }
