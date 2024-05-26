@@ -2,4 +2,5 @@
 <resources>
     <string name="home_exam_title">考试报告</string>
     <string name="home_homework_title">作业报告</string>
+    <string name="home_not_supported">暂不支持查看未发布报告</string>
 </resources>

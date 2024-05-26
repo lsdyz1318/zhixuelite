@@ -8,8 +8,12 @@ import kotlinx.serialization.Serializable
 @Serializable
 object MainRoute
 
-fun NavGraphBuilder.mainRoute() {
+fun NavGraphBuilder.mainRoute(
+    onReportInfoClick: (String) -> Unit
+) {
     composable<MainRoute> {
-        MainRoute()
+        MainRoute(
+            onReportInfoClick = onReportInfoClick
+        )
     }
 }

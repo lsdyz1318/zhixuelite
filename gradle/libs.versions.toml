@@ -10,6 +10,7 @@ androidx-hilt-navigation-compose = "1.2.0"
 androidx-navigation-compose = "2.8.0-beta01"
 androidx-paging = "3.3.0"
 androidx-room = "2.6.1"
+captcha = "1.5.1"
 hilt = "2.51.1"
 jwt = "2.0.2"
 kotlin = "1.9.24"
@@ -32,6 +33,7 @@ androidx-paging-runtime = { group = "androidx.paging", name = "paging-runtime", 
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "androidx-room" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "androidx-room" }
 androidx-room-paging = { group = "androidx.room", name = "room-paging", version.ref = "androidx-room" }
+geetest-captcha = { group = "com.geetest.captcha", name = "captcha", version.ref = "captcha" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-android-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
 jwt-android = { group = "com.auth0.android", name = "jwtdecode", version.ref = "jwt" }

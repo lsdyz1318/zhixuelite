@@ -1,5 +1,6 @@
 package com.zhixue.lite.feature.home
 
+import android.widget.Toast
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
@@ -23,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -32,7 +34,6 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
-import com.zhixue.lite.core.common.R
 import com.zhixue.lite.core.designsystem.component.Divider
 import com.zhixue.lite.core.designsystem.component.Icon
 import com.zhixue.lite.core.designsystem.component.Text
@@ -41,10 +42,15 @@ import com.zhixue.lite.core.designsystem.modifier.placeholder
 import com.zhixue.lite.core.designsystem.theme.Theme
 import com.zhixue.lite.core.model.ReportInfo
 import kotlinx.coroutines.launch
+import com.zhixue.lite.core.common.R as commonR
 
 @Composable
-internal fun HomeRoute(viewModel: HomeViewModel = hiltViewModel()) {
+internal fun HomeRoute(
+    viewModel: HomeViewModel = hiltViewModel(),
+    onReportInfoClick: (String) -> Unit
+) {
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
 
     val pages = remember {
         HomePage.entries
@@ -66,7 +72,13 @@ internal fun HomeRoute(viewModel: HomeViewModel = hiltViewModel()) {
         onTabClick = { index ->
             scope.launch { pagerState.animateScrollToPage(index) }
         },
-        onReportInfoItemClick = { _, _ -> }
+        onReportInfoClick = { reportId, isPublished ->
+            if (isPublished) {
+                onReportInfoClick(reportId)
+            } else {
+                Toast.makeText(context, R.string.home_not_supported, Toast.LENGTH_SHORT).show()
+            }
+        }
     )
 }
 
@@ -79,7 +91,7 @@ internal fun HomeScreen(
     examReportInfoList: LazyPagingItems<ReportInfo>,
     homeworkReportInfoList: LazyPagingItems<ReportInfo>,
     onTabClick: (Int) -> Unit,
-    onReportInfoItemClick: (String, Boolean) -> Unit
+    onReportInfoClick: (String, Boolean) -> Unit
 ) {
     Column {
         HomeTabs(
@@ -97,7 +109,7 @@ internal fun HomeScreen(
                     HomePage.EXAM -> examReportInfoList
                     HomePage.HOMEWORK -> homeworkReportInfoList
                 },
-                onReportInfoItemClick = onReportInfoItemClick,
+                onReportInfoClick = onReportInfoClick,
                 modifier = Modifier.fillMaxSize()
             )
         }
@@ -130,7 +142,7 @@ internal fun HomeTabs(
 @Composable
 internal fun HomeReportInfoPage(
     reportInfoList: LazyPagingItems<ReportInfo>,
-    onReportInfoItemClick: (String, Boolean) -> Unit,
+    onReportInfoClick: (String, Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Crossfade(
@@ -159,7 +171,7 @@ internal fun HomeReportInfoPage(
                             name = name,
                             dateTime = dateTime,
                             modifier = Modifier
-                                .clickable { onReportInfoItemClick(id, isPublished) }
+                                .clickable { onReportInfoClick(id, isPublished) }
                                 .padding(horizontal = 32.dp, vertical = 16.dp)
                         )
                         Divider(modifier = Modifier.padding(horizontal = 16.dp))
@@ -196,7 +208,7 @@ internal fun HomeReportInfoItem(
         }
         Spacer(modifier = Modifier.width(24.dp))
         Icon(
-            painter = painterResource(R.drawable.ic_next),
+            painter = painterResource(commonR.drawable.ic_next),
             tint = Theme.colorScheme.onBackgroundVariant
         )
     }

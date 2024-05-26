@@ -1,5 +1,7 @@
 package com.zhixue.lite.feature.main
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,6 +13,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.zhixue.lite.core.designsystem.component.Divider
@@ -18,12 +21,14 @@ import com.zhixue.lite.core.designsystem.component.Icon
 import com.zhixue.lite.core.designsystem.component.IconButton
 import com.zhixue.lite.core.designsystem.theme.Theme
 import com.zhixue.lite.feature.home.navigation.HomeRoute
+import com.zhixue.lite.feature.home.navigation.homeRoute
 import com.zhixue.lite.feature.main.navigation.MainDestination
-import com.zhixue.lite.feature.main.navigation.MainNavHost
+import com.zhixue.lite.feature.profile.navigation.profileRoute
 
 @Composable
-internal fun MainRoute() {
-
+internal fun MainRoute(
+    onReportInfoClick: (String) -> Unit
+) {
     val navController = rememberNavController()
 
     MainScreen(
@@ -38,7 +43,8 @@ internal fun MainRoute() {
                 launchSingleTop = true
                 restoreState = true
             }
-        }
+        },
+        onReportInfoClick = onReportInfoClick
     )
 }
 
@@ -47,14 +53,22 @@ internal fun MainScreen(
     navController: NavHostController,
     destinations: List<MainDestination>,
     currentDestination: NavDestination?,
-    onDestinationClick: (MainDestination) -> Unit
+    onDestinationClick: (MainDestination) -> Unit,
+    onReportInfoClick: (String) -> Unit
 ) {
     Column {
-        MainNavHost(
+        NavHost(
             navController = navController,
             startDestination = HomeRoute,
-            modifier = Modifier.weight(1f)
-        )
+            modifier = Modifier.weight(1f),
+            enterTransition = { EnterTransition.None },
+            exitTransition = { ExitTransition.None }
+        ) {
+            homeRoute(
+                onReportInfoClick = onReportInfoClick
+            )
+            profileRoute()
+        }
         Divider()
         MainBottomBar(
             destinations = destinations,

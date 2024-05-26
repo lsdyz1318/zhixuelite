@@ -8,5 +8,5 @@ android {
 
 dependencies {
     implementation(projects.core.domain)
-    implementation(files("libs/captcha.aar"))
+    implementation(libs.geetest.captcha)
 }

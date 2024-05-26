@@ -34,7 +34,10 @@ fun ZhixueLiteNavHost(
             )
         }
         navigation<MainGraph>(startDestination = MainRoute) {
-            mainRoute()
+            mainRoute(
+                onReportInfoClick = {
+                }
+            )
         }
     }
 }
