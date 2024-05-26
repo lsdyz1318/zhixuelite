@@ -13,5 +13,5 @@ dependencies {
     implementation(projects.core.datastore)
     implementation(projects.core.network)
     implementation(libs.androidx.paging.runtime)
-    implementation(libs.jwt.android)
+    implementation(libs.kotlinx.serialization.json)
 }

@@ -1,6 +1,5 @@
 package com.zhixue.lite.core.data.repository
 
-import com.auth0.android.jwt.JWT
 import com.zhixue.lite.core.datastore.PreferencesDataSource
 import com.zhixue.lite.core.datastore.model.UserPreferences
 import com.zhixue.lite.core.datastore.model.asExternalModel
@@ -10,7 +9,13 @@ import com.zhixue.lite.core.network.model.NetworkSsoInfo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
+import kotlinx.serialization.json.longOrNull
 import javax.inject.Inject
+import kotlin.io.encoding.Base64
+import kotlin.io.encoding.ExperimentalEncodingApi
 
 internal class UserRepositoryImpl @Inject constructor(
     private val networkDataSource: NetworkDataSource,
@@ -40,7 +45,7 @@ internal class UserRepositoryImpl @Inject constructor(
 
     override suspend fun getUserToken(): String {
         var token = userData.first().token
-        if (JWT(token).isExpired(0)) {
+        if (checkUserTokenExpired(token)) {
             token = refreshUserToken()
         }
         return token
@@ -58,5 +63,15 @@ internal class UserRepositoryImpl @Inject constructor(
     private suspend fun refreshUserToken(): String {
         autoLogin()
         return userData.first().token
+    }
+
+    @OptIn(ExperimentalEncodingApi::class)
+    private fun checkUserTokenExpired(token: String): Boolean {
+        val payload = token.split(".")[1]
+        val decodePayload = String(Base64.decode(payload))
+        val payloadElement = Json.parseToJsonElement(decodePayload).jsonObject
+        val exp = payloadElement["exp"]?.jsonPrimitive?.longOrNull
+
+        return exp != null && exp > System.currentTimeMillis()
     }
 }

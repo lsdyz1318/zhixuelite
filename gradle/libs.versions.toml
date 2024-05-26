@@ -12,7 +12,6 @@ androidx-paging = "3.3.0"
 androidx-room = "2.6.1"
 captcha = "1.5.1"
 hilt = "2.51.1"
-jwt = "2.0.2"
 kotlin = "1.9.24"
 kotlinx-serialization-json = "1.6.3"
 ksp = "1.9.24-1.0.20"
@@ -36,7 +35,6 @@ androidx-room-paging = { group = "androidx.room", name = "room-paging", version.
 geetest-captcha = { group = "com.geetest.captcha", name = "captcha", version.ref = "captcha" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-android-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
-jwt-android = { group = "com.auth0.android", name = "jwtdecode", version.ref = "jwt" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
 okhttp-core = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
 retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
