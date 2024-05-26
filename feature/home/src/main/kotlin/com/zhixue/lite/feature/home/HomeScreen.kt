@@ -16,12 +16,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.PagerState
-import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -41,38 +38,21 @@ import com.zhixue.lite.core.designsystem.component.TextButton
 import com.zhixue.lite.core.designsystem.modifier.placeholder
 import com.zhixue.lite.core.designsystem.theme.Theme
 import com.zhixue.lite.core.model.ReportInfo
-import kotlinx.coroutines.launch
 import com.zhixue.lite.core.common.R as commonR
 
 @Composable
 internal fun HomeRoute(
-    viewModel: HomeViewModel = hiltViewModel(),
-    onReportInfoClick: (String) -> Unit
+    onReportInfoClick: (String) -> Unit,
+    homeState: HomeState = rememberHomeState(),
+    viewModel: HomeViewModel = hiltViewModel()
 ) {
-    val scope = rememberCoroutineScope()
     val context = LocalContext.current
 
-    val pages = remember {
-        HomePage.entries
-    }
-    val pageTitles = remember(pages) {
-        pages.map { it.titleResId }
-    }
-    val pagerState = rememberPagerState(
-        pageCount = { pages.size }
-    )
-
     HomeScreen(
-        pages = pages,
-        pageTitles = pageTitles,
-        pagerState = pagerState,
-        currentPage = pagerState.currentPage,
+        homeState = homeState,
         examReportInfoList = viewModel.examReportInfoList.collectAsLazyPagingItems(),
         homeworkReportInfoList = viewModel.homeworkReportInfoList.collectAsLazyPagingItems(),
-        onTabClick = { index ->
-            scope.launch { pagerState.animateScrollToPage(index) }
-        },
-        onReportInfoClick = { reportId, isPublished ->
+        onReportInfoClick = { isPublished, reportId ->
             if (isPublished) {
                 onReportInfoClick(reportId)
             } else {
@@ -83,29 +63,25 @@ internal fun HomeRoute(
 }
 
 @Composable
-internal fun HomeScreen(
-    pages: List<HomePage>,
-    pageTitles: List<Int>,
-    pagerState: PagerState,
-    currentPage: Int,
+private fun HomeScreen(
+    homeState: HomeState,
     examReportInfoList: LazyPagingItems<ReportInfo>,
     homeworkReportInfoList: LazyPagingItems<ReportInfo>,
-    onTabClick: (Int) -> Unit,
-    onReportInfoClick: (String, Boolean) -> Unit
+    onReportInfoClick: (Boolean, String) -> Unit
 ) {
     Column {
         HomeTabs(
-            currentPage = currentPage,
-            pageTitles = pageTitles,
-            onTabClick = onTabClick,
+            pageTitleIds = homeState.pageTitleIds,
+            currentPage = homeState.currentPage,
+            onTabClick = homeState::scrollToPage,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 24.dp, bottom = 12.dp)
         )
         Divider()
-        HorizontalPager(state = pagerState) { index ->
+        HorizontalPager(homeState.pagerState) { index ->
             HomeReportInfoPage(
-                reportInfoList = when (pages[index]) {
+                reportInfoList = when (homeState.pages[index]) {
                     HomePage.EXAM -> examReportInfoList
                     HomePage.HOMEWORK -> homeworkReportInfoList
                 },
@@ -117,9 +93,9 @@ internal fun HomeScreen(
 }
 
 @Composable
-internal fun HomeTabs(
+private fun HomeTabs(
+    pageTitleIds: List<Int>,
     currentPage: Int,
-    pageTitles: List<Int>,
     onTabClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -127,10 +103,10 @@ internal fun HomeTabs(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally)
     ) {
-        pageTitles.forEachIndexed { index, pageTitle ->
+        pageTitleIds.forEachIndexed { index, pageTitleId ->
             TextButton(onClick = { onTabClick(index) }) {
                 Text(
-                    text = stringResource(pageTitle),
+                    text = stringResource(pageTitleId),
                     color = if (index == currentPage) Theme.colorScheme.primary else Theme.colorScheme.onBackgroundVariant,
                     style = Theme.typography.titleSmall
                 )
@@ -140,9 +116,9 @@ internal fun HomeTabs(
 }
 
 @Composable
-internal fun HomeReportInfoPage(
+private fun HomeReportInfoPage(
     reportInfoList: LazyPagingItems<ReportInfo>,
-    onReportInfoClick: (String, Boolean) -> Unit,
+    onReportInfoClick: (Boolean, String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Crossfade(
@@ -155,35 +131,52 @@ internal fun HomeReportInfoPage(
             userScrollEnabled = !isLoading
         ) {
             if (isLoading) {
-                items(10) {
-                    HomeReportInfoPlaceHolderItem(
-                        modifier = Modifier.padding(horizontal = 32.dp, vertical = 16.dp)
-                    )
-                    Spacer(modifier = Modifier.height(1.dp))
-                }
+                placeholderBody()
             } else {
-                items(
-                    count = reportInfoList.itemCount,
-                    key = reportInfoList.itemKey()
-                ) { index ->
-                    with(reportInfoList[index]!!) {
-                        HomeReportInfoItem(
-                            name = name,
-                            dateTime = dateTime,
-                            modifier = Modifier
-                                .clickable { onReportInfoClick(id, isPublished) }
-                                .padding(horizontal = 32.dp, vertical = 16.dp)
-                        )
-                        Divider(modifier = Modifier.padding(horizontal = 16.dp))
-                    }
-                }
+                reportInfoBody(reportInfoList, onReportInfoClick)
             }
         }
     }
 }
 
+private fun LazyListScope.placeholderBody() {
+    items(20) {
+        ReportInfoItemPlaceHolder(
+            modifier = Modifier.padding(horizontal = 32.dp, vertical = 16.dp)
+        )
+        Spacer(modifier = Modifier.height(1.dp))
+    }
+}
+
+private fun LazyListScope.reportInfoBody(
+    reportInfoList: LazyPagingItems<ReportInfo>,
+    onReportInfoClick: (Boolean, String) -> Unit
+) {
+    items(
+        count = reportInfoList.itemCount,
+        key = reportInfoList.itemKey()
+    ) { index ->
+        val reportInfo = reportInfoList[index]
+        if (reportInfo != null) {
+            ReportInfoItem(
+                name = reportInfo.name,
+                dateTime = reportInfo.dateTime,
+                modifier = Modifier
+                    .clickable { onReportInfoClick(reportInfo.isPublished, reportInfo.id) }
+                    .padding(horizontal = 32.dp, vertical = 16.dp)
+            )
+            Divider()
+        } else {
+            ReportInfoItemPlaceHolder(
+                modifier = Modifier.padding(horizontal = 32.dp, vertical = 16.dp)
+            )
+            Spacer(modifier = Modifier.height(1.dp))
+        }
+    }
+}
+
 @Composable
-internal fun HomeReportInfoItem(
+private fun ReportInfoItem(
     name: String,
     dateTime: String,
     modifier: Modifier = Modifier
@@ -215,7 +208,7 @@ internal fun HomeReportInfoItem(
 }
 
 @Composable
-internal fun HomeReportInfoPlaceHolderItem(modifier: Modifier = Modifier) {
+private fun ReportInfoItemPlaceHolder(modifier: Modifier = Modifier) {
     // 占位符Modifier
     val placeholderModifier = Modifier.placeholder(
         visible = true,

@@ -1,6 +1,10 @@
 package com.zhixue.lite.feature.home
 
-enum class HomePage(val titleResId: Int) {
-    EXAM(titleResId = R.string.home_exam_title),
-    HOMEWORK(titleResId = R.string.home_homework_title)
+internal enum class HomePage(val titleId: Int) {
+    EXAM(
+        titleId = R.string.home_exam_title
+    ),
+    HOMEWORK(
+        titleId = R.string.home_homework_title
+    )
 }
