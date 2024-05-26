@@ -3,7 +3,7 @@ package com.zhixue.lite.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
-import com.zhixue.lite.feature.login.navigation.loginRoute
+import com.zhixue.lite.feature.login.navigation.loginScreen
 import com.zhixue.lite.feature.main.navigation.mainScreen
 import com.zhixue.lite.feature.report.detail.navigation.reportDetailScreen
 import com.zhixue.lite.ui.ZhixueLiteAppState
@@ -18,7 +18,7 @@ fun ZhixueLiteNavHost(
         startDestination = appState.currentStartDestination,
         modifier = modifier
     ) {
-        loginRoute(
+        loginScreen(
             onLoginSuccess = appState::navigateToMain,
             onRegisterClick = {},
             onForgetPasswordClick = {}

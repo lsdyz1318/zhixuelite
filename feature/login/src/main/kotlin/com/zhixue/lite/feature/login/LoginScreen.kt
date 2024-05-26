@@ -19,16 +19,14 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -49,11 +47,11 @@ internal fun LoginRoute(
     onLoginSuccess: () -> Unit,
     onRegisterClick: () -> Unit,
     onForgetPasswordClick: () -> Unit,
+    loginState: LoginState = rememberLoginState(),
     viewModel: LoginViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
-
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val focusManager = LocalFocusManager.current
 
     Toast(
         message = viewModel.message,
@@ -61,13 +59,17 @@ internal fun LoginRoute(
     )
 
     LoginScreen(
-        uiState = uiState,
-        username = viewModel.username,
-        password = viewModel.password,
+        loginState = loginState,
         onLoginClick = {
-            showCaptchaDialog(context) { captcha ->
-                viewModel.login(captcha, onLoginSuccess)
+            captchaDialog(context) { captcha ->
+                viewModel.login(
+                    username = loginState.usernameText,
+                    password = loginState.passwordText,
+                    captcha = captcha,
+                    onSuccess = onLoginSuccess
+                )
             }
+            focusManager.clearFocus()
         },
         onRegisterClick = onRegisterClick,
         onForgetPasswordClick = onForgetPasswordClick
@@ -76,30 +78,27 @@ internal fun LoginRoute(
 
 @Composable
 internal fun LoginScreen(
-    uiState: LoginUiState,
-    username: TextFieldState,
-    password: TextFieldState,
+    loginState: LoginState,
     onLoginClick: () -> Unit,
     onRegisterClick: () -> Unit,
     onForgetPasswordClick: () -> Unit
 ) {
-    val focusRequester = remember { FocusRequester() }
+    val isFormsValid by loginState.isFormsValid.collectAsStateWithLifecycle()
 
     BoxWithConstraints {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .defaultMinSize(minHeight = this@BoxWithConstraints.maxHeight)
-                .verticalScroll(state = rememberScrollState())
+                .verticalScroll(rememberScrollState())
         ) {
             Spacer(modifier = Modifier.height(this@BoxWithConstraints.maxHeight * 0.1f))
             LoginHeader(modifier = Modifier.padding(horizontal = 32.dp))
             Spacer(modifier = Modifier.height(56.dp))
             LoginForms(
-                username = username,
-                password = password,
-                modifier = Modifier.padding(horizontal = 32.dp),
-                focusRequester = focusRequester
+                username = loginState.username,
+                password = loginState.password,
+                modifier = Modifier.padding(horizontal = 32.dp)
             )
             Spacer(modifier = Modifier.height(16.dp))
             Box(modifier = Modifier.padding(horizontal = 24.dp)) {
@@ -111,10 +110,10 @@ internal fun LoginScreen(
                     )
                 }
             }
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(24.dp))
             Box(modifier = Modifier.padding(horizontal = 32.dp)) {
                 LoginButton(
-                    enabled = uiState.isFormsValid,
+                    enabled = isFormsValid,
                     onClick = onLoginClick
                 )
             }
@@ -126,10 +125,6 @@ internal fun LoginScreen(
             )
             Spacer(modifier = Modifier.height(16.dp))
         }
-    }
-
-    LaunchedEffect(Unit) {
-        focusRequester.requestFocus()
     }
 }
 
@@ -161,8 +156,7 @@ internal fun LoginHeader(modifier: Modifier = Modifier) {
 internal fun LoginForms(
     username: TextFieldState,
     password: TextFieldState,
-    modifier: Modifier = Modifier,
-    focusRequester: FocusRequester = remember { FocusRequester() }
+    modifier: Modifier = Modifier
 ) {
     val isUsernameHintVisible by remember {
         derivedStateOf { username.text.isEmpty() }
@@ -176,7 +170,6 @@ internal fun LoginForms(
             state = username,
             textColor = Theme.colorScheme.onBackground,
             style = Theme.typography.bodyLarge.copy(fontWeight = FontWeight.Light),
-            modifier = Modifier.focusRequester(focusRequester),
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
             cursorBrush = SolidColor(Theme.colorScheme.onBackgroundVariant),
             decorator = { innerTextField ->
@@ -276,7 +269,7 @@ internal fun LoginTextFieldDecorator(
     }
 }
 
-private fun showCaptchaDialog(
+internal fun captchaDialog(
     context: Context,
     onVerifySuccess: (String) -> Unit
 ) {

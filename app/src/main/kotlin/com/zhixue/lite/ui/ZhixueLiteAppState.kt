@@ -7,7 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.zhixue.lite.LoginState
-import com.zhixue.lite.feature.login.navigation.LoginRoute
+import com.zhixue.lite.feature.login.navigation.Login
 import com.zhixue.lite.feature.main.navigation.Main
 import com.zhixue.lite.feature.main.navigation.navigateToMain
 import com.zhixue.lite.feature.report.detail.navigation.navigateToReportDetail
@@ -33,7 +33,7 @@ class ZhixueLiteAppState(
     val currentStartDestination: Any = when (loginState) {
         LoginState.Loading -> Unit
         LoginState.LoggedIn -> Main
-        LoginState.NotLoggedIn -> LoginRoute
+        LoginState.NotLoggedIn -> Login
     }
 
     fun navigateToMain() {
