@@ -4,12 +4,12 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
+import com.zhixue.lite.core.data.model.asEntity
 import com.zhixue.lite.core.database.dao.RemotePageDao
 import com.zhixue.lite.core.database.dao.ReportInfoDao
 import com.zhixue.lite.core.database.model.RemotePageEntity
 import com.zhixue.lite.core.database.model.ReportInfoEntity
 import com.zhixue.lite.core.network.NetworkDataSource
-import com.zhixue.lite.core.network.model.NetworkReportInfo
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -73,7 +73,12 @@ class ReportInfoRemoteMediator(
                 RemotePageEntity(label, loadPage + 1)
             )
             reportInfoDao.insertReportInfoEntities(
-                response.reportInfoList.mapToReportInfoEntities()
+                response.reportInfoList.map {
+                    it.asEntity(
+                        reportType = reportType,
+                        formatDateTime = formatter.format(it.dateTime)
+                    )
+                }
             )
 
             MediatorResult.Success(endOfPaginationReached = !response.hasNextPage)
@@ -81,15 +86,4 @@ class ReportInfoRemoteMediator(
             MediatorResult.Error(e)
         }
     }
-
-    private fun List<NetworkReportInfo>.mapToReportInfoEntities(): List<ReportInfoEntity> =
-        map {
-            ReportInfoEntity(
-                reportId = it.reportId,
-                reportType = reportType,
-                reportName = it.reportName,
-                dateTime = formatter.format(it.dateTime),
-                isPublished = it.isPublished
-            )
-        }
 }
