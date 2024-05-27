@@ -94,13 +94,13 @@ internal fun LoginScreen(
         ) {
             Spacer(modifier = Modifier.height(this@BoxWithConstraints.maxHeight * 0.1f))
             LoginHeader(modifier = Modifier.padding(horizontal = 32.dp))
-            Spacer(modifier = Modifier.height(56.dp))
+            Spacer(modifier = Modifier.height(64.dp))
             LoginForms(
                 username = loginState.username,
                 password = loginState.password,
                 modifier = Modifier.padding(horizontal = 32.dp)
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(20.dp))
             Box(modifier = Modifier.padding(horizontal = 24.dp)) {
                 TextButton(onClick = onForgetPasswordClick) {
                     Text(
@@ -110,7 +110,7 @@ internal fun LoginScreen(
                     )
                 }
             }
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(16.dp))
             Box(modifier = Modifier.padding(horizontal = 32.dp)) {
                 LoginButton(
                     enabled = isFormsValid,
@@ -146,8 +146,8 @@ internal fun LoginHeader(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = stringResource(R.string.login_subtitle),
-            color = Theme.colorScheme.onBackground.copy(alpha = 0.8f),
-            style = Theme.typography.titleSmall
+            color = Theme.colorScheme.onBackground,
+            style = Theme.typography.titleSmall.copy(fontWeight = FontWeight.Light)
         )
     }
 }
