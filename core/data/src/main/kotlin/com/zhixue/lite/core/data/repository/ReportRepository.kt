@@ -7,5 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface ReportRepository {
 
-    fun getReportInfoList(type: String): Flow<PagingData<ReportInfo>>
+    fun getReportInfoList(reportType: String): Flow<PagingData<ReportInfo>>
+
+    suspend fun getSubjectInfoList(reportId: String): List<SubjectInfo>
 }

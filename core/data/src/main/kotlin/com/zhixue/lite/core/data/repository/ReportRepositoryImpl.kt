@@ -23,6 +23,7 @@ class ReportRepositoryImpl @Inject constructor(
     private val userRepository: UserRepository,
     private val remotePageDao: RemotePageDao,
     private val reportInfoDao: ReportInfoDao,
+    private val subjectInfoDao: SubjectInfoDao,
     private val networkDataSource: NetworkDataSource
 ) : ReportRepository {
 
@@ -45,5 +46,20 @@ class ReportRepositoryImpl @Inject constructor(
         ).flow.map { pagingData ->
             pagingData.map(ReportInfoEntity::asExternalModel)
         }
+    }
+
+    override suspend fun getSubjectInfoList(reportId: String): List<SubjectInfo> {
+        try {
+            val subjectInfoEntities = networkDataSource.getReportMain(
+                reportId = reportId,
+                token = userRepository.getUserToken()
+            ).subjectList.map { it.asEntity(reportId) }
+
+            subjectInfoDao.insertSubjectInfoEntities(subjectInfoEntities)
+        } catch (_: Exception) {
+        }
+
+        return subjectInfoDao.getSubjectInfoEntities(reportId)
+            .map(SubjectInfoEntity::asExternalModel)
     }
 }
