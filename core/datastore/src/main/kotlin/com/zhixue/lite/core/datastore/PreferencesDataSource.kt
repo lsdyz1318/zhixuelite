@@ -10,21 +10,21 @@ class PreferencesDataSource @Inject constructor(
 ) {
     val userPreferences: Flow<UserPreferences> = userPreferencesDataStore.data
 
-    suspend fun setUserId(id: String) {
+    suspend fun setUserId(userId: String) {
         userPreferencesDataStore.updateData {
-            it.copy(id = id)
+            it.copy(userId = userId)
         }
     }
 
-    suspend fun setUserToken(token: String) {
+    suspend fun setUserToken(userToken: String) {
         userPreferencesDataStore.updateData {
-            it.copy(token = token)
+            it.copy(userToken = userToken)
         }
     }
 
-    suspend fun setUserTicket(ticket: String) {
+    suspend fun setUserTicket(userTicket: String) {
         userPreferencesDataStore.updateData {
-            it.copy(ticket = ticket)
+            it.copy(userTicket = userTicket)
         }
     }
 }
