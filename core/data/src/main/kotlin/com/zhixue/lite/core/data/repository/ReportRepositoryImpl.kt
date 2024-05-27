@@ -5,11 +5,15 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
+import com.zhixue.lite.core.data.model.asEntity
 import com.zhixue.lite.core.database.dao.RemotePageDao
 import com.zhixue.lite.core.database.dao.ReportInfoDao
+import com.zhixue.lite.core.database.dao.SubjectInfoDao
 import com.zhixue.lite.core.database.model.ReportInfoEntity
+import com.zhixue.lite.core.database.model.SubjectInfoEntity
 import com.zhixue.lite.core.database.model.asExternalModel
 import com.zhixue.lite.core.model.ReportInfo
+import com.zhixue.lite.core.model.SubjectInfo
 import com.zhixue.lite.core.network.NetworkDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -23,20 +27,20 @@ class ReportRepositoryImpl @Inject constructor(
 ) : ReportRepository {
 
     @OptIn(ExperimentalPagingApi::class)
-    override fun getReportInfoList(type: String): Flow<PagingData<ReportInfo>> {
+    override fun getReportInfoList(reportType: String): Flow<PagingData<ReportInfo>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 10
             ),
             remoteMediator = ReportInfoRemoteMediator(
-                type = type,
+                reportType = reportType,
                 userRepository = userRepository,
                 remotePageDao = remotePageDao,
                 reportInfoDao = reportInfoDao,
                 networkDataSource = networkDataSource
             ),
             pagingSourceFactory = {
-                reportInfoDao.getReportInfoPagingSource(type)
+                reportInfoDao.getReportInfoPagingSource(reportType)
             }
         ).flow.map { pagingData ->
             pagingData.map(ReportInfoEntity::asExternalModel)

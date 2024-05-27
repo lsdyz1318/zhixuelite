@@ -18,7 +18,7 @@ private const val STARTING_PAGE = 1
 
 @OptIn(ExperimentalPagingApi::class)
 class ReportInfoRemoteMediator(
-    private val type: String,
+    private val reportType: String,
     private val userRepository: UserRepository,
     private val remotePageDao: RemotePageDao,
     private val reportInfoDao: ReportInfoDao,
@@ -29,12 +29,12 @@ class ReportInfoRemoteMediator(
 
     override suspend fun initialize(): InitializeAction {
         return try {
-            val localLatestId = reportInfoDao.getReportInfoEntity(type)?.id
+            val localLatestId = reportInfoDao.getReportInfoEntity(reportType)?.reportId
             val networkLatestId = networkDataSource.getReportInfoPage(
-                type = type,
+                reportType = reportType,
                 page = STARTING_PAGE,
                 token = userRepository.getUserToken()
-            ).reportInfoList.first().id
+            ).reportInfoList.first().reportId
 
             check(localLatestId != networkLatestId)
 
@@ -49,7 +49,7 @@ class ReportInfoRemoteMediator(
         state: PagingState<Int, ReportInfoEntity>
     ): MediatorResult {
         return try {
-            val label = "${LABEL_PREFIX}_${type.uppercase()}"
+            val label = "${LABEL_PREFIX}_${reportType.uppercase()}"
             // 获取待加载页
             val loadPage = when (loadType) {
                 LoadType.REFRESH -> STARTING_PAGE
@@ -59,14 +59,14 @@ class ReportInfoRemoteMediator(
             }
             // 从网络获取报告列表
             val response = networkDataSource.getReportInfoPage(
-                type = type,
+                reportType = reportType,
                 page = loadPage,
                 token = userRepository.getUserToken()
             )
             // 刷新时，删除之前缓存
             if (loadType == LoadType.REFRESH) {
                 remotePageDao.deleteRemotePageEntity(label)
-                reportInfoDao.deleteReportInfoEntities(type)
+                reportInfoDao.deleteReportInfoEntities(reportType)
             }
             // 插入新的数据
             remotePageDao.insertRemotePageEntity(
@@ -85,9 +85,9 @@ class ReportInfoRemoteMediator(
     private fun List<NetworkReportInfo>.mapToReportInfoEntities(): List<ReportInfoEntity> =
         map {
             ReportInfoEntity(
-                id = it.id,
-                type = type,
-                name = it.name,
+                reportId = it.reportId,
+                reportType = reportType,
+                reportName = it.reportName,
                 dateTime = formatter.format(it.dateTime),
                 isPublished = it.isPublished
             )

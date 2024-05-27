@@ -26,25 +26,19 @@ internal class UserRepositoryImpl @Inject constructor(
         .map(UserPreferences::asExternalModel)
 
     override suspend fun userLogin(username: String, password: String, captcha: String) {
-        handleLogin(
-            ssoInfo = networkDataSource.ssoLogin(username, password, captcha)
-        )
+        handleLogin(networkDataSource.ssoLogin(username, password, captcha))
     }
 
     override suspend fun autoLogin() {
-        handleLogin(
-            ssoInfo = networkDataSource.ssoLogin(
-                ticket = userData.first().ticket
-            )
-        )
+        handleLogin(networkDataSource.ssoLogin(userData.first().userTicket))
     }
 
     override suspend fun getUserId(): String {
-        return userData.first().id
+        return userData.first().userId
     }
 
     override suspend fun getUserToken(): String {
-        var token = userData.first().token
+        var token = userData.first().userToken
         if (checkUserTokenExpired(token)) {
             token = refreshUserToken()
         }
@@ -62,7 +56,7 @@ internal class UserRepositoryImpl @Inject constructor(
 
     private suspend fun refreshUserToken(): String {
         autoLogin()
-        return userData.first().token
+        return userData.first().userToken
     }
 
     @OptIn(ExperimentalEncodingApi::class)
