@@ -6,6 +6,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.sp
 
 class Typography(
+    val display: TextStyle = TextStyle(
+        fontSize = 36.sp
+    ),
     val headline: TextStyle = TextStyle(
         fontSize = 32.sp
     ),
