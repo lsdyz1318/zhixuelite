@@ -7,16 +7,16 @@ import com.zhixue.lite.core.model.ReportInfo
 @Entity
 data class ReportInfoEntity(
     @PrimaryKey
-    val id: String,
-    val type: String,
-    val name: String,
+    val reportId: String,
+    val reportType: String,
+    val reportName: String,
     val dateTime: String,
     val isPublished: Boolean
 )
 
 fun ReportInfoEntity.asExternalModel(): ReportInfo = ReportInfo(
-    id = id,
-    name = name,
+    reportId = reportId,
+    reportName = reportName,
     dateTime = dateTime,
     isPublished = isPublished
 )
