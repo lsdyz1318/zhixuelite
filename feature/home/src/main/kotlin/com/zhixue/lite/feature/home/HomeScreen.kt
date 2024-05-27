@@ -159,10 +159,10 @@ internal fun LazyListScope.reportInfoBody(
         val reportInfo = reportInfoList[index]
         if (reportInfo != null) {
             ReportInfoItem(
-                name = reportInfo.name,
+                name = reportInfo.reportName,
                 dateTime = reportInfo.dateTime,
                 modifier = Modifier
-                    .clickable { onReportInfoClick(reportInfo.isPublished, reportInfo.id) }
+                    .clickable { onReportInfoClick(reportInfo.isPublished, reportInfo.reportId) }
                     .padding(horizontal = 32.dp, vertical = 16.dp)
             )
             Divider()

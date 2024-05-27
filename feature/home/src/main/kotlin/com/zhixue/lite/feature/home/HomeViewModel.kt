@@ -16,8 +16,8 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
 
     val examReportInfoList: Flow<PagingData<ReportInfo>> =
-        reportRepository.getReportInfoList(type = "exam").cachedIn(viewModelScope)
+        reportRepository.getReportInfoList(reportType = "exam").cachedIn(viewModelScope)
 
     val homeworkReportInfoList: Flow<PagingData<ReportInfo>> =
-        reportRepository.getReportInfoList(type = "homework").cachedIn(viewModelScope)
+        reportRepository.getReportInfoList(reportType = "homework").cachedIn(viewModelScope)
 }
