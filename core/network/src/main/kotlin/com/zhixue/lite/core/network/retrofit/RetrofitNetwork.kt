@@ -52,9 +52,9 @@ internal class RetrofitNetwork @Inject constructor(
     }
 
     override suspend fun getReportInfoPage(
-        type: String, page: Int, token: String
+        reportType: String, page: Int, token: String
     ): NetworkReportInfoPage {
-        return zhixueApi.getReportInfoPage(type, page, token).result!!
+        return zhixueApi.getReportInfoPage(reportType, page, token).result!!
     }
 
     override suspend fun getReportMain(reportId: String, token: String): NetworkReportMain {

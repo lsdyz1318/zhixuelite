@@ -32,7 +32,7 @@ internal interface ZhixueApi {
     @POST("zxbReport/report/getPageAllExamList")
     suspend fun getReportInfoPage(
         @Field("reportType")
-        type: String,
+        reportType: String,
         @Field("pageIndex")
         page: Int,
         @Field("token")

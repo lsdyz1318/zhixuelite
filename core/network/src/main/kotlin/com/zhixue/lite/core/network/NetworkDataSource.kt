@@ -17,7 +17,9 @@ interface NetworkDataSource {
 
     suspend fun getUserInfo(token: String): NetworkUserInfo
 
-    suspend fun getReportInfoPage(type: String, page: Int, token: String): NetworkReportInfoPage
+    suspend fun getReportInfoPage(
+        reportType: String, page: Int, token: String
+    ): NetworkReportInfoPage
 
     suspend fun getReportMain(reportId: String, token: String): NetworkReportMain
 
