@@ -3,9 +3,9 @@ package com.zhixue.lite.core.network.retrofit
 import com.zhixue.lite.core.common.json.NetworkJson
 import com.zhixue.lite.core.network.NetworkDataSource
 import com.zhixue.lite.core.network.model.NetworkCasInfo
+import com.zhixue.lite.core.network.model.NetworkPaperInfo
 import com.zhixue.lite.core.network.model.NetworkReportInfoPage
 import com.zhixue.lite.core.network.model.NetworkSsoInfo
-import com.zhixue.lite.core.network.model.NetworkSubjectInfo
 import com.zhixue.lite.core.network.model.NetworkTrendInfo
 import com.zhixue.lite.core.network.model.NetworkUserInfo
 import com.zhixue.lite.core.network.retrofit.api.ChangYanApi
@@ -57,16 +57,16 @@ internal class RetrofitNetwork @Inject constructor(
         return zhixueApi.getReportInfoPage(reportType, page, token).result!!
     }
 
-    override suspend fun getSubjectInfoList(
+    override suspend fun getPaperInfoList(
         reportId: String, token: String
-    ): List<NetworkSubjectInfo> {
-        return zhixueApi.getReportMain(reportId, token).result!!.subjectInfoList
+    ): List<NetworkPaperInfo> {
+        return zhixueApi.getReportMain(reportId, token).result!!.paperInfoList
     }
 
     override suspend fun getTrendInfoList(
-        reportId: String, subjectId: String, token: String
+        reportId: String, paperId: String, token: String
     ): List<NetworkTrendInfo> {
-        return zhixueApi.getLevelTrend(reportId, subjectId, token).result!!.trendInfoList
+        return zhixueApi.getLevelTrend(reportId, paperId, token).result!!.trendInfoList
     }
 
     private inline fun <reified T> createNetworkApi(baseUrl: String): T {

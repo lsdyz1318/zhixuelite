@@ -6,13 +6,13 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class NetworkReportMain(
     @SerialName("paperList")
-    val subjectInfoList: List<NetworkSubjectInfo>
+    val paperInfoList: List<NetworkPaperInfo>
 )
 
 @Serializable
-data class NetworkSubjectInfo(
+data class NetworkPaperInfo(
     @SerialName("paperId")
-    val subjectId: String,
+    val paperId: String,
     @SerialName("subjectName")
     val subjectName: String,
     @SerialName("userScore")

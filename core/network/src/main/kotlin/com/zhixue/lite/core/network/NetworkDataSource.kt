@@ -1,9 +1,9 @@
 package com.zhixue.lite.core.network
 
 import com.zhixue.lite.core.network.model.NetworkCasInfo
+import com.zhixue.lite.core.network.model.NetworkPaperInfo
 import com.zhixue.lite.core.network.model.NetworkReportInfoPage
 import com.zhixue.lite.core.network.model.NetworkSsoInfo
-import com.zhixue.lite.core.network.model.NetworkSubjectInfo
 import com.zhixue.lite.core.network.model.NetworkTrendInfo
 import com.zhixue.lite.core.network.model.NetworkUserInfo
 
@@ -21,9 +21,9 @@ interface NetworkDataSource {
         reportType: String, page: Int, token: String
     ): NetworkReportInfoPage
 
-    suspend fun getSubjectInfoList(reportId: String, token: String): List<NetworkSubjectInfo>
+    suspend fun getPaperInfoList(reportId: String, token: String): List<NetworkPaperInfo>
 
     suspend fun getTrendInfoList(
-        reportId: String, subjectId: String, token: String
+        reportId: String, paperId: String, token: String
     ): List<NetworkTrendInfo>
 }

@@ -59,7 +59,7 @@ internal interface ZhixueApi {
         @Field("examId")
         reportId: String,
         @Field("paperId")
-        subjectId: String,
+        paperId: String,
         @Field("token")
         token: String,
         @FieldMap
