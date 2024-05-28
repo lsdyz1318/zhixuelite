@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class NetworkCasInfo(
     @SerialName("token")
-    val userToken: String
+    val token: String
 )

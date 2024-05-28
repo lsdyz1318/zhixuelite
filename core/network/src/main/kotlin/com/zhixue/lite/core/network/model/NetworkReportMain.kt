@@ -12,9 +12,9 @@ data class NetworkReportMain(
 @Serializable
 data class NetworkSubjectInfo(
     @SerialName("paperId")
-    val subjectId: String,
+    val id: String,
     @SerialName("subjectName")
-    val subjectName: String,
+    val name: String,
     @SerialName("userScore")
     val userScore: Double,
     @SerialName("standardScore")
