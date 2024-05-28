@@ -51,7 +51,7 @@ internal class UserRepositoryImpl @Inject constructor(
 
         preferencesDataSource.setUserId(userInfo.curUserId)
         preferencesDataSource.setUserToken(casInfo.token)
-        preferencesDataSource.setUserTicket(ssoInfo.userTicket)
+        preferencesDataSource.setUserTicket(ssoInfo.ticket)
     }
 
     private suspend fun refreshUserToken(): String {

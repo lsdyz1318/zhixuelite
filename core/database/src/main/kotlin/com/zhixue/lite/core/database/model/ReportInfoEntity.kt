@@ -15,8 +15,8 @@ data class ReportInfoEntity(
 )
 
 fun ReportInfoEntity.asExternalModel(): ReportInfo = ReportInfo(
-    reportId = reportId,
-    reportName = reportName,
+    id = reportId,
+    name = reportName,
     dateTime = dateTime,
     isPublished = isPublished
 )
