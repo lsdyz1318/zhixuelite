@@ -1,7 +1,6 @@
 package com.zhixue.lite.core.database.model
 
 import androidx.room.Entity
-import com.zhixue.lite.core.model.PaperInfo
 
 @Entity(primaryKeys = ["reportId", "paperId"])
 data class PaperInfoEntity(
@@ -10,11 +9,4 @@ data class PaperInfoEntity(
     val subjectName: String,
     val userScore: Double,
     val standardScore: Double
-)
-
-fun PaperInfoEntity.asExternalModel(): PaperInfo = PaperInfo(
-    paperId = paperId,
-    subjectName = subjectName,
-    userScore = userScore,
-    standardScore = standardScore
 )

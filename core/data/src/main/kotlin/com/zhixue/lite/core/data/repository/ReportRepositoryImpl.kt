@@ -6,17 +6,13 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.zhixue.lite.core.data.model.asEntity
+import com.zhixue.lite.core.database.dao.PaperInfoDao
 import com.zhixue.lite.core.database.dao.RemotePageDao
 import com.zhixue.lite.core.database.dao.ReportInfoDao
-import com.zhixue.lite.core.database.dao.PaperInfoDao
 import com.zhixue.lite.core.database.dao.TrendInfoDao
 import com.zhixue.lite.core.database.model.ReportInfoEntity
-import com.zhixue.lite.core.database.model.PaperInfoEntity
-import com.zhixue.lite.core.database.model.TrendInfoEntity
 import com.zhixue.lite.core.database.model.asExternalModel
 import com.zhixue.lite.core.model.ReportInfo
-import com.zhixue.lite.core.model.PaperInfo
-import com.zhixue.lite.core.model.TrendInfo
 import com.zhixue.lite.core.network.NetworkDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -52,7 +48,7 @@ class ReportRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getPaperInfoList(reportId: String): List<PaperInfo> {
+    override suspend fun syncPaperInfo(reportId: String) {
         try {
             val paperInfoEntities = networkDataSource.getPaperInfoList(
                 reportId = reportId,
@@ -63,25 +59,19 @@ class ReportRepositoryImpl @Inject constructor(
             paperInfoDao.insertPaperInfoEntities(paperInfoEntities)
         } catch (_: Exception) {
         }
-
-        return paperInfoDao.getPaperInfoEntities(reportId)
-            .map(PaperInfoEntity::asExternalModel)
     }
 
-    override suspend fun getTrendInfoList(reportId: String, paperId: String): List<TrendInfo> {
+    override suspend fun syncTrendInfo(reportId: String, paperId: String) {
         try {
             val trendInfoEntities = networkDataSource.getTrendInfoList(
                 reportId = reportId,
                 paperId = paperId,
                 token = userRepository.getToken()
             ).map {
-                it.asEntity(paperId)
+                it.asEntity(reportId)
             }
             trendInfoDao.insertTrendInfoEntities(trendInfoEntities)
         } catch (_: Exception) {
         }
-
-        return trendInfoDao.getTrendInfoEntities(paperId)
-            .map(TrendInfoEntity::asExternalModel)
     }
 }
