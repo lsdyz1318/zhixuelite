@@ -14,9 +14,9 @@ data class NetworkReportInfoPage(
 @Serializable
 data class NetworkReportInfo(
     @SerialName("examId")
-    val id: String,
+    val reportId: String,
     @SerialName("examName")
-    val name: String,
+    val reportName: String,
     @SerialName("examCreateDateTime")
     val dateTime: Long,
     @SerialName("isSinglePublish")

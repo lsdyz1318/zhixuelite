@@ -15,10 +15,10 @@ data class NetworkTrendInfo(
     val tag: Tag,
     @SerialName("improveBar")
     val improveInfo: ImproveInfo,
-    @SerialName("dataList")
-    val dataList: List<TrendData>,
     @SerialName("totalNum")
-    val studentNumber: Int
+    val studentNumber: Int,
+    @SerialName("dataList")
+    val dataList: List<TrendData>
 ) {
     @Serializable
     data class Tag(

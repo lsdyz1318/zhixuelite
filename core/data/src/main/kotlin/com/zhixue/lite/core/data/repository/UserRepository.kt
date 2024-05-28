@@ -6,7 +6,7 @@ interface UserRepository {
 
     suspend fun autoLogin()
 
-    suspend fun getUserId(): String
+    suspend fun getToken(): String
 
-    suspend fun getUserToken(): String
+    suspend fun getUserId(): String
 }

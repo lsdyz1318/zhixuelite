@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class NetworkUserInfo(
     @SerialName("curChildId")
-    val curUserId: String
+    val currentUserId: String
 )

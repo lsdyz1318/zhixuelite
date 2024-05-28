@@ -39,12 +39,12 @@ internal class RetrofitNetwork @Inject constructor(
         return changYanApi.ssoLogin(username, password, captcha).data
     }
 
-    override suspend fun ssoLogin(ticket: String): NetworkSsoInfo {
-        return changYanApi.ssoLogin(ticket).data
+    override suspend fun ssoLogin(grantTicket: String): NetworkSsoInfo {
+        return changYanApi.ssoLogin(grantTicket).data
     }
 
-    override suspend fun casLogin(at: String, userId: String): NetworkCasInfo {
-        return zhixueApi.casLogin(at, userId).result!!
+    override suspend fun casLogin(accessTicket: String, userId: String): NetworkCasInfo {
+        return zhixueApi.casLogin(accessTicket, userId).result!!
     }
 
     override suspend fun getUserInfo(token: String): NetworkUserInfo {

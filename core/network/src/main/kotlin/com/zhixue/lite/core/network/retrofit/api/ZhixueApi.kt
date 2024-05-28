@@ -16,7 +16,7 @@ internal interface ZhixueApi {
     @POST("container/app/login/casLogin")
     suspend fun casLogin(
         @Field("at")
-        at: String,
+        accessTicket: String,
         @Field("userId")
         userId: String
     ): ZhixueNetworkResponse<NetworkCasInfo>

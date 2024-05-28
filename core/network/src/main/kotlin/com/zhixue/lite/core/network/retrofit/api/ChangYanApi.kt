@@ -34,7 +34,7 @@ internal interface ChangYanApi {
     @POST("sso/v1/api")
     suspend fun ssoLogin(
         @Field("tgt")
-        ticket: String,
+        grantTicket: String,
         @FieldMap
         fields: Map<String, String> = mapOf(
             "appId" to "zhixue_parent",

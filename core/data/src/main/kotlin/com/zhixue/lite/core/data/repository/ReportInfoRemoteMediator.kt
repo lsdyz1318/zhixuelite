@@ -33,8 +33,8 @@ class ReportInfoRemoteMediator(
             val networkLatestId = networkDataSource.getReportInfoPage(
                 reportType = reportType,
                 page = STARTING_PAGE,
-                token = userRepository.getUserToken()
-            ).reportInfoList.first().id
+                token = userRepository.getToken()
+            ).reportInfoList.first().reportId
 
             check(localLatestId != networkLatestId)
 
@@ -61,7 +61,7 @@ class ReportInfoRemoteMediator(
             val response = networkDataSource.getReportInfoPage(
                 reportType = reportType,
                 page = loadPage,
-                token = userRepository.getUserToken()
+                token = userRepository.getToken()
             )
             // 刷新时，删除之前缓存
             if (loadType == LoadType.REFRESH) {

@@ -1,7 +1,7 @@
 package com.zhixue.lite.core.model
 
 data class UserData(
-    val id: String,
     val token: String,
-    val ticket: String
+    val userId: String,
+    val grantTicket: String
 )

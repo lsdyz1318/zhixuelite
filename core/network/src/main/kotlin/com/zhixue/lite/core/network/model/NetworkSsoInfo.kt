@@ -5,10 +5,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class NetworkSsoInfo(
-    @SerialName("at")
-    val at: String,
-    @SerialName("tgt")
-    val ticket: String,
     @SerialName("userId")
-    val userId: String
+    val userId: String,
+    @SerialName("tgt")
+    val grantTicket: String,
+    @SerialName("at")
+    val accessTicket: String
 )

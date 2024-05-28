@@ -11,9 +11,9 @@ interface NetworkDataSource {
 
     suspend fun ssoLogin(username: String, password: String, captcha: String): NetworkSsoInfo
 
-    suspend fun ssoLogin(ticket: String): NetworkSsoInfo
+    suspend fun ssoLogin(grantTicket: String): NetworkSsoInfo
 
-    suspend fun casLogin(at: String, userId: String): NetworkCasInfo
+    suspend fun casLogin(accessTicket: String, userId: String): NetworkCasInfo
 
     suspend fun getUserInfo(token: String): NetworkUserInfo
 
