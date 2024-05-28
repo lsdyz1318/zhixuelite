@@ -5,15 +5,12 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
-import com.zhixue.lite.core.data.model.asEntity
 import com.zhixue.lite.core.database.dao.RemotePageDao
 import com.zhixue.lite.core.database.dao.ReportInfoDao
 import com.zhixue.lite.core.database.dao.SubjectInfoDao
 import com.zhixue.lite.core.database.model.ReportInfoEntity
-import com.zhixue.lite.core.database.model.SubjectInfoEntity
 import com.zhixue.lite.core.database.model.asExternalModel
 import com.zhixue.lite.core.model.ReportInfo
-import com.zhixue.lite.core.model.SubjectInfo
 import com.zhixue.lite.core.network.NetworkDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -46,20 +43,5 @@ class ReportRepositoryImpl @Inject constructor(
         ).flow.map { pagingData ->
             pagingData.map(ReportInfoEntity::asExternalModel)
         }
-    }
-
-    override suspend fun getSubjectInfoList(reportId: String): List<SubjectInfo> {
-        try {
-            val subjectInfoEntities = networkDataSource.getReportMain(
-                reportId = reportId,
-                token = userRepository.getUserToken()
-            ).subjectList.map { it.asEntity(reportId) }
-
-            subjectInfoDao.insertSubjectInfoEntities(subjectInfoEntities)
-        } catch (_: Exception) {
-        }
-
-        return subjectInfoDao.getSubjectInfoEntities(reportId)
-            .map(SubjectInfoEntity::asExternalModel)
     }
 }
