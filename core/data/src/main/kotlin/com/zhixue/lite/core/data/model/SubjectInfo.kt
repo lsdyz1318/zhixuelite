@@ -6,8 +6,8 @@ import com.zhixue.lite.core.network.model.NetworkSubjectInfo
 fun NetworkSubjectInfo.asEntity(reportId: String): SubjectInfoEntity =
     SubjectInfoEntity(
         reportId = reportId,
-        subjectId = subjectId,
-        subjectName = subjectName,
+        subjectId = id,
+        subjectName = name,
         userScore = userScore,
         standardScore = standardScore
     )

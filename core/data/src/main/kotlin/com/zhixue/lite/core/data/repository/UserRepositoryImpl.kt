@@ -30,33 +30,33 @@ internal class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun autoLogin() {
-        handleLogin(networkDataSource.ssoLogin(userData.first().userTicket))
+        handleLogin(networkDataSource.ssoLogin(userData.first().ticket))
     }
 
     override suspend fun getUserId(): String {
-        return userData.first().userId
+        return userData.first().id
     }
 
     override suspend fun getUserToken(): String {
-        var userToken = userData.first().userToken
-        if (checkUserTokenExpired(userToken)) {
-            userToken = refreshUserToken()
+        var token = userData.first().token
+        if (checkUserTokenExpired(token)) {
+            token = refreshUserToken()
         }
-        return userToken
+        return token
     }
 
     private suspend fun handleLogin(ssoInfo: NetworkSsoInfo) {
         val casInfo = networkDataSource.casLogin(ssoInfo.at, ssoInfo.userId)
-        val userInfo = networkDataSource.getUserInfo(casInfo.userToken)
+        val userInfo = networkDataSource.getUserInfo(casInfo.token)
 
         preferencesDataSource.setUserId(userInfo.curUserId)
-        preferencesDataSource.setUserToken(casInfo.userToken)
+        preferencesDataSource.setUserToken(casInfo.token)
         preferencesDataSource.setUserTicket(ssoInfo.userTicket)
     }
 
     private suspend fun refreshUserToken(): String {
         autoLogin()
-        return userData.first().userToken
+        return userData.first().token
     }
 
     @OptIn(ExperimentalEncodingApi::class)

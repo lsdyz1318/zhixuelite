@@ -34,7 +34,7 @@ class ReportInfoRemoteMediator(
                 reportType = reportType,
                 page = STARTING_PAGE,
                 userToken = userRepository.getUserToken()
-            ).reportInfoList.first().reportId
+            ).reportInfoList.first().id
 
             check(localLatestId != networkLatestId)
 
