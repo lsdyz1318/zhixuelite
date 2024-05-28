@@ -25,8 +25,6 @@ class ReportInfoRemoteMediator(
     private val networkDataSource: NetworkDataSource
 ) : RemoteMediator<Int, ReportInfoEntity>() {
 
-    private val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-
     override suspend fun initialize(): InitializeAction {
         return try {
             val localLatestId = reportInfoDao.getReportInfoEntity(reportType)?.reportId
@@ -73,12 +71,7 @@ class ReportInfoRemoteMediator(
                 RemotePageEntity(label, loadPage + 1)
             )
             reportInfoDao.insertReportInfoEntities(
-                response.reportInfoList.map {
-                    it.asEntity(
-                        reportType = reportType,
-                        formatDateTime = formatter.format(it.dateTime)
-                    )
-                }
+                response.reportInfoList.map { it.asEntity(reportType) }
             )
 
             MediatorResult.Success(endOfPaginationReached = !response.hasNextPage)

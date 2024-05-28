@@ -1,8 +1,8 @@
 package com.zhixue.lite.core.model
 
-data class ReportInfo(
+data class FormatReportInfo(
     val reportId: String,
     val reportName: String,
-    val dateTime: Long,
+    val dateTime: String,
     val isPublished: Boolean
 )

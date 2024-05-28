@@ -37,7 +37,7 @@ import com.zhixue.lite.core.designsystem.component.Text
 import com.zhixue.lite.core.designsystem.component.TextButton
 import com.zhixue.lite.core.designsystem.modifier.placeholder
 import com.zhixue.lite.core.designsystem.theme.Theme
-import com.zhixue.lite.core.model.ReportInfo
+import com.zhixue.lite.core.model.FormatReportInfo
 import com.zhixue.lite.core.common.R as commonR
 
 @Composable
@@ -65,8 +65,8 @@ internal fun HomeRoute(
 @Composable
 internal fun HomeScreen(
     homeState: HomeState,
-    examReportInfoList: LazyPagingItems<ReportInfo>,
-    homeworkReportInfoList: LazyPagingItems<ReportInfo>,
+    examReportInfoList: LazyPagingItems<FormatReportInfo>,
+    homeworkReportInfoList: LazyPagingItems<FormatReportInfo>,
     onReportInfoClick: (Boolean, String) -> Unit
 ) {
     Column {
@@ -117,7 +117,7 @@ internal fun HomeTabs(
 
 @Composable
 internal fun HomeReportInfoPage(
-    reportInfoList: LazyPagingItems<ReportInfo>,
+    reportInfoList: LazyPagingItems<FormatReportInfo>,
     onReportInfoClick: (Boolean, String) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -149,7 +149,7 @@ internal fun LazyListScope.placeholderBody() {
 }
 
 internal fun LazyListScope.reportInfoBody(
-    reportInfoList: LazyPagingItems<ReportInfo>,
+    reportInfoList: LazyPagingItems<FormatReportInfo>,
     onReportInfoClick: (Boolean, String) -> Unit
 ) {
     items(

@@ -10,7 +10,7 @@ data class ReportInfoEntity(
     val reportId: String,
     val reportType: String,
     val reportName: String,
-    val dateTime: String,
+    val dateTime: Long,
     val isPublished: Boolean
 )
 
