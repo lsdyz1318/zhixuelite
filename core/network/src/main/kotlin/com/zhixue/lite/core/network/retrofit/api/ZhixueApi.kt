@@ -25,7 +25,7 @@ internal interface ZhixueApi {
     @POST("zhixuebao/base/common/getUserInfo")
     suspend fun getUserInfo(
         @Field("token")
-        userToken: String
+        token: String
     ): ZhixueNetworkResponse<NetworkUserInfo>
 
     @FormUrlEncoded
@@ -36,7 +36,7 @@ internal interface ZhixueApi {
         @Field("pageIndex")
         page: Int,
         @Field("token")
-        userToken: String,
+        token: String,
         @FieldMap
         fields: Map<String, String> = mapOf(
             "actualPosition" to "0",
@@ -50,7 +50,7 @@ internal interface ZhixueApi {
         @Field("examId")
         reportId: String,
         @Field("token")
-        userToken: String
+        token: String
     ): ZhixueNetworkResponse<NetworkReportMain>
 
     @FormUrlEncoded
@@ -61,7 +61,7 @@ internal interface ZhixueApi {
         @Field("paperId")
         subjectId: String,
         @Field("token")
-        userToken: String,
+        token: String,
         @FieldMap
         fields: Map<String, String> = mapOf(
             "pageSize" to "5",
