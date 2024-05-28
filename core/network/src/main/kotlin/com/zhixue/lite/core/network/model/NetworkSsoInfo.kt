@@ -10,5 +10,5 @@ data class NetworkSsoInfo(
     @SerialName("userId")
     val userId: String,
     @SerialName("tgt")
-    val ticket: String
+    val userTicket: String
 )

@@ -11,19 +11,19 @@ interface NetworkDataSource {
 
     suspend fun ssoLogin(username: String, password: String, captcha: String): NetworkSsoInfo
 
-    suspend fun ssoLogin(ticket: String): NetworkSsoInfo
+    suspend fun ssoLogin(userTicket: String): NetworkSsoInfo
 
     suspend fun casLogin(at: String, userId: String): NetworkCasInfo
 
-    suspend fun getUserInfo(token: String): NetworkUserInfo
+    suspend fun getUserInfo(userToken: String): NetworkUserInfo
 
     suspend fun getReportInfoPage(
-        reportType: String, page: Int, token: String
+        reportType: String, page: Int, userToken: String
     ): NetworkReportInfoPage
 
-    suspend fun getSubjectInfoList(reportId: String, token: String): List<NetworkSubjectInfo>
+    suspend fun getSubjectInfoList(reportId: String, userToken: String): List<NetworkSubjectInfo>
 
     suspend fun getTrendInfoList(
-        reportId: String, subjectId: String, token: String
+        reportId: String, subjectId: String, userToken: String
     ): List<NetworkTrendInfo>
 }

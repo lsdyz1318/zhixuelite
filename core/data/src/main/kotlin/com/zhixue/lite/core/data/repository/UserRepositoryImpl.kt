@@ -38,20 +38,20 @@ internal class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getUserToken(): String {
-        var token = userData.first().userToken
-        if (checkUserTokenExpired(token)) {
-            token = refreshUserToken()
+        var userToken = userData.first().userToken
+        if (checkUserTokenExpired(userToken)) {
+            userToken = refreshUserToken()
         }
-        return token
+        return userToken
     }
 
     private suspend fun handleLogin(ssoInfo: NetworkSsoInfo) {
         val casInfo = networkDataSource.casLogin(ssoInfo.at, ssoInfo.userId)
-        val userInfo = networkDataSource.getUserInfo(casInfo.token)
+        val userInfo = networkDataSource.getUserInfo(casInfo.userToken)
 
         preferencesDataSource.setUserId(userInfo.curUserId)
-        preferencesDataSource.setUserToken(casInfo.token)
-        preferencesDataSource.setUserTicket(ssoInfo.ticket)
+        preferencesDataSource.setUserToken(casInfo.userToken)
+        preferencesDataSource.setUserTicket(ssoInfo.userTicket)
     }
 
     private suspend fun refreshUserToken(): String {

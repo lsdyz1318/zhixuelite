@@ -39,34 +39,34 @@ internal class RetrofitNetwork @Inject constructor(
         return changYanApi.ssoLogin(username, password, captcha).data
     }
 
-    override suspend fun ssoLogin(ticket: String): NetworkSsoInfo {
-        return changYanApi.ssoLogin(ticket).data
+    override suspend fun ssoLogin(userTicket: String): NetworkSsoInfo {
+        return changYanApi.ssoLogin(userTicket).data
     }
 
     override suspend fun casLogin(at: String, userId: String): NetworkCasInfo {
         return zhixueApi.casLogin(at, userId).result!!
     }
 
-    override suspend fun getUserInfo(token: String): NetworkUserInfo {
-        return zhixueApi.getUserInfo(token).result!!
+    override suspend fun getUserInfo(userToken: String): NetworkUserInfo {
+        return zhixueApi.getUserInfo(userToken).result!!
     }
 
     override suspend fun getReportInfoPage(
-        reportType: String, page: Int, token: String
+        reportType: String, page: Int, userToken: String
     ): NetworkReportInfoPage {
-        return zhixueApi.getReportInfoPage(reportType, page, token).result!!
+        return zhixueApi.getReportInfoPage(reportType, page, userToken).result!!
     }
 
     override suspend fun getSubjectInfoList(
-        reportId: String, token: String
+        reportId: String, userToken: String
     ): List<NetworkSubjectInfo> {
-        return zhixueApi.getReportMain(reportId, token).result!!.subjectInfoList
+        return zhixueApi.getReportMain(reportId, userToken).result!!.subjectInfoList
     }
 
     override suspend fun getTrendInfoList(
-        reportId: String, subjectId: String, token: String
+        reportId: String, subjectId: String, userToken: String
     ): List<NetworkTrendInfo> {
-        return zhixueApi.getLevelTrend(reportId, subjectId, token).result!!.trendInfoList
+        return zhixueApi.getLevelTrend(reportId, subjectId, userToken).result!!.trendInfoList
     }
 
     private inline fun <reified T> createNetworkApi(baseUrl: String): T {
