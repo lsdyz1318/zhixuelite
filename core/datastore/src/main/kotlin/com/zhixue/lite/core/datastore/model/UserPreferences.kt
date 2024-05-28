@@ -5,13 +5,13 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class UserPreferences(
-    val userId: String = "",
-    val userToken: String = "",
-    val userTicket: String = ""
+    val id: String = "",
+    val token: String = "",
+    val ticket: String = ""
 )
 
 fun UserPreferences.asExternalModel(): UserData = UserData(
-    userId = userId,
-    userToken = userToken,
-    userTicket = userTicket
+    id = id,
+    token = token,
+    ticket = ticket
 )

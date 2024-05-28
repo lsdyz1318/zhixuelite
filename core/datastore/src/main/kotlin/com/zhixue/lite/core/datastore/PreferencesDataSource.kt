@@ -12,19 +12,19 @@ class PreferencesDataSource @Inject constructor(
 
     suspend fun setUserId(userId: String) {
         userPreferencesDataStore.updateData {
-            it.copy(userId = userId)
+            it.copy(id = userId)
         }
     }
 
     suspend fun setUserToken(userToken: String) {
         userPreferencesDataStore.updateData {
-            it.copy(userToken = userToken)
+            it.copy(token = userToken)
         }
     }
 
     suspend fun setUserTicket(userTicket: String) {
         userPreferencesDataStore.updateData {
-            it.copy(userTicket = userTicket)
+            it.copy(ticket = userTicket)
         }
     }
 }
