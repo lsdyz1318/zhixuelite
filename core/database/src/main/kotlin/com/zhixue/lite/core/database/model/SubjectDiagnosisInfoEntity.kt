@@ -14,13 +14,10 @@ data class SubjectDiagnosisInfoEntity(
     @ColumnInfo(name = "subject_code")
     val subjectCode: String,
     @ColumnInfo(name = "user_level")
-    val userLevel: Double,
-    @ColumnInfo(name = "average_level")
-    val averageLevel: Double
+    val userLevel: Double
 )
 
 fun SubjectDiagnosisInfoEntity.asExternalModel(): SubjectDiagnosisInfo = SubjectDiagnosisInfo(
     subjectCode = subjectCode,
-    userLevel = userLevel,
-    averageLevel = averageLevel
+    userLevel = userLevel
 )

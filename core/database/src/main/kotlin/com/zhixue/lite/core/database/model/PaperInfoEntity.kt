@@ -19,5 +19,7 @@ data class PaperInfoEntity(
     @ColumnInfo(name = "user_score")
     val userScore: Double,
     @ColumnInfo(name = "standard_score")
-    val standardScore: Double
+    val standardScore: Double,
+    @ColumnInfo(name = "class_rank")
+    val classRank: Int?
 )

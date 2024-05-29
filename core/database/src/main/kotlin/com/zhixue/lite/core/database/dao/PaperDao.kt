@@ -16,7 +16,7 @@ interface PaperDao {
 
     @Transaction
     @Query("SELECT * FROM paper_info WHERE report_id = :reportId")
-    suspend fun getPaperInfoStream(reportId: String): Flow<List<PopulatedPaperInfo>>
+    fun getPaperInfoStream(reportId: String): Flow<List<PopulatedPaperInfo>>
 
     @Query("SELECT paper_id FROM paper_info WHERE report_id = :reportId ")
     suspend fun getPaperInfoIds(reportId: String): List<String>

@@ -3,7 +3,12 @@ package com.zhixue.lite.core.data.repository
 import com.zhixue.lite.core.data.model.asEntity
 import com.zhixue.lite.core.database.dao.PaperDao
 import com.zhixue.lite.core.database.dao.TrendDao
+import com.zhixue.lite.core.database.model.PopulatedPaperInfo
+import com.zhixue.lite.core.database.model.asExternalModel
+import com.zhixue.lite.core.model.PaperInfo
 import com.zhixue.lite.core.network.NetworkDataSource
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class PaperRepositoryImpl @Inject constructor(
@@ -42,5 +47,11 @@ class PaperRepositoryImpl @Inject constructor(
 
     override suspend fun getPaperInfoIds(reportId: String): List<String> {
         return paperDao.getPaperInfoIds(reportId)
+    }
+
+    override fun getPaperInfoStream(reportId: String): Flow<List<PaperInfo>> {
+        return paperDao.getPaperInfoStream(reportId).map {
+            it.map(PopulatedPaperInfo::asExternalModel)
+        }
     }
 }

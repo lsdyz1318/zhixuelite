@@ -20,5 +20,6 @@ fun PopulatedPaperInfo.asExternalModel(): PaperInfo = PaperInfo(
     subjectName = paperInfoEntity.subjectName,
     userScore = paperInfoEntity.userScore,
     standardScore = paperInfoEntity.standardScore,
+    classRank = paperInfoEntity.classRank,
     trendInfoList = trendInfoEntities.map(TrendInfoEntity::asExternalModel)
 )

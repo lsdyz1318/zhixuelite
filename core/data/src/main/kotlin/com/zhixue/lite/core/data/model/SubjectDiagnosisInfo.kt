@@ -7,6 +7,5 @@ fun NetworkSubjectDiagnosisInfo.asEntity(reportId: String): SubjectDiagnosisInfo
     SubjectDiagnosisInfoEntity(
         reportId = reportId,
         subjectCode = subjectCode,
-        userLevel = userLevel,
-        averageLevel = averageLevel
+        userLevel = userLevel
     )
