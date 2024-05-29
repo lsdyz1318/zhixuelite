@@ -7,10 +7,4 @@ import kotlinx.coroutines.flow.Flow
 interface ReportRepository {
 
     fun getReportInfoList(reportType: String): Flow<PagingData<ReportInfo>>
-
-    suspend fun syncPaperInfo(reportId: String)
-
-    suspend fun getPaperInfoIds(reportId: String): List<String>
-
-    suspend fun syncTrendInfo(reportId: String, paperId: String)
 }
