@@ -46,15 +46,6 @@ internal interface ZhixueApi {
     ): ZhixueNetworkResponse<NetworkReportInfoPage>
 
     @FormUrlEncoded
-    @POST("zxbReport/report/exam/getReportMain")
-    suspend fun getReportMain(
-        @Field("examId")
-        reportId: String,
-        @Field("token")
-        token: String
-    ): ZhixueNetworkResponse<NetworkReportMain>
-
-    @FormUrlEncoded
     @POST("zxbReport/report/exam/getSubjectDiagnosis")
     suspend fun getSubjectDiagnosis(
         @Field("examId")
@@ -62,6 +53,15 @@ internal interface ZhixueApi {
         @Field("token")
         token: String
     ): ZhixueNetworkResponse<NetworkSubjectDiagnosis>
+
+    @FormUrlEncoded
+    @POST("zxbReport/report/exam/getReportMain")
+    suspend fun getReportMain(
+        @Field("examId")
+        reportId: String,
+        @Field("token")
+        token: String
+    ): ZhixueNetworkResponse<NetworkReportMain>
 
     @FormUrlEncoded
     @POST("zxbReport/report/paper/getLevelTrend")

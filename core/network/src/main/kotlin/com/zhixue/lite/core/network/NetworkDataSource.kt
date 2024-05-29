@@ -22,11 +22,11 @@ interface NetworkDataSource {
         reportType: String, page: Int, token: String
     ): NetworkReportInfoPage
 
-    suspend fun getPaperInfoList(reportId: String, token: String): List<NetworkPaperInfo>
-
     suspend fun getSubjectDiagnosisInfoList(
         reportId: String, token: String
     ): List<NetworkSubjectDiagnosisInfo>
+
+    suspend fun getPaperInfoList(reportId: String, token: String): List<NetworkPaperInfo>
 
     suspend fun getTrendInfoList(
         reportId: String, paperId: String, token: String
