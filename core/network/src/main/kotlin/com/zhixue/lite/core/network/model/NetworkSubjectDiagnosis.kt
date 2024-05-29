@@ -14,7 +14,5 @@ data class NetworkSubjectDiagnosisInfo(
     @SerialName("subjectCode")
     val subjectCode: String,
     @SerialName("myRank")
-    val userLevel: Double,
-    @SerialName("avgRank")
-    val averageLevel: Double
+    val userLevel: Double
 )

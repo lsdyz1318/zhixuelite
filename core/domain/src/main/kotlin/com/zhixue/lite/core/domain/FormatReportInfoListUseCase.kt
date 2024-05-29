@@ -10,7 +10,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 import javax.inject.Inject
 
-class GetFormatReportInfoListUseCase @Inject constructor(
+class FormatReportInfoListUseCase @Inject constructor(
     private val reportRepository: ReportRepository
 ) {
     private val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
