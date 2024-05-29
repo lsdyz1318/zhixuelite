@@ -4,6 +4,7 @@ import com.zhixue.lite.core.network.model.NetworkCasInfo
 import com.zhixue.lite.core.network.model.NetworkLevelTrend
 import com.zhixue.lite.core.network.model.NetworkReportInfoPage
 import com.zhixue.lite.core.network.model.NetworkReportMain
+import com.zhixue.lite.core.network.model.NetworkSubjectDiagnosis
 import com.zhixue.lite.core.network.model.NetworkUserInfo
 import com.zhixue.lite.core.network.retrofit.model.ZhixueNetworkResponse
 import retrofit2.http.Field
@@ -52,6 +53,15 @@ internal interface ZhixueApi {
         @Field("token")
         token: String
     ): ZhixueNetworkResponse<NetworkReportMain>
+
+    @FormUrlEncoded
+    @POST("zxbReport/report/exam/getSubjectDiagnosis")
+    suspend fun getSubjectDiagnosis(
+        @Field("examId")
+        reportId: String,
+        @Field("token")
+        token: String
+    ): ZhixueNetworkResponse<NetworkSubjectDiagnosis>
 
     @FormUrlEncoded
     @POST("zxbReport/report/paper/getLevelTrend")

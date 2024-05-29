@@ -10,8 +10,6 @@ import com.zhixue.lite.core.database.dao.ReportInfoDao
 import com.zhixue.lite.core.database.model.RemotePageEntity
 import com.zhixue.lite.core.database.model.ReportInfoEntity
 import com.zhixue.lite.core.network.NetworkDataSource
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 private const val LABEL_PREFIX = "REPORT_INFO"
 private const val STARTING_PAGE = 1

@@ -7,4 +7,6 @@ import kotlinx.coroutines.flow.Flow
 interface ReportRepository {
 
     fun getReportInfoList(reportType: String): Flow<PagingData<ReportInfo>>
+
+    suspend fun syncSubjectDiagnosisInfo(reportId: String)
 }

@@ -8,5 +8,5 @@ import com.zhixue.lite.core.database.model.TrendInfoEntity
 @Dao
 interface TrendInfoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertTrendInfoEntities(trendInfoEntities: List<TrendInfoEntity>)
+    suspend fun insertTrendInfoEntities(entities: List<TrendInfoEntity>)
 }

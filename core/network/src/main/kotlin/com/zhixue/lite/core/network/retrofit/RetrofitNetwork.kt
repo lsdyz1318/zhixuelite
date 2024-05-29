@@ -6,6 +6,7 @@ import com.zhixue.lite.core.network.model.NetworkCasInfo
 import com.zhixue.lite.core.network.model.NetworkPaperInfo
 import com.zhixue.lite.core.network.model.NetworkReportInfoPage
 import com.zhixue.lite.core.network.model.NetworkSsoInfo
+import com.zhixue.lite.core.network.model.NetworkSubjectDiagnosisInfo
 import com.zhixue.lite.core.network.model.NetworkTrendInfo
 import com.zhixue.lite.core.network.model.NetworkUserInfo
 import com.zhixue.lite.core.network.retrofit.api.ChangYanApi
@@ -61,6 +62,12 @@ internal class RetrofitNetwork @Inject constructor(
         reportId: String, token: String
     ): List<NetworkPaperInfo> {
         return zhixueApi.getReportMain(reportId, token).result!!.paperInfoList
+    }
+
+    override suspend fun getSubjectDiagnosisInfoList(
+        reportId: String, token: String
+    ): List<NetworkSubjectDiagnosisInfo> {
+        return zhixueApi.getSubjectDiagnosis(reportId, token).result!!.subjectDiagnosisInfoList
     }
 
     override suspend fun getTrendInfoList(

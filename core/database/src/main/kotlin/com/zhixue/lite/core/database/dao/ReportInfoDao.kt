@@ -10,7 +10,7 @@ import com.zhixue.lite.core.database.model.ReportInfoEntity
 @Dao
 interface ReportInfoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertReportInfoEntities(reportInfoEntities: List<ReportInfoEntity>)
+    suspend fun insertReportInfoEntities(entities: List<ReportInfoEntity>)
 
     @Query("SELECT * FROM report_info WHERE report_type = :reportType")
     suspend fun getReportInfoEntity(reportType: String): ReportInfoEntity?
