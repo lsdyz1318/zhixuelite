@@ -14,7 +14,7 @@ private const val LABEL_PREFIX = "REPORT_INFO"
 private const val STARTING_PAGE = 1
 
 @OptIn(ExperimentalPagingApi::class)
-class ReportInfoRemoteMediator(
+internal class ReportInfoRemoteMediator(
     private val reportType: String,
     private val userRepository: UserRepository,
     private val remotePageDao: RemotePageDao,
