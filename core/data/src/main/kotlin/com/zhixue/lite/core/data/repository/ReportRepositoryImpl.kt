@@ -6,7 +6,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.zhixue.lite.core.database.dao.RemotePageDao
-import com.zhixue.lite.core.database.dao.ReportDao
+import com.zhixue.lite.core.database.dao.ReportInfoDao
 import com.zhixue.lite.core.database.model.ReportInfoEntity
 import com.zhixue.lite.core.database.model.asExternalModel
 import com.zhixue.lite.core.model.ReportInfo
@@ -18,7 +18,7 @@ import javax.inject.Inject
 class ReportRepositoryImpl @Inject constructor(
     private val userRepository: UserRepository,
     private val remotePageDao: RemotePageDao,
-    private val reportDao: ReportDao,
+    private val reportInfoDao: ReportInfoDao,
     private val networkDataSource: NetworkDataSource
 ) : ReportRepository {
 
@@ -32,11 +32,11 @@ class ReportRepositoryImpl @Inject constructor(
                 reportType = reportType,
                 userRepository = userRepository,
                 remotePageDao = remotePageDao,
-                reportDao = reportDao,
+                reportInfoDao = reportInfoDao,
                 networkDataSource = networkDataSource
             ),
             pagingSourceFactory = {
-                reportDao.getReportInfoPagingSource(reportType)
+                reportInfoDao.reportInfoPagingSource(reportType)
             }
         ).flow.map { pagingData ->
             pagingData.map(ReportInfoEntity::asExternalModel)

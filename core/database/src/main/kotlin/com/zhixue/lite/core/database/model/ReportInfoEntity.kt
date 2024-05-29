@@ -14,15 +14,15 @@ data class ReportInfoEntity(
     val reportType: String,
     @ColumnInfo(name = "report_name")
     val reportName: String,
-    @ColumnInfo(name = "date_time")
-    val dateTime: Long,
-    @ColumnInfo(name = "is_published")
+    @ColumnInfo(name = "datetime")
+    val datetime: Long,
+    @ColumnInfo(name = "published")
     val isPublished: Boolean
 )
 
 fun ReportInfoEntity.asExternalModel(): ReportInfo = ReportInfo(
     reportId = reportId,
     reportName = reportName,
-    dateTime = dateTime,
+    datetime = datetime,
     isPublished = isPublished
 )

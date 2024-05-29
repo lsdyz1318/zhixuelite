@@ -160,7 +160,7 @@ internal fun LazyListScope.reportInfoBody(
         if (reportInfo != null) {
             ReportInfoItem(
                 name = reportInfo.reportName,
-                dateTime = reportInfo.dateTime,
+                datetime = reportInfo.datetime,
                 modifier = Modifier
                     .clickable { onReportInfoClick(reportInfo.isPublished, reportInfo.reportId) }
                     .padding(horizontal = 32.dp, vertical = 16.dp)
@@ -178,7 +178,7 @@ internal fun LazyListScope.reportInfoBody(
 @Composable
 internal fun ReportInfoItem(
     name: String,
-    dateTime: String,
+    datetime: String,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -194,7 +194,7 @@ internal fun ReportInfoItem(
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = dateTime,
+                text = datetime,
                 color = Theme.colorScheme.onBackgroundVariant,
                 style = Theme.typography.bodySmall.copy(fontWeight = FontWeight.Light)
             )

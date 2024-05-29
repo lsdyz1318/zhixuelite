@@ -8,15 +8,15 @@ import androidx.room.Query
 import com.zhixue.lite.core.database.model.ReportInfoEntity
 
 @Dao
-interface ReportDao {
+interface ReportInfoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertReportInfoList(entities: List<ReportInfoEntity>)
 
-    @Query("SELECT * FROM report_info WHERE report_type = :reportType")
-    suspend fun getReportInfo(reportType: String): ReportInfoEntity?
+    @Query("SELECT report_id FROM report_info WHERE report_type = :reportType")
+    suspend fun getReportId(reportType: String): String?
 
     @Query("SELECT * FROM report_info WHERE report_type = :reportType")
-    fun getReportInfoPagingSource(reportType: String): PagingSource<Int, ReportInfoEntity>
+    fun reportInfoPagingSource(reportType: String): PagingSource<Int, ReportInfoEntity>
 
     @Query("DELETE FROM report_info WHERE report_type = :reportType")
     suspend fun deleteReportInfoList(reportType: String)

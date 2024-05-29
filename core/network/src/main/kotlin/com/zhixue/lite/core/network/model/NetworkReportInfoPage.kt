@@ -18,7 +18,7 @@ data class NetworkReportInfo(
     @SerialName("examName")
     val reportName: String,
     @SerialName("examCreateDateTime")
-    val dateTime: Long,
+    val datetime: Long,
     @SerialName("isSinglePublish")
     val isPublished: Boolean = true
 )
