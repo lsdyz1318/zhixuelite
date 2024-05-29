@@ -6,7 +6,7 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import com.zhixue.lite.core.data.model.asEntity
 import com.zhixue.lite.core.database.dao.RemotePageDao
-import com.zhixue.lite.core.database.dao.ReportInfoDao
+import com.zhixue.lite.core.database.dao.ReportDao
 import com.zhixue.lite.core.database.model.RemotePageEntity
 import com.zhixue.lite.core.database.model.ReportInfoEntity
 import com.zhixue.lite.core.network.NetworkDataSource
@@ -19,13 +19,13 @@ class ReportInfoRemoteMediator(
     private val reportType: String,
     private val userRepository: UserRepository,
     private val remotePageDao: RemotePageDao,
-    private val reportInfoDao: ReportInfoDao,
+    private val reportDao: ReportDao,
     private val networkDataSource: NetworkDataSource
 ) : RemoteMediator<Int, ReportInfoEntity>() {
 
     override suspend fun initialize(): InitializeAction {
         return try {
-            val localLatestId = reportInfoDao.getReportInfoEntity(reportType)?.reportId
+            val localLatestId = reportDao.getReportInfo(reportType)?.reportId
             val networkLatestId = networkDataSource.getReportInfoPage(
                 reportType = reportType,
                 page = STARTING_PAGE,
@@ -50,7 +50,7 @@ class ReportInfoRemoteMediator(
             val loadPage = when (loadType) {
                 LoadType.REFRESH -> STARTING_PAGE
                 LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
-                LoadType.APPEND -> remotePageDao.getRemotePageEntity(label)?.nextPage
+                LoadType.APPEND -> remotePageDao.getRemotePage(label)?.nextPage
                     ?: return MediatorResult.Success(endOfPaginationReached = true)
             }
             // 从网络获取报告列表
@@ -61,14 +61,14 @@ class ReportInfoRemoteMediator(
             )
             // 刷新时，删除之前缓存
             if (loadType == LoadType.REFRESH) {
-                remotePageDao.deleteRemotePageEntity(label)
-                reportInfoDao.deleteReportInfoEntities(reportType)
+                remotePageDao.deleteRemotePage(label)
+                reportDao.deleteReportInfoList(reportType)
             }
             // 插入新的数据
-            remotePageDao.insertRemotePageEntity(
+            remotePageDao.insertRemotePage(
                 RemotePageEntity(label, loadPage + 1)
             )
-            reportInfoDao.insertReportInfoEntities(
+            reportDao.insertReportInfoList(
                 response.reportInfoList.map { it.asEntity(reportType) }
             )
 

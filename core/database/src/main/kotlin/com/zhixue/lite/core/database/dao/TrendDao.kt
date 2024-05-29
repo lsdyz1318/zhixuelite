@@ -6,7 +6,7 @@ import androidx.room.OnConflictStrategy
 import com.zhixue.lite.core.database.model.TrendInfoEntity
 
 @Dao
-interface TrendInfoDao {
+interface TrendDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertTrendInfoEntities(entities: List<TrendInfoEntity>)
+    suspend fun insertTrendInfoList(entities: List<TrendInfoEntity>)
 }

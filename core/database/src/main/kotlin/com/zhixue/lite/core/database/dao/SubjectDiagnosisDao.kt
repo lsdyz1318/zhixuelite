@@ -6,7 +6,7 @@ import androidx.room.OnConflictStrategy
 import com.zhixue.lite.core.database.model.SubjectDiagnosisInfoEntity
 
 @Dao
-interface SubjectDiagnosisInfoDao {
+interface SubjectDiagnosisDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertSubjectDiagnosisEntities(entities: List<SubjectDiagnosisInfoEntity>)
+    suspend fun insertSubjectDiagnosisInfoList(entities: List<SubjectDiagnosisInfoEntity>)
 }

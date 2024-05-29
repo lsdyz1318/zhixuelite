@@ -9,11 +9,11 @@ import com.zhixue.lite.core.database.model.RemotePageEntity
 @Dao
 interface RemotePageDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertRemotePageEntity(entity: RemotePageEntity)
+    suspend fun insertRemotePage(entity: RemotePageEntity)
 
     @Query("SELECT * FROM remote_page WHERE label = :label")
-    suspend fun getRemotePageEntity(label: String): RemotePageEntity?
+    suspend fun getRemotePage(label: String): RemotePageEntity?
 
     @Query("DELETE FROM remote_page WHERE label = :label")
-    suspend fun deleteRemotePageEntity(label: String)
+    suspend fun deleteRemotePage(label: String)
 }

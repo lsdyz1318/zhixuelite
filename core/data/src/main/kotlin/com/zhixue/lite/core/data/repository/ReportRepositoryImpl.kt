@@ -7,8 +7,8 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import com.zhixue.lite.core.data.model.asEntity
 import com.zhixue.lite.core.database.dao.RemotePageDao
-import com.zhixue.lite.core.database.dao.ReportInfoDao
-import com.zhixue.lite.core.database.dao.SubjectDiagnosisInfoDao
+import com.zhixue.lite.core.database.dao.ReportDao
+import com.zhixue.lite.core.database.dao.SubjectDiagnosisDao
 import com.zhixue.lite.core.database.model.ReportInfoEntity
 import com.zhixue.lite.core.database.model.asExternalModel
 import com.zhixue.lite.core.model.ReportInfo
@@ -20,8 +20,8 @@ import javax.inject.Inject
 class ReportRepositoryImpl @Inject constructor(
     private val userRepository: UserRepository,
     private val remotePageDao: RemotePageDao,
-    private val reportInfoDao: ReportInfoDao,
-    private val subjectDiagnosisInfoDao: SubjectDiagnosisInfoDao,
+    private val reportDao: ReportDao,
+    private val subjectDiagnosisDao: SubjectDiagnosisDao,
     private val networkDataSource: NetworkDataSource
 ) : ReportRepository {
 
@@ -35,11 +35,11 @@ class ReportRepositoryImpl @Inject constructor(
                 reportType = reportType,
                 userRepository = userRepository,
                 remotePageDao = remotePageDao,
-                reportInfoDao = reportInfoDao,
+                reportDao = reportDao,
                 networkDataSource = networkDataSource
             ),
             pagingSourceFactory = {
-                reportInfoDao.getReportInfoPagingSource(reportType)
+                reportDao.getReportInfoPagingSource(reportType)
             }
         ).flow.map { pagingData ->
             pagingData.map(ReportInfoEntity::asExternalModel)
@@ -54,7 +54,7 @@ class ReportRepositoryImpl @Inject constructor(
             ).map {
                 it.asEntity(reportId)
             }
-            subjectDiagnosisInfoDao.insertSubjectDiagnosisEntities(subjectDiagnosisInfoEntities)
+            subjectDiagnosisDao.insertSubjectDiagnosisInfoList(subjectDiagnosisInfoEntities)
         } catch (_: Exception) {
         }
     }

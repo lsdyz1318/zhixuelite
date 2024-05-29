@@ -1,15 +1,15 @@
 package com.zhixue.lite.core.data.repository
 
 import com.zhixue.lite.core.data.model.asEntity
-import com.zhixue.lite.core.database.dao.PaperInfoDao
-import com.zhixue.lite.core.database.dao.TrendInfoDao
+import com.zhixue.lite.core.database.dao.PaperDao
+import com.zhixue.lite.core.database.dao.TrendDao
 import com.zhixue.lite.core.network.NetworkDataSource
 import javax.inject.Inject
 
 class PaperRepositoryImpl @Inject constructor(
     private val userRepository: UserRepository,
-    private val paperInfoDao: PaperInfoDao,
-    private val trendInfoDao: TrendInfoDao,
+    private val paperDao: PaperDao,
+    private val trendDao: TrendDao,
     private val networkDataSource: NetworkDataSource
 ) : PaperRepository {
 
@@ -21,7 +21,7 @@ class PaperRepositoryImpl @Inject constructor(
             ).map {
                 it.asEntity(reportId)
             }
-            paperInfoDao.insertPaperInfoEntities(paperInfoEntities)
+            paperDao.insertPaperInfoList(paperInfoEntities)
         } catch (_: Exception) {
         }
     }
@@ -35,12 +35,12 @@ class PaperRepositoryImpl @Inject constructor(
             ).map {
                 it.asEntity(reportId)
             }
-            trendInfoDao.insertTrendInfoEntities(trendInfoEntities)
+            trendDao.insertTrendInfoList(trendInfoEntities)
         } catch (_: Exception) {
         }
     }
 
     override suspend fun getPaperInfoIds(reportId: String): List<String> {
-        return paperInfoDao.getPaperInfoIds(reportId)
+        return paperDao.getPaperInfoIds(reportId)
     }
 }

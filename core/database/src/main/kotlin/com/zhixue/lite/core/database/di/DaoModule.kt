@@ -2,10 +2,10 @@ package com.zhixue.lite.core.database.di
 
 import com.zhixue.lite.core.database.ZhixueLiteDatabase
 import com.zhixue.lite.core.database.dao.RemotePageDao
-import com.zhixue.lite.core.database.dao.ReportInfoDao
-import com.zhixue.lite.core.database.dao.PaperInfoDao
-import com.zhixue.lite.core.database.dao.SubjectDiagnosisInfoDao
-import com.zhixue.lite.core.database.dao.TrendInfoDao
+import com.zhixue.lite.core.database.dao.ReportDao
+import com.zhixue.lite.core.database.dao.PaperDao
+import com.zhixue.lite.core.database.dao.SubjectDiagnosisDao
+import com.zhixue.lite.core.database.dao.TrendDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,22 +20,22 @@ internal object DaoModule {
     ): RemotePageDao = database.remotePageDao()
 
     @Provides
-    fun providesReportInfoDao(
+    fun providesReportDao(
         database: ZhixueLiteDatabase
-    ): ReportInfoDao = database.reportInfoDao()
+    ): ReportDao = database.reportDao()
 
     @Provides
-    fun providesPaperInfoDao(
+    fun providesPaperDao(
         database: ZhixueLiteDatabase
-    ): PaperInfoDao = database.paperInfoDao()
+    ): PaperDao = database.paperDap()
 
     @Provides
-    fun providesTrendInfoDao(
+    fun providesTrendDao(
         database: ZhixueLiteDatabase
-    ): TrendInfoDao = database.trendInfoDao()
+    ): TrendDao = database.trendDao()
 
     @Provides
-    fun providesSubjectDiagnosisInfoDao(
+    fun providesSubjectDiagnosisDao(
         database: ZhixueLiteDatabase
-    ): SubjectDiagnosisInfoDao = database.subjectDiagnosisInfoDao()
+    ): SubjectDiagnosisDao = database.subjectDiagnosisDao()
 }
