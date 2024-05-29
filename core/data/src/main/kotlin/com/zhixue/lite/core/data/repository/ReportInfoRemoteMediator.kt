@@ -61,7 +61,7 @@ class ReportInfoRemoteMediator(
             // 刷新时，删除之前缓存
             if (loadType == LoadType.REFRESH) {
                 remotePageDao.deleteRemotePage(label)
-                reportInfoDao.deleteReportInfoList(reportType)
+                reportInfoDao.deleteAllReportInfo(reportType)
             }
             // 插入新的数据
             remotePageDao.insertRemotePage(
