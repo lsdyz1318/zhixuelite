@@ -12,6 +12,7 @@ import com.zhixue.lite.core.database.dao.SubjectDiagnosisDao
 import com.zhixue.lite.core.database.model.ReportInfoEntity
 import com.zhixue.lite.core.database.model.asExternalModel
 import com.zhixue.lite.core.model.ReportInfo
+import com.zhixue.lite.core.model.SubjectDiagnosisInfo
 import com.zhixue.lite.core.network.NetworkDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -57,5 +58,9 @@ class ReportRepositoryImpl @Inject constructor(
             subjectDiagnosisDao.insertSubjectDiagnosisInfoList(subjectDiagnosisInfoEntities)
         } catch (_: Exception) {
         }
+    }
+
+    override fun getSubjectDiagnosisInfoStream(reportId: String): Flow<List<SubjectDiagnosisInfo>> {
+        return subjectDiagnosisDao.getSubjectDiagnosisInfoStream(reportId)
     }
 }

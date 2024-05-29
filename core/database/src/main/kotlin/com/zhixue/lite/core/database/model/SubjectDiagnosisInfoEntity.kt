@@ -2,6 +2,7 @@ package com.zhixue.lite.core.database.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import com.zhixue.lite.core.model.SubjectDiagnosisInfo
 
 @Entity(
     tableName = "subject_diagnosis",
@@ -16,4 +17,10 @@ data class SubjectDiagnosisInfoEntity(
     val userLevel: Double,
     @ColumnInfo(name = "average_level")
     val averageLevel: Double
+)
+
+fun SubjectDiagnosisInfoEntity.asExternalModel(): SubjectDiagnosisInfo = SubjectDiagnosisInfo(
+    subjectCode = subjectCode,
+    userLevel = userLevel,
+    averageLevel = averageLevel
 )

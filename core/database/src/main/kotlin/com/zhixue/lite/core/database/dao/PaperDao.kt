@@ -7,6 +7,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import com.zhixue.lite.core.database.model.PaperInfoEntity
 import com.zhixue.lite.core.database.model.PopulatedPaperInfo
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PaperDao {
@@ -15,7 +16,7 @@ interface PaperDao {
 
     @Transaction
     @Query("SELECT * FROM paper_info WHERE report_id = :reportId")
-    suspend fun getPaperInfo(reportId: String): PopulatedPaperInfo
+    suspend fun getPaperInfoStream(reportId: String): Flow<List<PopulatedPaperInfo>>
 
     @Query("SELECT paper_id FROM paper_info WHERE report_id = :reportId ")
     suspend fun getPaperInfoIds(reportId: String): List<String>
