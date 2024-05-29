@@ -61,6 +61,10 @@ class ReportRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getPaperInfoIds(reportId: String): List<String> {
+        return paperInfoDao.getPaperInfoIds(reportId)
+    }
+
     override suspend fun syncTrendInfo(reportId: String, paperId: String) {
         try {
             val trendInfoEntities = networkDataSource.getTrendInfoList(

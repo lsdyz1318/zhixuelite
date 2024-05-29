@@ -10,5 +10,7 @@ interface ReportRepository {
 
     suspend fun syncPaperInfo(reportId: String)
 
+    suspend fun getPaperInfoIds(reportId: String): List<String>
+
     suspend fun syncTrendInfo(reportId: String, paperId: String)
 }

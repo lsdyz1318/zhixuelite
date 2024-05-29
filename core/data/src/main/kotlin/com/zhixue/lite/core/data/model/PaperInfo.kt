@@ -7,6 +7,7 @@ fun NetworkPaperInfo.asEntity(reportId: String): PaperInfoEntity =
     PaperInfoEntity(
         reportId = reportId,
         paperId = paperId,
+        subjectCode = subjectCode,
         subjectName = subjectName,
         userScore = userScore,
         standardScore = standardScore

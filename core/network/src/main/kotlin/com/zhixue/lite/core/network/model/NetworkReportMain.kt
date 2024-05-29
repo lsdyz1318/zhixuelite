@@ -13,6 +13,8 @@ data class NetworkReportMain(
 data class NetworkPaperInfo(
     @SerialName("paperId")
     val paperId: String,
+    @SerialName("subjectCode")
+    val subjectCode: String,
     @SerialName("subjectName")
     val subjectName: String,
     @SerialName("userScore")

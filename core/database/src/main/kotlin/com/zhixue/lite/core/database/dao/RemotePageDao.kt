@@ -11,9 +11,9 @@ interface RemotePageDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertRemotePageEntity(remotePageEntity: RemotePageEntity)
 
-    @Query("SELECT * FROM RemotePageEntity WHERE label = :label")
+    @Query("SELECT * FROM remote_page WHERE label = :label")
     suspend fun getRemotePageEntity(label: String): RemotePageEntity?
 
-    @Query("DELETE FROM RemotePageEntity WHERE label = :label")
+    @Query("DELETE FROM remote_page WHERE label = :label")
     suspend fun deleteRemotePageEntity(label: String)
 }

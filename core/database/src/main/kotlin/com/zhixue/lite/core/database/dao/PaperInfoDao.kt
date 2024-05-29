@@ -11,6 +11,6 @@ interface PaperInfoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPaperInfoEntities(paperInfoEntities: List<PaperInfoEntity>)
 
-    @Query("SELECT * FROM PaperInfoEntity WHERE reportId = :reportId")
-    suspend fun getPaperInfoEntities(reportId: String): List<PaperInfoEntity>
+    @Query("SELECT paper_id FROM paper_info WHERE report_id = :reportId ")
+    suspend fun getPaperInfoIds(reportId: String): List<String>
 }
