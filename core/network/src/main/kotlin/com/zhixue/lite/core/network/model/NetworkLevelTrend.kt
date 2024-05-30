@@ -13,10 +13,6 @@ data class NetworkLevelTrend(
 data class NetworkTrendInfo(
     @SerialName("tag")
     val tag: Tag,
-    @SerialName("improveBar")
-    val improveInfo: ImproveInfo,
-    @SerialName("totalNum")
-    val studentNumber: Int,
     @SerialName("dataList")
     val dataList: List<TrendData>
 ) {
@@ -29,18 +25,26 @@ data class NetworkTrendInfo(
     )
 
     @Serializable
-    data class ImproveInfo(
-        @SerialName("tag")
-        val tag: Tag,
-        @SerialName("levelScale")
+    data class TrendData(
+        @SerialName("id")
+        val paperId: String,
+        @SerialName("name")
+        val paperName: String,
+        @SerialName("dateTime")
+        val datetime: Long,
+        @SerialName("level")
         val level: String,
-        @SerialName("offset")
-        val offset: Int
+        @SerialName("totalNum")
+        val studentNumber: Int,
+        @SerialName("improveBar")
+        val improveInfo: ImproveInfo
     )
 
     @Serializable
-    data class TrendData(
-        @SerialName("improveBar")
-        val improveInfo: ImproveInfo
+    data class ImproveInfo(
+        @SerialName("tag")
+        val tag: Tag,
+        @SerialName("offset")
+        val offset: Int
     )
 }

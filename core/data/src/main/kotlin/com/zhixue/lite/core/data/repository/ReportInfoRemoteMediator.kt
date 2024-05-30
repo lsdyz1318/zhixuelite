@@ -24,7 +24,7 @@ internal class ReportInfoRemoteMediator(
 
     override suspend fun initialize(): InitializeAction {
         return try {
-            val localLatestId = reportInfoDao.getReportId(reportType)
+            val localLatestId = reportInfoDao.getReportInfoIds(reportType)
             val networkLatestId = networkDataSource.getReportInfoPage(
                 reportType = reportType,
                 page = STARTING_PAGE,
@@ -49,7 +49,7 @@ internal class ReportInfoRemoteMediator(
             val loadPage = when (loadType) {
                 LoadType.REFRESH -> STARTING_PAGE
                 LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
-                LoadType.APPEND -> remotePageDao.getNextPage(label)
+                LoadType.APPEND -> remotePageDao.getRemotePageNextPage(label)
                     ?: return MediatorResult.Success(endOfPaginationReached = true)
             }
             // 从网络获取报告列表

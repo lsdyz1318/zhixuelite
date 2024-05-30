@@ -1,5 +1,7 @@
 package com.zhixue.lite.core.data.di
 
+import com.zhixue.lite.core.data.repository.PaperRepository
+import com.zhixue.lite.core.data.repository.PaperRepositoryImpl
 import com.zhixue.lite.core.data.repository.ReportRepository
 import com.zhixue.lite.core.data.repository.ReportRepositoryImpl
 import com.zhixue.lite.core.data.repository.UserRepository
@@ -21,4 +23,9 @@ internal abstract class DataModule {
     abstract fun bindsReportRepository(
         impl: ReportRepositoryImpl
     ): ReportRepository
+
+    @Binds
+    abstract fun bindsPaperRepository(
+        impl: PaperRepositoryImpl
+    ): PaperRepository
 }

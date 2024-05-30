@@ -2,19 +2,34 @@ package com.zhixue.lite.core.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.zhixue.lite.core.database.dao.PaperInfoDao
 import com.zhixue.lite.core.database.dao.RemotePageDao
 import com.zhixue.lite.core.database.dao.ReportInfoDao
+import com.zhixue.lite.core.database.dao.TrendInfoDao
+import com.zhixue.lite.core.database.model.PaperInfoEntity
 import com.zhixue.lite.core.database.model.RemotePageEntity
 import com.zhixue.lite.core.database.model.ReportInfoEntity
+import com.zhixue.lite.core.database.model.TrendInfoEntity
+import com.zhixue.lite.core.database.util.TrendDirectionConverter
+import com.zhixue.lite.core.database.util.TrendLevelConverter
 
 @Database(
     version = 1,
     entities = [
         RemotePageEntity::class,
-        ReportInfoEntity::class
+        ReportInfoEntity::class,
+        PaperInfoEntity::class,
+        TrendInfoEntity::class
     ]
+)
+@TypeConverters(
+    TrendLevelConverter::class,
+    TrendDirectionConverter::class
 )
 internal abstract class ZhixueLiteDatabase : RoomDatabase() {
     abstract fun remotePageDao(): RemotePageDao
     abstract fun reportInfoDao(): ReportInfoDao
+    abstract fun paperInfoDao(): PaperInfoDao
+    abstract fun trendInfoDao(): TrendInfoDao
 }

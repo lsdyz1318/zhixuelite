@@ -12,7 +12,7 @@ interface RemotePageDao {
     suspend fun insertRemotePage(entity: RemotePageEntity)
 
     @Query("SELECT next_page FROM remote_page WHERE label = :label")
-    suspend fun getNextPage(label: String): Int?
+    suspend fun getRemotePageNextPage(label: String): Int?
 
     @Query("DELETE FROM remote_page WHERE label = :label")
     suspend fun deleteRemotePage(label: String)

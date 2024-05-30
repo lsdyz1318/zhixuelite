@@ -13,7 +13,7 @@ interface ReportInfoDao {
     suspend fun insertReportInfoList(entities: List<ReportInfoEntity>)
 
     @Query("SELECT report_id FROM report_info WHERE report_type = :reportType")
-    suspend fun getReportId(reportType: String): String?
+    suspend fun getReportInfoIds(reportType: String): String?
 
     @Query("SELECT * FROM report_info WHERE report_type = :reportType")
     fun reportInfoPagingSource(reportType: String): PagingSource<Int, ReportInfoEntity>

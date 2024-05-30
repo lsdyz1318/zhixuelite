@@ -1,8 +1,10 @@
 package com.zhixue.lite.core.database.di
 
 import com.zhixue.lite.core.database.ZhixueLiteDatabase
+import com.zhixue.lite.core.database.dao.PaperInfoDao
 import com.zhixue.lite.core.database.dao.RemotePageDao
 import com.zhixue.lite.core.database.dao.ReportInfoDao
+import com.zhixue.lite.core.database.dao.TrendInfoDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,4 +22,14 @@ internal object DaoModule {
     fun providesReportInfoDao(
         database: ZhixueLiteDatabase
     ): ReportInfoDao = database.reportInfoDao()
+
+    @Provides
+    fun providesPaperInfoDao(
+        database: ZhixueLiteDatabase
+    ): PaperInfoDao = database.paperInfoDao()
+
+    @Provides
+    fun providesTrendInfoDao(
+        database: ZhixueLiteDatabase
+    ): TrendInfoDao = database.trendInfoDao()
 }
