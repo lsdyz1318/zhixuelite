@@ -8,10 +8,10 @@ import com.zhixue.lite.feature.login.LoginRoute
 import kotlinx.serialization.Serializable
 
 @Serializable
-object Login
+object LoginRoute
 
 fun NavController.navigateToLogin(navOptions: NavOptions? = null) {
-    navigate(Login, navOptions)
+    navigate(LoginRoute, navOptions)
 }
 
 fun NavGraphBuilder.loginScreen(
@@ -19,7 +19,7 @@ fun NavGraphBuilder.loginScreen(
     onRegisterClick: () -> Unit,
     onForgetPasswordClick: () -> Unit
 ) {
-    composable<Login> {
+    composable<LoginRoute> {
         LoginRoute(
             onLoginSuccess = onLoginSuccess,
             onRegisterClick = onRegisterClick,

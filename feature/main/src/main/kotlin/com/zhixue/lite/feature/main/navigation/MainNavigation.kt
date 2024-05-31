@@ -8,16 +8,16 @@ import com.zhixue.lite.feature.main.MainRoute
 import kotlinx.serialization.Serializable
 
 @Serializable
-object Main
+object MainRoute
 
 fun NavController.navigateToMain(navOptions: NavOptions? = null) {
-    navigate(Main, navOptions)
+    navigate(MainRoute, navOptions)
 }
 
 fun NavGraphBuilder.mainScreen(
     onReportInfoClick: (String) -> Unit
 ) {
-    composable<Main> {
+    composable<MainRoute> {
         MainRoute(onReportInfoClick = onReportInfoClick)
     }
 }
