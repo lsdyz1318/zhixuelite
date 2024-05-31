@@ -5,7 +5,7 @@ import androidx.room.Entity
 
 @Entity(
     tableName = "paper_info",
-    primaryKeys = ["report_id", "paper_id"]
+    primaryKeys = ["paper_id"]
 )
 data class PaperInfoEntity(
     @ColumnInfo(name = "report_id")
