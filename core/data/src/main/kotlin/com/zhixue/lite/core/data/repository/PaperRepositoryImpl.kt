@@ -8,10 +8,7 @@ import com.zhixue.lite.core.database.model.TrendInfoEntity
 import com.zhixue.lite.core.database.model.asExternalModel
 import com.zhixue.lite.core.model.PaperInfo
 import com.zhixue.lite.core.model.TrendDirection
-import com.zhixue.lite.core.model.TrendLevel
 import com.zhixue.lite.core.network.NetworkDataSource
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 internal class PaperRepositoryImpl @Inject constructor(
@@ -21,9 +18,8 @@ internal class PaperRepositoryImpl @Inject constructor(
     private val networkDataSource: NetworkDataSource
 ) : PaperRepository {
 
-    override fun getPaperInfoList(reportId: String): Flow<List<PaperInfo>> {
-        return paperInfoDao.getPaperInfoList(reportId)
-            .map { it.map(PopulatedPaperInfo::asExternalModel) }
+    override suspend fun getPaperInfoList(reportId: String): List<PaperInfo> {
+        return paperInfoDao.getPaperInfoList(reportId).map(PopulatedPaperInfo::asExternalModel)
     }
 
     override suspend fun getPaperInfoIds(reportId: String): List<String> {
@@ -86,13 +82,7 @@ internal class PaperRepositoryImpl @Inject constructor(
                             trendCode = networkTrendInfo.tag.code,
                             paperName = trendData.paperName,
                             datetime = trendData.datetime,
-                            trendLevel = when (trendData.level) {
-                                "A等" -> TrendLevel.A
-                                "B等" -> TrendLevel.B
-                                "C等" -> TrendLevel.C
-                                "D等" -> TrendLevel.D
-                                else -> TrendLevel.E
-                            },
+                            trendLevel = trendData.level,
                             trendOffset = trendData.improveInfo.offset,
                             trendDirection = when (trendData.improveInfo.tag.code) {
                                 "fastUp" -> TrendDirection.FAST_UP

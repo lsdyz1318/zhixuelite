@@ -12,7 +12,6 @@ import com.zhixue.lite.core.database.model.RemotePageEntity
 import com.zhixue.lite.core.database.model.ReportInfoEntity
 import com.zhixue.lite.core.database.model.TrendInfoEntity
 import com.zhixue.lite.core.database.util.TrendDirectionConverter
-import com.zhixue.lite.core.database.util.TrendLevelConverter
 
 @Database(
     version = 1,
@@ -23,10 +22,7 @@ import com.zhixue.lite.core.database.util.TrendLevelConverter
         TrendInfoEntity::class
     ]
 )
-@TypeConverters(
-    TrendLevelConverter::class,
-    TrendDirectionConverter::class
-)
+@TypeConverters(TrendDirectionConverter::class)
 internal abstract class ZhixueLiteDatabase : RoomDatabase() {
     abstract fun remotePageDao(): RemotePageDao
     abstract fun reportInfoDao(): ReportInfoDao

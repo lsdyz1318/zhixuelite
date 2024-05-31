@@ -3,7 +3,6 @@ package com.zhixue.lite.core.database.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import com.zhixue.lite.core.model.TrendDirection
-import com.zhixue.lite.core.model.TrendLevel
 
 @Entity(
     tableName = "trend_info",
@@ -19,7 +18,7 @@ data class TrendInfoEntity(
     @ColumnInfo(name = "datetime")
     val datetime: Long,
     @ColumnInfo(name = "trend_level")
-    val trendLevel: TrendLevel,
+    val trendLevel: String,
     @ColumnInfo(name = "trend_offset")
     val trendOffset: Int,
     @ColumnInfo(name = "trend_direction")

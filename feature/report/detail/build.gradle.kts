@@ -5,3 +5,8 @@ plugins {
 android {
     namespace = "com.zhixue.lite.feature.report.detail"
 }
+
+dependencies {
+    implementation(projects.core.common)
+    implementation(projects.core.domain)
+}
