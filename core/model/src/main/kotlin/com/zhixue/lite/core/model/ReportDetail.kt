@@ -2,8 +2,7 @@ package com.zhixue.lite.core.model
 
 data class ReportDetail(
     val totalInfo: TotalInfo,
-    val overviewInfoList: List<OverviewInfo>,
-    val trendInfoList: List<TrendInfo>
+    val overviewInfoList: List<OverviewInfo>
 ) {
     data class TotalInfo(
         val userScore: String,
@@ -17,12 +16,8 @@ data class ReportDetail(
         val userScore: String,
         val standardScore: String,
         val scoreRate: Float,
-        val trendLevel: String
-    )
-
-    data class TrendInfo(
-        val subjectName: String,
         val classRank: String,
+        val trendLevel: String,
         val trendDirection: TrendDirection?
     )
 }

@@ -113,8 +113,6 @@ internal fun LazyListScope.reportDetailBody(
                         overviewInfoList = uiState.reportDetail.overviewInfoList,
                         onOverviewInfoClick = onOverviewInfoClick
                     )
-                    Divider()
-                    TrendPanel(trendInfoList = uiState.reportDetail.trendInfoList)
                 }
             }
         }
@@ -169,7 +167,8 @@ internal fun OverviewPanel(
     overviewInfoList: List<ReportDetail.OverviewInfo>,
     onOverviewInfoClick: (String) -> Unit
 ) {
-    Column(modifier = Modifier.padding(vertical = 24.dp)) {
+    Column(modifier = Modifier.padding(vertical = 16.dp)) {
+        Spacer(modifier = Modifier.height(8.dp))
         Box(modifier = Modifier.padding(horizontal = 24.dp)) {
             Text(
                 text = stringResource(R.string.report_detail_overview_label),
@@ -198,8 +197,8 @@ internal fun OverviewItem(
     modifier: Modifier = Modifier
 ) {
     Box(modifier = modifier) {
-        Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)) {
-            Row(verticalAlignment = Alignment.Bottom) {
+        Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     text = buildAnnotatedString {
                         withStyle(
@@ -219,102 +218,43 @@ internal fun OverviewItem(
                         }
                     }
                 )
+                Spacer(modifier = Modifier.width(8.dp))
+                when (overviewInfo.trendDirection) {
+                    TrendDirection.UP -> TrendingIcon(
+                        iconId = commonR.drawable.ic_trending_up,
+                        tint = Theme.colorScheme.primary
+                    )
+
+                    TrendDirection.DOWN -> TrendingIcon(
+                        iconId = commonR.drawable.ic_trending_down,
+                        tint = Theme.colorScheme.error
+                    )
+
+                    else -> TrendingIcon(
+                        iconId = commonR.drawable.ic_trending_flat,
+                        tint = Theme.colorScheme.onBackgroundVariant
+                    )
+                }
                 Spacer(modifier = Modifier.weight(1f))
                 Text(
                     text = "${overviewInfo.userScore} / ${overviewInfo.standardScore}",
                     color = Theme.colorScheme.onBackgroundVariant,
-                    style = Theme.typography.bodySmall.copy(fontWeight = FontWeight.Light)
+                    style = Theme.typography.bodySmall
                 )
             }
-            Spacer(modifier = Modifier.height(12.dp))
-            ProgressBar(
-                value = overviewInfo.scoreRate,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(6.dp)
-            )
-        }
-    }
-}
-
-@Composable
-internal fun TrendPanel(trendInfoList: List<ReportDetail.TrendInfo>) {
-    Column(modifier = Modifier.padding(vertical = 24.dp)) {
-        Box(modifier = Modifier.padding(horizontal = 24.dp)) {
-            Text(
-                text = stringResource(R.string.report_detail_trend_label),
-                color = Theme.colorScheme.onBackgroundVariant,
-                style = Theme.typography.titleMedium.copy(fontWeight = FontWeight.Medium)
-            )
-        }
-        Spacer(modifier = Modifier.height(24.dp))
-        Column(verticalArrangement = Arrangement.spacedBy(24.dp)) {
-            trendInfoList.forEach { trendInfo ->
-                TrendItem(trendInfo = trendInfo)
-            }
-        }
-    }
-}
-
-@Composable
-internal fun TrendItem(
-    trendInfo: ReportDetail.TrendInfo,
-    modifier: Modifier = Modifier
-) {
-    Box(modifier = modifier) {
-        Row(
-            modifier = Modifier.padding(horizontal = 24.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Column {
+            Spacer(modifier = Modifier.height(4.dp))
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = trendInfo.subjectName,
-                    color = Theme.colorScheme.onBackground,
-                    style = Theme.typography.bodyMedium
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = "班级排名：${trendInfo.classRank}",
+                    text = "班级排名：${overviewInfo.classRank}",
                     color = Theme.colorScheme.onBackgroundVariant,
                     style = Theme.typography.bodySmall.copy(fontWeight = FontWeight.Light)
                 )
-            }
-            Spacer(modifier = Modifier.weight(1f))
-            when (trendInfo.trendDirection) {
-                TrendDirection.FAST_UP -> TrendDirectionBox(
-                    iconId = commonR.drawable.ic_trending_up,
-                    textId = R.string.report_detail_trending_fast_up,
-                    color = Theme.colorScheme.primary
-                )
-
-                TrendDirection.SLOW_UP -> TrendDirectionBox(
-                    iconId = commonR.drawable.ic_trending_up,
-                    textId = R.string.report_detail_trending_slow_up,
-                    color = Theme.colorScheme.primary.copy(alpha = 0.75f)
-                )
-
-                TrendDirection.STEADY -> TrendDirectionBox(
-                    iconId = commonR.drawable.ic_trending_flat,
-                    textId = R.string.report_detail_trending_steady,
-                    color = Theme.colorScheme.onBackgroundVariant
-                )
-
-                TrendDirection.SLOW_DOWN -> TrendDirectionBox(
-                    iconId = commonR.drawable.ic_trending_down,
-                    textId = R.string.report_detail_trending_slow_down,
-                    color = Theme.colorScheme.error.copy(alpha = 0.75f)
-                )
-
-                TrendDirection.FAST_DOWN -> TrendDirectionBox(
-                    iconId = commonR.drawable.ic_trending_down,
-                    textId = R.string.report_detail_trending_fast_down,
-                    color = Theme.colorScheme.error
-                )
-
-                else -> TrendDirectionBox(
-                    iconId = commonR.drawable.ic_trending_flat,
-                    textId = R.string.report_detail_trending_none,
-                    color = Theme.colorScheme.onBackgroundVariant
+                Spacer(modifier = Modifier.weight(1f))
+                ProgressBar(
+                    value = overviewInfo.scoreRate,
+                    modifier = Modifier
+                        .width(48.dp)
+                        .height(6.dp)
                 )
             }
         }
@@ -322,22 +262,10 @@ internal fun TrendItem(
 }
 
 @Composable
-internal fun TrendDirectionBox(
-    iconId: Int,
-    textId: Int,
-    color: Color
-) {
-    Row {
-        Icon(
-            painter = painterResource(iconId),
-            modifier = Modifier.size(16.dp),
-            tint = color
-        )
-        Spacer(modifier = Modifier.width(8.dp))
-        Text(
-            text = stringResource(textId),
-            color = color,
-            style = Theme.typography.bodySmall
-        )
-    }
+internal fun TrendingIcon(iconId: Int, tint: Color) {
+    Icon(
+        painter = painterResource(iconId),
+        modifier = Modifier.size(12.dp),
+        tint = tint
+    )
 }

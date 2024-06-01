@@ -14,11 +14,9 @@ fun NetworkTrendInfo.mapToTrendInfoEntities(): List<TrendInfoEntity> =
             trendLevel = it.level,
             trendOffset = it.improveInfo.offset,
             trendDirection = when (it.improveInfo.tag.code) {
-                "fastUp" -> TrendDirection.FAST_UP
-                "slowUp" -> TrendDirection.SLOW_UP
-                "slowDown" -> TrendDirection.SLOW_DOWN
-                "fastDown" -> TrendDirection.FAST_DOWN
-                else -> TrendDirection.STEADY
+                "fastUp", "slowUp" -> TrendDirection.UP
+                "slowDown", "fastDown" -> TrendDirection.DOWN
+                else -> TrendDirection.FLAT
             },
             studentNumber = it.studentNumber
         )
