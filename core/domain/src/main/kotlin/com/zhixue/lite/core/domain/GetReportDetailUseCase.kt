@@ -12,10 +12,13 @@ class GetReportDetailUseCase @Inject constructor(
     suspend operator fun invoke(reportId: String): ReportDetail {
         val paperInfoList = paperRepository.getPaperInfoList(reportId)
 
+        check(paperInfoList.isNotEmpty())
+
         var totalUserScore = BigDecimal.ZERO
         var totalStandardScore = BigDecimal.ZERO
 
         val overviewInfoList = mutableListOf<ReportDetail.OverviewInfo>()
+        val trendInfoList = mutableListOf<ReportDetail.TrendInfo>()
 
         for (paperInfo in paperInfoList) {
             val paperId = paperInfo.paperId
@@ -42,9 +45,15 @@ class GetReportDetailUseCase @Inject constructor(
                     userScore = transformPlainString(userScore),
                     standardScore = transformPlainString(standardScore),
                     scoreRate = paperInfo.scoreRate,
+                    trendLevel = paperInfo.trendLevel.orEmpty()
+                )
+            )
+
+            trendInfoList.add(
+                ReportDetail.TrendInfo(
+                    subjectName = paperInfo.subjectName,
                     classRank = classRank.toString(),
-                    trendLevel = paperInfo.trendLevel.orEmpty(),
-                    trendDirection = paperInfo.trendDirection
+                    trendDirection = paperInfo.trendDirection,
                 )
             )
         }
@@ -55,7 +64,8 @@ class GetReportDetailUseCase @Inject constructor(
                 standardScore = transformPlainString(totalStandardScore),
                 scoreRate = totalUserScore.toFloat() / totalStandardScore.toFloat()
             ),
-            overviewInfoList = overviewInfoList
+            overviewInfoList = overviewInfoList,
+            trendInfoList = trendInfoList
         )
     }
 }

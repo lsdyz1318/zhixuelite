@@ -14,8 +14,14 @@ fun NavController.navigateToReportDetail(reportId: String, navOptions: NavOption
     navigate(ReportDetailRoute(reportId), navOptions)
 }
 
-fun NavGraphBuilder.reportDetailScreen() {
+fun NavGraphBuilder.reportDetailScreen(
+    onBackClick: () -> Unit,
+    onOverviewInfoClick: (String) -> Unit
+) {
     composable<ReportDetailRoute> {
-        ReportDetailRoute()
+        ReportDetailRoute(
+            onBackClick = onBackClick,
+            onOverviewInfoClick = onOverviewInfoClick
+        )
     }
 }
