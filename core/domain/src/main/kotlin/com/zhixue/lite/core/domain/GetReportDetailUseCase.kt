@@ -29,8 +29,7 @@ class GetReportDetailUseCase @Inject constructor(
             val studentNumber = paperInfo.studentNumber
 
             if (classRank == null && classPercentile != null && studentNumber != null) {
-                classRank =
-                    (studentNumber - (studentNumber - 1) * (100 - classPercentile) / 100).roundToInt()
+                classRank = calculateRank(studentNumber, classPercentile)
             }
 
             if (!paperId.contains("!")) {
@@ -68,6 +67,10 @@ class GetReportDetailUseCase @Inject constructor(
             trendInfoList = trendInfoList
         )
     }
+}
+
+private fun calculateRank(studentNumber: Int, classPercentile: Double): Int {
+    return (studentNumber - (studentNumber - 1) * (100 - classPercentile) / 100).roundToInt()
 }
 
 private fun transformPlainString(decimal: BigDecimal): String {

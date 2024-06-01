@@ -4,6 +4,7 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
+import com.zhixue.lite.core.data.model.asEntity
 import com.zhixue.lite.core.database.dao.RemotePageDao
 import com.zhixue.lite.core.database.dao.ReportInfoDao
 import com.zhixue.lite.core.database.model.RemotePageEntity
@@ -71,15 +72,7 @@ internal class ReportInfoRemoteMediator(
                 )
             )
             reportInfoDao.insertReportInfoList(
-                response.reportInfoList.map {
-                    ReportInfoEntity(
-                        reportId = it.reportId,
-                        reportType = reportType,
-                        reportName = it.reportName,
-                        datetime = it.datetime,
-                        isPublished = it.isPublished
-                    )
-                }
+                response.reportInfoList.map { it.asEntity(reportType) }
             )
 
             MediatorResult.Success(endOfPaginationReached = !response.hasNextPage)

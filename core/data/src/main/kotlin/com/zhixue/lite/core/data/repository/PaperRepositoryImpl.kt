@@ -1,14 +1,14 @@
 package com.zhixue.lite.core.data.repository
 
+import com.zhixue.lite.core.data.model.asEntity
+import com.zhixue.lite.core.data.model.mapToTrendInfoEntities
 import com.zhixue.lite.core.database.dao.PaperInfoDao
 import com.zhixue.lite.core.database.dao.TrendInfoDao
-import com.zhixue.lite.core.database.model.PaperInfoEntity
 import com.zhixue.lite.core.database.model.PopulatedPaperInfo
-import com.zhixue.lite.core.database.model.TrendInfoEntity
 import com.zhixue.lite.core.database.model.asExternalModel
 import com.zhixue.lite.core.model.PaperInfo
-import com.zhixue.lite.core.model.TrendDirection
 import com.zhixue.lite.core.network.NetworkDataSource
+import com.zhixue.lite.core.network.model.NetworkTrendInfo
 import javax.inject.Inject
 
 internal class PaperRepositoryImpl @Inject constructor(
@@ -42,23 +42,11 @@ internal class PaperRepositoryImpl @Inject constructor(
 
             networkPaperInfoList
                 .map { networkPaperInfo ->
-                    val userScore = networkPaperInfo.userScore
-                    val standardScore = networkPaperInfo.standardScore
-                    val scoreRate = (userScore / standardScore).toFloat()
-                    val classPercentile = networkSubjectDiagnosisList
-                        ?.find { it.subjectCode == networkPaperInfo.subjectCode }
-                        ?.classPercentile
-
-                    PaperInfoEntity(
+                    networkPaperInfo.asEntity(
                         reportId = reportId,
-                        paperId = networkPaperInfo.paperId,
-                        subjectCode = networkPaperInfo.subjectCode,
-                        subjectName = networkPaperInfo.subjectName,
-                        userScore = userScore,
-                        standardScore = standardScore,
-                        scoreRate = scoreRate,
-                        classRank = networkPaperInfo.classRank,
-                        classPercentile = classPercentile
+                        classPercentile = networkSubjectDiagnosisList
+                            ?.find { it.subjectCode == networkPaperInfo.subjectCode }
+                            ?.classPercentile
                     )
                 }
                 .run {
@@ -69,36 +57,13 @@ internal class PaperRepositoryImpl @Inject constructor(
 
     override suspend fun syncTrendInfoList(reportId: String, paperId: String) {
         runCatching {
-            val networkTrendInfoList = networkDataSource.getTrendInfoList(
+            networkDataSource.getTrendInfoList(
                 reportId = reportId,
                 paperId = paperId,
                 token = userRepository.getToken()
             )
-
-            networkTrendInfoList
-                .flatMap { networkTrendInfo ->
-                    networkTrendInfo.dataList.map { trendData ->
-                        TrendInfoEntity(
-                            paperId = trendData.paperId,
-                            trendCode = networkTrendInfo.tag.code,
-                            paperName = trendData.paperName,
-                            datetime = trendData.datetime,
-                            trendLevel = trendData.level,
-                            trendOffset = trendData.improveInfo.offset,
-                            trendDirection = when (trendData.improveInfo.tag.code) {
-                                "fastUp" -> TrendDirection.FAST_UP
-                                "slowUp" -> TrendDirection.SLOW_UP
-                                "slowDown" -> TrendDirection.SLOW_DOWN
-                                "fastDown" -> TrendDirection.FAST_DOWN
-                                else -> TrendDirection.STEADY
-                            },
-                            studentNumber = trendData.studentNumber
-                        )
-                    }
-                }
-                .run {
-                    trendInfoDao.insertTrendInfoList(this)
-                }
+                .flatMap(NetworkTrendInfo::mapToTrendInfoEntities)
+                .run { trendInfoDao.insertTrendInfoList(this) }
         }
     }
 }
