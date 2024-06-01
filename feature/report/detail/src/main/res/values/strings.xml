@@ -4,4 +4,10 @@
     <string name="report_detail_total_score_label">总分</string>
     <string name="report_detail_overview_label">概览</string>
     <string name="report_detail_trend_label">趋势</string>
+    <string name="report_detail_trending_fast_up">大幅进步</string>
+    <string name="report_detail_trending_slow_up">略微进步</string>
+    <string name="report_detail_trending_steady">相对稳定</string>
+    <string name="report_detail_trending_slow_down">略微退步</string>
+    <string name="report_detail_trending_fast_down">大幅退步</string>
+    <string name="report_detail_trending_none">暂无趋势</string>
 </resources>
