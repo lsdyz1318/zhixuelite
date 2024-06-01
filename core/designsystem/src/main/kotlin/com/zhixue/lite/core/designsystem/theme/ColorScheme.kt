@@ -35,7 +35,7 @@ internal val darkColorScheme: ColorScheme = ColorScheme(
     background = Color(0xFF141414),
     onBackground = Color(0xFFFFFFFF),
     onBackgroundVariant = Color(0xFF707070),
-    outline = Color(0xFF181818),
+    outline = Color(0xFF212121),
     error = Color(0xFFFD4438)
 )
 

@@ -24,6 +24,9 @@ fun ZhixueLiteNavHost(
             onForgetPasswordClick = {}
         )
         mainScreen(onReportInfoClick = appState::navigateToReportDetail)
-        reportDetailScreen()
+        reportDetailScreen(
+            onBackClick = {},
+            onOverviewInfoClick = {}
+        )
     }
 }
