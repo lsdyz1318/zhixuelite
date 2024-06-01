@@ -266,19 +266,18 @@ internal fun TrendItem(
             modifier = Modifier.padding(horizontal = 24.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            Column {
                 Text(
                     text = trendInfo.subjectName,
                     color = Theme.colorScheme.onBackground,
                     style = Theme.typography.bodyMedium
                 )
-                trendInfo.classRank?.let { classRank ->
-                    Text(
-                        text = "班级排名：$classRank",
-                        color = Theme.colorScheme.onBackgroundVariant,
-                        style = Theme.typography.bodySmall.copy(fontWeight = FontWeight.Light)
-                    )
-                }
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = "班级排名：${trendInfo.classRank}",
+                    color = Theme.colorScheme.onBackgroundVariant,
+                    style = Theme.typography.bodySmall.copy(fontWeight = FontWeight.Light)
+                )
             }
             Spacer(modifier = Modifier.weight(1f))
             when (trendInfo.trendDirection) {

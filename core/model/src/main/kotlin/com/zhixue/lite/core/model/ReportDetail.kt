@@ -22,7 +22,7 @@ data class ReportDetail(
 
     data class TrendInfo(
         val subjectName: String,
-        val classRank: String?,
+        val classRank: String,
         val trendDirection: TrendDirection?
     )
 }
