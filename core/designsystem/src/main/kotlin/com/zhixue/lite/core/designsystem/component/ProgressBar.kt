@@ -1,7 +1,6 @@
 package com.zhixue.lite.core.designsystem.component
 
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -20,14 +19,13 @@ fun ProgressBar(
     value: Float,
     modifier: Modifier,
     cornerRadius: Dp = 16.dp,
-    animationDuration: Int = 600,
     color: Color = Theme.colorScheme.primary,
     trackColor: Color = Theme.colorScheme.container
 ) {
     val progress = remember { Animatable(0f) }
 
     LaunchedEffect(Unit) {
-        progress.animateTo(value, tween(animationDuration))
+        progress.animateTo(value)
     }
 
     Canvas(modifier = modifier) {

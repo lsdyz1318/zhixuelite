@@ -19,7 +19,7 @@ fun CircularChart(
     value: Float,
     modifier: Modifier,
     thickness: Dp = 8.dp,
-    animationDuration: Int = 600,
+    animationDuration: Int = 400,
     color: Color = Theme.colorScheme.primary,
     backgroundColor: Color = Theme.colorScheme.container
 ) {
