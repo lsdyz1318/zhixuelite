@@ -17,6 +17,6 @@ interface PaperInfoDao {
     suspend fun getPaperInfoIds(reportId: String): List<String>
 
     @Transaction
-    @Query("SELECT * FROM paper_info INNER JOIN trend_info ON trend_info.trend_id = paper_info.paper_id AND trend_info.trend_code = 'clazz' WHERE paper_info.report_id = :reportId")
+    @Query("SELECT * FROM paper_info INNER JOIN trend_info ON trend_id = paper_id AND trend_code = 'clazz' WHERE report_id = :reportId ORDER BY subject_code ASC")
     suspend fun getPaperInfoList(reportId: String): List<PopulatedPaperInfo>
 }

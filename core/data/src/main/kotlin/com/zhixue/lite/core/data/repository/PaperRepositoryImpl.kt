@@ -52,6 +52,7 @@ internal class PaperRepositoryImpl @Inject constructor(
                     PaperInfoEntity(
                         reportId = reportId,
                         paperId = networkPaperInfo.paperId,
+                        subjectCode = networkPaperInfo.subjectCode,
                         subjectName = networkPaperInfo.subjectName,
                         userScore = userScore,
                         standardScore = standardScore,
