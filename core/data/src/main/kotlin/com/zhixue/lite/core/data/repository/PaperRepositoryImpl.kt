@@ -27,7 +27,7 @@ internal class PaperRepositoryImpl @Inject constructor(
     }
 
     override suspend fun syncPaperInfoList(reportId: String) {
-        runCatching {
+        try {
             val networkPaperInfoList = networkDataSource.getPaperInfoList(
                 reportId = reportId,
                 token = userRepository.getToken()
@@ -52,11 +52,13 @@ internal class PaperRepositoryImpl @Inject constructor(
                 .run {
                     paperInfoDao.insertPaperInfoList(this)
                 }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
     override suspend fun syncTrendInfoList(reportId: String, paperId: String) {
-        runCatching {
+        try {
             networkDataSource.getTrendInfoList(
                 reportId = reportId,
                 paperId = paperId,
@@ -64,6 +66,8 @@ internal class PaperRepositoryImpl @Inject constructor(
             )
                 .flatMap(NetworkTrendInfo::mapToTrendInfoEntities)
                 .run { trendInfoDao.insertTrendInfoList(this) }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 }

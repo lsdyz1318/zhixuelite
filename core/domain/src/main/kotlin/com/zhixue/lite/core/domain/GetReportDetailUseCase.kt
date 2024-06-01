@@ -22,7 +22,7 @@ class GetReportDetailUseCase @Inject constructor(
 
         for (paperInfo in paperInfoList) {
             val paperId = paperInfo.paperId
-            val userScore = paperInfo.userScore.toBigDecimal()
+            val userScore = paperInfo.userScore?.toBigDecimal()
             val standardScore = paperInfo.standardScore.toBigDecimal()
             var classRank = paperInfo.classRank
             val classPercentile = paperInfo.classPercentile
@@ -33,7 +33,9 @@ class GetReportDetailUseCase @Inject constructor(
             }
 
             if (!paperId.contains("!")) {
-                totalUserScore += userScore
+                if (userScore != null) {
+                    totalUserScore += userScore
+                }
                 totalStandardScore += standardScore
             }
 
@@ -41,8 +43,8 @@ class GetReportDetailUseCase @Inject constructor(
                 ReportDetail.OverviewInfo(
                     paperId = paperId,
                     subjectName = paperInfo.subjectName,
-                    userScore = transformPlainString(userScore),
-                    standardScore = transformPlainString(standardScore),
+                    userScore = userScore?.transformPlainString() ?: "-",
+                    standardScore = standardScore.transformPlainString(),
                     scoreRate = paperInfo.scoreRate,
                     trendLevel = paperInfo.trendLevel.orEmpty()
                 )
@@ -57,12 +59,14 @@ class GetReportDetailUseCase @Inject constructor(
             )
         }
 
+        val totalInfo = ReportDetail.TotalInfo(
+            userScore = totalUserScore.transformPlainString(),
+            standardScore = totalStandardScore.transformPlainString(),
+            scoreRate = totalUserScore.toFloat() / totalStandardScore.toFloat()
+        )
+
         return ReportDetail(
-            totalInfo = ReportDetail.TotalInfo(
-                userScore = transformPlainString(totalUserScore),
-                standardScore = transformPlainString(totalStandardScore),
-                scoreRate = totalUserScore.toFloat() / totalStandardScore.toFloat()
-            ),
+            totalInfo = totalInfo,
             overviewInfoList = overviewInfoList,
             trendInfoList = trendInfoList
         )
@@ -73,6 +77,6 @@ private fun calculateRank(studentNumber: Int, classPercentile: Double): Int {
     return (studentNumber - (studentNumber - 1) * (100 - classPercentile) / 100).roundToInt()
 }
 
-private fun transformPlainString(decimal: BigDecimal): String {
-    return decimal.stripTrailingZeros().toPlainString()
+private fun BigDecimal.transformPlainString(): String {
+    return stripTrailingZeros().toPlainString()
 }

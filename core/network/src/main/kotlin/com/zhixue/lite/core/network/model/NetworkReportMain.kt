@@ -18,7 +18,7 @@ data class NetworkPaperInfo(
     @SerialName("subjectName")
     val subjectName: String,
     @SerialName("userScore")
-    val userScore: Double,
+    val userScore: Double? = null,
     @SerialName("standardScore")
     val standardScore: Double,
     @SerialName("clazzRank")

@@ -11,7 +11,7 @@ fun NetworkPaperInfo.asEntity(reportId: String, classPercentile: Double?): Paper
         subjectName = subjectName,
         userScore = userScore,
         standardScore = standardScore,
-        scoreRate = (userScore / standardScore).toFloat(),
+        scoreRate = userScore?.div(standardScore)?.toFloat() ?: 0f,
         classRank = classRank,
         classPercentile = classPercentile
     )
