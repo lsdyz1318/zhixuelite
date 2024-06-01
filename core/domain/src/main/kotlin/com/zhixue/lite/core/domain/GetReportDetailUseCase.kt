@@ -51,7 +51,7 @@ class GetReportDetailUseCase @Inject constructor(
             trendInfoList.add(
                 ReportDetail.TrendInfo(
                     subjectName = paperInfo.subjectName,
-                    classRank = classRank.toString(),
+                    classRank = classRank?.toString(),
                     trendDirection = paperInfo.trendDirection,
                 )
             )
