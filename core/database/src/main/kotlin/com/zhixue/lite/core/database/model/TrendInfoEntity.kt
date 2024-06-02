@@ -6,10 +6,10 @@ import com.zhixue.lite.core.model.TrendDirection
 
 @Entity(
     tableName = "trend_info",
-    primaryKeys = ["trend_id", "trend_code"]
+    primaryKeys = ["paper_id", "trend_code"]
 )
 data class TrendInfoEntity(
-    @ColumnInfo(name = "trend_id")
+    @ColumnInfo(name = "paper_id")
     val paperId: String,
     @ColumnInfo(name = "trend_code")
     val trendCode: String,

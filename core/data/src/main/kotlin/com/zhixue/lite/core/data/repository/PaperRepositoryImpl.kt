@@ -1,11 +1,10 @@
 package com.zhixue.lite.core.data.repository
 
 import com.zhixue.lite.core.data.model.asEntity
+import com.zhixue.lite.core.data.model.mapToPaperInfoList
 import com.zhixue.lite.core.data.model.mapToTrendInfoEntities
 import com.zhixue.lite.core.database.dao.PaperInfoDao
 import com.zhixue.lite.core.database.dao.TrendInfoDao
-import com.zhixue.lite.core.database.model.PopulatedPaperInfo
-import com.zhixue.lite.core.database.model.asExternalModel
 import com.zhixue.lite.core.model.PaperInfo
 import com.zhixue.lite.core.network.NetworkDataSource
 import com.zhixue.lite.core.network.model.NetworkTrendInfo
@@ -19,7 +18,7 @@ internal class PaperRepositoryImpl @Inject constructor(
 ) : PaperRepository {
 
     override suspend fun getPaperInfoList(reportId: String): List<PaperInfo> {
-        return paperInfoDao.getPaperInfoList(reportId).map(PopulatedPaperInfo::asExternalModel)
+        return paperInfoDao.getPaperInfoList(reportId).mapToPaperInfoList()
     }
 
     override suspend fun getPaperInfoIds(reportId: String): List<String> {
@@ -49,9 +48,8 @@ internal class PaperRepositoryImpl @Inject constructor(
                             ?.classPercentile
                     )
                 }
-                .run {
-                    paperInfoDao.insertPaperInfoList(this)
-                }
+                .sortedBy { it.subjectCode }
+                .run { paperInfoDao.insertPaperInfoList(this) }
         } catch (e: Exception) {
             e.printStackTrace()
         }
