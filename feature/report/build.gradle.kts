@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.zhixue.lite.feature.report.detail"
+    namespace = "com.zhixue.lite.feature.report"
 }
 
 dependencies {

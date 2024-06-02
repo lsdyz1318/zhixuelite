@@ -1,4 +1,4 @@
-package com.zhixue.lite.feature.report.detail
+package com.zhixue.lite.feature.report
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -39,8 +39,8 @@ import com.zhixue.lite.core.model.TrendDirection
 import com.zhixue.lite.core.common.R as commonR
 
 @Composable
-internal fun ReportDetailRoute(
-    viewModel: ReportDetailViewModel = hiltViewModel(),
+internal fun ReportRoute(
+    viewModel: ReportViewModel = hiltViewModel(),
     onBackClick: () -> Unit,
     onOverviewInfoClick: (String) -> Unit
 ) {
@@ -48,7 +48,7 @@ internal fun ReportDetailRoute(
         viewModel.initialize()
     }
 
-    ReportDetailScreen(
+    ReportScreen(
         uiState = viewModel.uiState,
         onBackClick = onBackClick,
         onOverviewInfoClick = onOverviewInfoClick
@@ -56,21 +56,21 @@ internal fun ReportDetailRoute(
 }
 
 @Composable
-internal fun ReportDetailScreen(
-    uiState: ReportDetailUiState,
+internal fun ReportScreen(
+    uiState: ReportUiState,
     onBackClick: () -> Unit,
     onOverviewInfoClick: (String) -> Unit
 ) {
     LazyColumn {
-        reportDetailHeader(onBackClick = onBackClick)
-        reportDetailBody(
+        reportHeader(onBackClick = onBackClick)
+        reportBody(
             uiState = uiState,
             onOverviewInfoClick = onOverviewInfoClick
         )
     }
 }
 
-internal fun LazyListScope.reportDetailHeader(
+internal fun LazyListScope.reportHeader(
     onBackClick: () -> Unit
 ) {
     item {
@@ -85,7 +85,7 @@ internal fun LazyListScope.reportDetailHeader(
         Spacer(modifier = Modifier.height(16.dp))
         Box(modifier = Modifier.padding(horizontal = 32.dp)) {
             Text(
-                text = stringResource(R.string.report_detail_title),
+                text = stringResource(R.string.report_title),
                 color = Theme.colorScheme.onBackground,
                 style = Theme.typography.headline
             )
@@ -93,14 +93,14 @@ internal fun LazyListScope.reportDetailHeader(
     }
 }
 
-internal fun LazyListScope.reportDetailBody(
-    uiState: ReportDetailUiState,
+internal fun LazyListScope.reportBody(
+    uiState: ReportUiState,
     onOverviewInfoClick: (String) -> Unit
 ) {
     when (uiState) {
-        is ReportDetailUiState.Loading -> {}
-        is ReportDetailUiState.Failure -> {}
-        is ReportDetailUiState.Success -> {
+        is ReportUiState.Loading -> {}
+        is ReportUiState.Failure -> {}
+        is ReportUiState.Success -> {
             item {
                 Column(
                     modifier = Modifier
@@ -129,7 +129,7 @@ internal fun TotalScorePanel(totalInfo: ReportDetail.TotalInfo) {
     ) {
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = stringResource(R.string.report_detail_total_score_label),
+                text = stringResource(R.string.report_total_score_label),
                 color = Theme.colorScheme.onBackgroundVariant,
                 style = Theme.typography.titleMedium.copy(fontWeight = FontWeight.Medium)
             )
@@ -171,7 +171,7 @@ internal fun OverviewPanel(
         Spacer(modifier = Modifier.height(8.dp))
         Box(modifier = Modifier.padding(horizontal = 24.dp)) {
             Text(
-                text = stringResource(R.string.report_detail_overview_label),
+                text = stringResource(R.string.report_overview_label),
                 color = Theme.colorScheme.onBackgroundVariant,
                 style = Theme.typography.titleMedium.copy(fontWeight = FontWeight.Medium)
             )

@@ -10,7 +10,7 @@ import com.zhixue.lite.LoginState
 import com.zhixue.lite.feature.login.navigation.LoginRoute
 import com.zhixue.lite.feature.main.navigation.MainRoute
 import com.zhixue.lite.feature.main.navigation.navigateToMain
-import com.zhixue.lite.feature.report.detail.navigation.navigateToReportDetail
+import com.zhixue.lite.feature.report.navigation.navigateToReport
 
 @Composable
 fun rememberAppState(
@@ -48,6 +48,6 @@ class ZhixueLiteAppState(
         val navOptions = navOptions {
             launchSingleTop = true
         }
-        navController.navigateToReportDetail(reportId, navOptions)
+        navController.navigateToReport(reportId, navOptions)
     }
 }

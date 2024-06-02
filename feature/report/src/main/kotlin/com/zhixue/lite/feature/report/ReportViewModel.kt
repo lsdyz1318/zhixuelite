@@ -1,4 +1,4 @@
-package com.zhixue.lite.feature.report.detail
+package com.zhixue.lite.feature.report
 
 import androidx.annotation.MainThread
 import androidx.compose.runtime.getValue
@@ -11,22 +11,22 @@ import androidx.navigation.toRoute
 import com.zhixue.lite.core.domain.GetReportDetailUseCase
 import com.zhixue.lite.core.domain.SyncReportDetailUseCase
 import com.zhixue.lite.core.model.ReportDetail
-import com.zhixue.lite.feature.report.detail.navigation.ReportDetailRoute
+import com.zhixue.lite.feature.report.navigation.ReportRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ReportDetailViewModel @Inject constructor(
+class ReportViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val syncReportDetailUseCase: SyncReportDetailUseCase,
     private val getReportDetailUseCase: GetReportDetailUseCase
 ) : ViewModel() {
 
-    var uiState: ReportDetailUiState by mutableStateOf(ReportDetailUiState.Loading)
+    var uiState: ReportUiState by mutableStateOf(ReportUiState.Loading)
         private set
 
-    private val reportId: String = savedStateHandle.toRoute<ReportDetailRoute>().reportId
+    private val reportId: String = savedStateHandle.toRoute<ReportRoute>().reportId
 
     private var isInitialized: Boolean = false
 
@@ -40,16 +40,16 @@ class ReportDetailViewModel @Inject constructor(
             runCatching {
                 getReportDetailUseCase(reportId)
             }.onSuccess { reportDetail ->
-                uiState = ReportDetailUiState.Success(reportDetail)
+                uiState = ReportUiState.Success(reportDetail)
             }.onFailure {
-                uiState = ReportDetailUiState.Failure
+                uiState = ReportUiState.Failure
             }
         }
     }
 }
 
-sealed class ReportDetailUiState {
-    data object Loading : ReportDetailUiState()
-    data object Failure : ReportDetailUiState()
-    data class Success(val reportDetail: ReportDetail) : ReportDetailUiState()
+sealed class ReportUiState {
+    data object Loading : ReportUiState()
+    data object Failure : ReportUiState()
+    data class Success(val reportDetail: ReportDetail) : ReportUiState()
 }
