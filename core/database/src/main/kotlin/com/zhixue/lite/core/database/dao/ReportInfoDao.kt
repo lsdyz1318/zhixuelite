@@ -12,12 +12,21 @@ interface ReportInfoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertReportInfoList(entities: List<ReportInfoEntity>)
 
-    @Query("SELECT report_id FROM report_info WHERE report_type = :reportType")
+    @Query(
+        "SELECT report_id FROM report_info " +
+        "WHERE report_type = :reportType"
+    )
     suspend fun getReportInfoIds(reportType: String): String?
 
-    @Query("SELECT * FROM report_info WHERE report_type = :reportType")
+    @Query(
+        "SELECT * FROM report_info " +
+        "WHERE report_type = :reportType"
+    )
     fun reportInfoPagingSource(reportType: String): PagingSource<Int, ReportInfoEntity>
 
-    @Query("DELETE FROM report_info WHERE report_type = :reportType")
+    @Query(
+        "DELETE FROM report_info " +
+        "WHERE report_type = :reportType"
+    )
     suspend fun deleteAllReportInfo(reportType: String)
 }
