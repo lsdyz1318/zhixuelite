@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -21,7 +22,7 @@ fun CircularChart(
     thickness: Dp = 8.dp,
     animationDuration: Int = 400,
     color: Color = Theme.colorScheme.primary,
-    backgroundColor: Color = Theme.colorScheme.container
+    trackColor: Color = Theme.colorScheme.container
 ) {
     val sweepAngle = remember { Animatable(0f) }
 
@@ -31,11 +32,11 @@ fun CircularChart(
 
     Canvas(modifier = modifier) {
         drawCircle(
-            color = backgroundColor,
+            color = trackColor,
             style = Stroke(width = thickness.toPx(), cap = StrokeCap.Butt)
         )
         drawArc(
-            color = color,
+            brush = Brush.linearGradient(listOf(color, color.copy(0.2f))),
             startAngle = -90f,
             sweepAngle = sweepAngle.value,
             useCenter = false,
