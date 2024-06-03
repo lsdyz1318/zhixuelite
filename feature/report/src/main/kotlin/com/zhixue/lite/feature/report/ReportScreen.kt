@@ -107,11 +107,17 @@ internal fun LazyListScope.reportBody(
                         .padding(24.dp)
                         .border(1.dp, Theme.colorScheme.outline, Theme.shapes.medium)
                 ) {
-                    TotalScorePanel(totalInfo = uiState.reportDetail.totalInfo)
+                    TotalScorePanel(
+                        totalInfo = uiState.reportDetail.totalInfo,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 24.dp, top = 32.dp, end = 24.dp, bottom = 24.dp)
+                    )
                     Divider()
                     OverviewPanel(
                         overviewInfoList = uiState.reportDetail.overviewInfoList,
-                        onOverviewInfoClick = onOverviewInfoClick
+                        onOverviewInfoClick = onOverviewInfoClick,
+                        modifier = Modifier.padding(vertical = 16.dp)
                     )
                 }
             }
@@ -120,11 +126,12 @@ internal fun LazyListScope.reportBody(
 }
 
 @Composable
-internal fun TotalScorePanel(totalInfo: ReportDetail.TotalInfo) {
+internal fun TotalScorePanel(
+    totalInfo: ReportDetail.TotalInfo,
+    modifier: Modifier = Modifier
+) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 24.dp, top = 32.dp, end = 24.dp, bottom = 24.dp),
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(modifier = Modifier.weight(1f)) {
@@ -165,9 +172,10 @@ internal fun TotalScorePanel(totalInfo: ReportDetail.TotalInfo) {
 @Composable
 internal fun OverviewPanel(
     overviewInfoList: List<ReportDetail.OverviewInfo>,
-    onOverviewInfoClick: (String) -> Unit
+    onOverviewInfoClick: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    Column(modifier = Modifier.padding(vertical = 16.dp)) {
+    Column(modifier = modifier) {
         Spacer(modifier = Modifier.height(8.dp))
         Box(modifier = Modifier.padding(horizontal = 24.dp)) {
             Text(
