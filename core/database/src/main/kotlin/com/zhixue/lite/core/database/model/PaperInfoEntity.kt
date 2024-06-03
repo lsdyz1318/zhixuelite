@@ -5,13 +5,13 @@ import androidx.room.Entity
 
 @Entity(
     tableName = "paper_info",
-    primaryKeys = ["paper_id"]
+    primaryKeys = ["id"]
 )
 data class PaperInfoEntity(
+    @ColumnInfo(name = "id")
+    val id: String,
     @ColumnInfo(name = "report_id")
     val reportId: String,
-    @ColumnInfo(name = "paper_id")
-    val paperId: String,
     @ColumnInfo(name = "subject_code")
     val subjectCode: String,
     @ColumnInfo(name = "subject_name")
