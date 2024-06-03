@@ -14,7 +14,7 @@ data class PaperInfoEntity(
     val id: String,
     @ColumnInfo(name = "report_id")
     val reportId: String,
-    @ColumnInfo(name = "subject_code", index = true)
+    @ColumnInfo(name = "subject_code")
     val subjectCode: String,
     @ColumnInfo(name = "subject_name")
     val subjectName: String,
