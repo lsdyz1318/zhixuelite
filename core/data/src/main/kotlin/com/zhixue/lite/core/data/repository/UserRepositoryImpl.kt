@@ -22,45 +22,48 @@ internal class UserRepositoryImpl @Inject constructor(
     private val preferencesDataSource: PreferencesDataSource
 ) : UserRepository {
 
-    private val userData: Flow<UserData> = preferencesDataSource.userPreferences
+    private val userDataFlow: Flow<UserData> = preferencesDataSource.userPreferences
         .map(UserPreferences::asExternalModel)
+
+    override var userId: String = ""
+        private set
 
     override suspend fun userLogin(username: String, password: String, captcha: String) {
         handleLogin(networkDataSource.ssoLogin(username, password, captcha))
     }
 
-    override suspend fun autoLogin() {
-        handleLogin(networkDataSource.ssoLogin(userData.first().grantTicket))
-    }
-
-    override suspend fun getUserId(): String {
-        return userData.first().id
+    override suspend fun userLogin(grantTicket: String) {
+        handleLogin(networkDataSource.ssoLogin(grantTicket))
     }
 
     override suspend fun getToken(): String {
-        var token = userData.first().token
-        if (checkUserTokenExpired(token)) {
-            token = refreshToken()
+        val userData = userDataFlow.first()
+        var token = userData.token
+        // 如果令牌过期，则重新登录
+        if (isTokenExpired(token)) {
+            userLogin(userData.grantTicket)
+            token = userDataFlow.first().token
         }
         return token
     }
 
+    override suspend fun getGrantTicket(): String {
+        return userDataFlow.first().grantTicket
+    }
+
     private suspend fun handleLogin(ssoInfo: NetworkSsoInfo) {
         val casInfo = networkDataSource.casLogin(ssoInfo.accessTicket, ssoInfo.userId)
-        val userInfo = networkDataSource.getUserInfo(casInfo.token)
+        val currentUserId = networkDataSource.getUserInfo(casInfo.token).currentUserId
 
-        preferencesDataSource.setUserId(userInfo.currentUserId)
+        userId = currentUserId
+
+        preferencesDataSource.setUserId(currentUserId)
         preferencesDataSource.setToken(casInfo.token)
         preferencesDataSource.setGrantTicket(ssoInfo.grantTicket)
     }
 
-    private suspend fun refreshToken(): String {
-        autoLogin()
-        return userData.first().token
-    }
-
     @OptIn(ExperimentalEncodingApi::class)
-    private fun checkUserTokenExpired(token: String): Boolean {
+    private fun isTokenExpired(token: String): Boolean {
         val payload = token.split(".")[1]
         val decodePayload = String(Base64.decode(payload))
         val payloadElement = Json.parseToJsonElement(decodePayload).jsonObject
