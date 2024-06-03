@@ -6,7 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import com.zhixue.lite.core.database.model.PaperInfoEntity
-import com.zhixue.lite.core.database.model.TrendInfoEntity
+import com.zhixue.lite.core.database.model.PopulatedPaperInfo
 
 @Dao
 interface PaperInfoDao {
@@ -14,17 +14,12 @@ interface PaperInfoDao {
     suspend fun insertPaperInfoList(entities: List<PaperInfoEntity>)
 
     @Query(
-        "SELECT paper_id FROM paper_info " +
+        "SELECT id FROM paper_info " +
         "WHERE report_id = :reportId"
     )
     suspend fun getPaperInfoIds(reportId: String): List<String>
 
     @Transaction
-    @Query(
-        "SELECT * FROM paper_info " +
-        "LEFT JOIN trend_info " +
-        "ON trend_info.paper_id = paper_info.paper_id AND trend_code = 'clazz' " +
-        "WHERE report_id = :reportId"
-    )
-    suspend fun getPaperInfoList(reportId: String): Map<PaperInfoEntity, TrendInfoEntity?>
+    @Query("SELECT * FROM paper_info")
+    suspend fun getPaperInfoList(reportId: String): List<PopulatedPaperInfo>
 }
