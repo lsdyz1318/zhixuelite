@@ -13,7 +13,7 @@ fun ZhixueLiteTheme(
     val colorScheme = if (darkTheme) darkColorScheme else lightColorScheme
 
     CompositionLocalProvider(
-        LocalIndication provides Indication,
+        LocalIndication provides RippleIndication,
         LocalColorScheme provides colorScheme,
         content = content
     )

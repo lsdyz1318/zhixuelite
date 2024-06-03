@@ -9,4 +9,5 @@ android {
 
 dependencies {
     implementation(libs.accompanist.placeholder)
+    implementation(libs.androidx.compose.material.ripple)
 }
