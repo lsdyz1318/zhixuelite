@@ -14,16 +14,16 @@ interface RemotePageDao {
     @Query(
         """
             SELECT next_page FROM remote_page
-            WHERE label = :label
+            WHERE user_id = :userId AND label = :label
         """
     )
-    suspend fun getRemotePageNextPage(label: String): Int?
+    suspend fun getRemotePageNextPage(userId: String, label: String): Int?
 
     @Query(
         """
             DELETE FROM remote_page
-            WHERE label = :label
+            WHERE user_id = :userId AND label = :label
         """
     )
-    suspend fun deleteRemotePage(label: String)
+    suspend fun deleteRemotePage(userId: String, label: String)
 }

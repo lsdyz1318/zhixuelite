@@ -25,11 +25,10 @@ internal class ReportInfoRemoteMediator(
 
     override suspend fun initialize(): InitializeAction {
         return try {
-            val localLatestId = reportInfoDao.getReportInfoLatestId(reportType)
+            val localLatestId =
+                reportInfoDao.getReportInfoLatestId(userRepository.userId, reportType)
             val networkLatestId = networkDataSource.getReportInfoPage(
-                reportType = reportType,
-                page = STARTING_PAGE,
-                token = userRepository.getToken()
+                reportType, STARTING_PAGE, userRepository.token
             ).reportInfoList.first().id
 
             check(localLatestId != networkLatestId)
@@ -57,28 +56,26 @@ internal class ReportInfoRemoteMediator(
                 }
 
                 LoadType.APPEND -> {
-                    remotePageDao.getRemotePageNextPage(label) ?: return MediatorResult.Success(
-                        endOfPaginationReached = true
-                    )
+                    remotePageDao.getRemotePageNextPage(userRepository.userId, label)
+                        ?: return MediatorResult.Success(endOfPaginationReached = true)
                 }
             }
             // 从网络获取报告列表
-            val networkReportInfoPage = networkDataSource.getReportInfoPage(
-                reportType = reportType,
-                page = loadPage,
-                token = userRepository.getToken()
-            )
+            val networkReportInfoPage =
+                networkDataSource.getReportInfoPage(reportType, loadPage, userRepository.token)
             // 刷新时，删除之前缓存
             if (loadType == LoadType.REFRESH) {
-                remotePageDao.deleteRemotePage(label)
-                reportInfoDao.deleteReportInfoList(reportType)
+                remotePageDao.deleteRemotePage(userRepository.userId, label)
+                reportInfoDao.deleteReportInfoList(userRepository.userId, reportType)
             }
             // 插入新的数据
             remotePageDao.insertRemotePage(
-                RemotePageEntity(label, nextPage = loadPage + 1)
+                RemotePageEntity(userRepository.userId, label, nextPage = loadPage + 1)
             )
             reportInfoDao.insertReportInfoList(
-                networkReportInfoPage.reportInfoList.map { it.asEntity(reportType) }
+                networkReportInfoPage.reportInfoList.map {
+                    it.asEntity(userRepository.userId, reportType)
+                }
             )
 
             MediatorResult.Success(endOfPaginationReached = !networkReportInfoPage.hasNextPage)

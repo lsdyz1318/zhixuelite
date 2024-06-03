@@ -8,7 +8,6 @@ import com.zhixue.lite.core.database.model.PopulatedPaperInfo
 import com.zhixue.lite.core.database.model.asExternalModel
 import com.zhixue.lite.core.model.PaperInfo
 import com.zhixue.lite.core.network.NetworkDataSource
-import com.zhixue.lite.core.network.model.NetworkTrendInfo
 import javax.inject.Inject
 
 internal class PaperRepositoryImpl @Inject constructor(
@@ -19,34 +18,28 @@ internal class PaperRepositoryImpl @Inject constructor(
 ) : PaperRepository {
 
     override suspend fun getPaperInfoIds(reportId: String): List<String> {
-        return paperInfoDao.getPaperInfoIds(reportId)
+        return paperInfoDao.getPaperInfoIds(userRepository.userId, reportId)
     }
 
     override suspend fun getPaperInfoList(reportId: String): List<PaperInfo> {
-        return paperInfoDao.getPaperInfoList(reportId).map(PopulatedPaperInfo::asExternalModel)
+        return paperInfoDao.getPaperInfoList(userRepository.userId, reportId)
+            .map(PopulatedPaperInfo::asExternalModel)
     }
 
     override suspend fun syncPaperInfoList(reportId: String) {
         try {
-            val networkPaperInfoList = networkDataSource.getPaperInfoList(
-                reportId = reportId,
-                token = userRepository.getToken()
-            )
+            val networkPaperInfoList =
+                networkDataSource.getPaperInfoList(reportId, userRepository.token)
             val networkSubjectDiagnosisList = runCatching {
-                networkDataSource.getSubjectDiagnosisInfoList(
-                    reportId = reportId,
-                    token = userRepository.getToken()
-                )
+                networkDataSource.getSubjectDiagnosisInfoList(reportId, userRepository.token)
             }.getOrNull()
 
             networkPaperInfoList
                 .map { networkPaperInfo ->
-                    networkPaperInfo.asEntity(
-                        reportId = reportId,
-                        classPercentile = networkSubjectDiagnosisList
-                            ?.find { it.subjectCode == networkPaperInfo.subjectCode }
-                            ?.classPercentile
-                    )
+                    val classPercentile = networkSubjectDiagnosisList
+                        ?.find { it.subjectCode == networkPaperInfo.subjectCode }
+                        ?.classPercentile
+                    networkPaperInfo.asEntity(userRepository.userId, reportId, classPercentile)
                 }
                 .sortedBy { it.subjectCode }
                 .run { paperInfoDao.insertPaperInfoList(this) }
@@ -57,12 +50,8 @@ internal class PaperRepositoryImpl @Inject constructor(
 
     override suspend fun syncTrendInfoList(reportId: String, paperId: String) {
         try {
-            networkDataSource.getTrendInfoList(
-                reportId = reportId,
-                paperId = paperId,
-                token = userRepository.getToken()
-            )
-                .flatMap(NetworkTrendInfo::mapToTrendInfoEntities)
+            networkDataSource.getTrendInfoList(reportId, paperId, userRepository.token)
+                .flatMap { it.mapToTrendInfoEntities(userRepository.userId) }
                 .run { trendInfoDao.insertTrendInfoList(this) }
         } catch (e: Exception) {
             e.printStackTrace()

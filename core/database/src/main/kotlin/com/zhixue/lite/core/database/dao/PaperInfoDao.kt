@@ -16,17 +16,17 @@ interface PaperInfoDao {
     @Query(
         """
             SELECT id FROM paper_info
-            WHERE report_id = :reportId
+            WHERE user_id = :userId AND report_id = :reportId
         """
     )
-    suspend fun getPaperInfoIds(reportId: String): List<String>
+    suspend fun getPaperInfoIds(userId: String, reportId: String): List<String>
 
     @Transaction
     @Query(
         """
             SELECT * FROM paper_info
-            WHERE report_id = :reportId
+            WHERE user_id = :userId AND report_id = :reportId
         """
     )
-    suspend fun getPaperInfoList(reportId: String): List<PopulatedPaperInfo>
+    suspend fun getPaperInfoList(userId: String, reportId: String): List<PopulatedPaperInfo>
 }

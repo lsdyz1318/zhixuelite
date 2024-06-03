@@ -8,6 +8,8 @@ import androidx.room.Entity
     primaryKeys = ["label"]
 )
 data class RemotePageEntity(
+    @ColumnInfo(name = "user_id")
+    val userId: String,
     @ColumnInfo(name = "label")
     val label: String,
     @ColumnInfo(name = "next_page")

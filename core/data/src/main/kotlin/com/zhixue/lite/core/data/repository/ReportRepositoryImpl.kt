@@ -33,7 +33,7 @@ internal class ReportRepositoryImpl @Inject constructor(
                 networkDataSource = networkDataSource
             ),
             pagingSourceFactory = {
-                reportInfoDao.reportInfoPagingSource(reportType)
+                reportInfoDao.reportInfoPagingSource(userRepository.userId, reportType)
             }
         ).flow.map { pagingData ->
             pagingData.map(ReportInfoEntity::asExternalModel)

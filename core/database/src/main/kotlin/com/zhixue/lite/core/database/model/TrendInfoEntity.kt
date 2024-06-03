@@ -7,9 +7,11 @@ import com.zhixue.lite.core.model.TrendInfo
 
 @Entity(
     tableName = "trend_info",
-    primaryKeys = ["code", "paper_id"]
+    primaryKeys = ["user_id", "code", "paper_id"]
 )
 data class TrendInfoEntity(
+    @ColumnInfo(name = "user_id")
+    val userId: String,
     @ColumnInfo(name = "code")
     val code: String,
     @ColumnInfo(name = "paper_id")

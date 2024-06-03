@@ -4,9 +4,10 @@ import com.zhixue.lite.core.database.model.TrendInfoEntity
 import com.zhixue.lite.core.model.TrendDirection
 import com.zhixue.lite.core.network.model.NetworkTrendInfo
 
-fun NetworkTrendInfo.mapToTrendInfoEntities(): List<TrendInfoEntity> =
+fun NetworkTrendInfo.mapToTrendInfoEntities(userId: String): List<TrendInfoEntity> =
     dataList.map {
         TrendInfoEntity(
+            userId = userId,
             code = tag.code,
             paperId = it.paperId,
             paperName = it.paperName,

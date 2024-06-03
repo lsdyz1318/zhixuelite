@@ -6,9 +6,11 @@ import com.zhixue.lite.core.model.ReportInfo
 
 @Entity(
     tableName = "report_info",
-    primaryKeys = ["id"]
+    primaryKeys = ["user_id", "id"]
 )
 data class ReportInfoEntity(
+    @ColumnInfo(name = "user_id")
+    val userId: String,
     @ColumnInfo(name = "id")
     val id: String,
     @ColumnInfo(name = "type")
