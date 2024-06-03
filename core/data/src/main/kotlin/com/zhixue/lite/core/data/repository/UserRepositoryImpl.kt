@@ -46,7 +46,6 @@ internal class UserRepositoryImpl @Inject constructor(
         this.token = token
 
         preferencesDataSource.setUserId(currentUserId)
-        preferencesDataSource.setToken(token)
         preferencesDataSource.setGrantTicket(ssoInfo.grantTicket)
     }
 }

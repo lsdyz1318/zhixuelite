@@ -16,12 +16,6 @@ class PreferencesDataSource @Inject constructor(
         }
     }
 
-    suspend fun setToken(token: String) {
-        userPreferencesDataStore.updateData {
-            it.copy(token = token)
-        }
-    }
-
     suspend fun setGrantTicket(grantTicket: String) {
         userPreferencesDataStore.updateData {
             it.copy(grantTicket = grantTicket)
