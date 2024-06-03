@@ -33,6 +33,10 @@ internal class UserRepositoryImpl @Inject constructor(
         handleLogin(networkDataSource.ssoLogin(userData.first().grantTicket))
     }
 
+    override suspend fun getUserId(): String {
+        return userData.first().id
+    }
+
     override suspend fun getToken(): String {
         var token = userData.first().token
         if (checkUserTokenExpired(token)) {
@@ -41,16 +45,12 @@ internal class UserRepositoryImpl @Inject constructor(
         return token
     }
 
-    override suspend fun getUserId(): String {
-        return userData.first().userId
-    }
-
     private suspend fun handleLogin(ssoInfo: NetworkSsoInfo) {
         val casInfo = networkDataSource.casLogin(ssoInfo.accessTicket, ssoInfo.userId)
         val userInfo = networkDataSource.getUserInfo(casInfo.token)
 
-        preferencesDataSource.setToken(casInfo.token)
         preferencesDataSource.setUserId(userInfo.currentUserId)
+        preferencesDataSource.setToken(casInfo.token)
         preferencesDataSource.setGrantTicket(ssoInfo.grantTicket)
     }
 

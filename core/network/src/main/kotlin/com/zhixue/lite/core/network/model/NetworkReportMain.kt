@@ -12,7 +12,7 @@ data class NetworkReportMain(
 @Serializable
 data class NetworkPaperInfo(
     @SerialName("paperId")
-    val paperId: String,
+    val id: String,
     @SerialName("subjectCode")
     val subjectCode: String,
     @SerialName("subjectName")

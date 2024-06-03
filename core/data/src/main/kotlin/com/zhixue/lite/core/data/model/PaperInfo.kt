@@ -5,7 +5,7 @@ import com.zhixue.lite.core.network.model.NetworkPaperInfo
 
 fun NetworkPaperInfo.asEntity(reportId: String, classPercentile: Double?): PaperInfoEntity =
     PaperInfoEntity(
-        id = paperId,
+        id = id,
         reportId = reportId,
         subjectCode = subjectCode,
         subjectName = subjectName,
