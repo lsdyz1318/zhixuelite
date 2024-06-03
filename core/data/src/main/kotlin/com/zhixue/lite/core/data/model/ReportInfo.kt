@@ -5,9 +5,9 @@ import com.zhixue.lite.core.network.model.NetworkReportInfo
 
 fun NetworkReportInfo.asEntity(reportType: String): ReportInfoEntity =
     ReportInfoEntity(
-        reportId = reportId,
-        reportType = reportType,
-        reportName = reportName,
+        id = id,
+        type = reportType,
+        name = name,
         datetime = datetime,
         isPublished = isPublished
     )

@@ -21,13 +21,10 @@ internal class ReportRepositoryImpl @Inject constructor(
     private val reportInfoDao: ReportInfoDao,
     private val networkDataSource: NetworkDataSource
 ) : ReportRepository {
-
     @OptIn(ExperimentalPagingApi::class)
     override fun getReportInfoList(reportType: String): Flow<PagingData<ReportInfo>> {
         return Pager(
-            config = PagingConfig(
-                pageSize = 10
-            ),
+            config = PagingConfig(pageSize = 10),
             remoteMediator = ReportInfoRemoteMediator(
                 reportType = reportType,
                 userRepository = userRepository,

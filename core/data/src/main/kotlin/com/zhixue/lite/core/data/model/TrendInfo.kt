@@ -7,13 +7,13 @@ import com.zhixue.lite.core.network.model.NetworkTrendInfo
 fun NetworkTrendInfo.mapToTrendInfoEntities(): List<TrendInfoEntity> =
     dataList.map {
         TrendInfoEntity(
+            code = tag.code,
             paperId = it.paperId,
-            trendCode = tag.code,
             paperName = it.paperName,
             datetime = it.datetime,
-            trendLevel = it.level,
-            trendOffset = it.improveInfo.offset,
-            trendDirection = when (it.improveInfo.tag.code) {
+            level = it.level,
+            offset = it.improveInfo.offset,
+            direction = when (it.improveInfo.tag.code) {
                 "fastUp", "slowUp" -> TrendDirection.UP
                 "slowDown", "fastDown" -> TrendDirection.DOWN
                 else -> TrendDirection.FLAT

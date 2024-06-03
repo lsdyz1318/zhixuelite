@@ -4,9 +4,9 @@ import com.zhixue.lite.core.model.PaperInfo
 
 interface PaperRepository {
 
-    suspend fun getPaperInfoList(reportId: String): List<PaperInfo>
-
     suspend fun getPaperInfoIds(reportId: String): List<String>
+
+    suspend fun getPaperInfoList(reportId: String): List<PaperInfo>
 
     suspend fun syncPaperInfoList(reportId: String)
 
