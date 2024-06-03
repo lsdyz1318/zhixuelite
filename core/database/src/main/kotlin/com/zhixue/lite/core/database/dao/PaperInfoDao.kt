@@ -26,6 +26,7 @@ interface PaperInfoDao {
         """
             SELECT * FROM paper_info
             WHERE user_id = :userId AND report_id = :reportId
+            ORDER BY subject_code
         """
     )
     suspend fun getPaperInfoList(userId: String, reportId: String): List<PopulatedPaperInfo>

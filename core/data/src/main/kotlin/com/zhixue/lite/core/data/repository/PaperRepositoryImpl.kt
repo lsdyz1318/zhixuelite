@@ -41,7 +41,6 @@ internal class PaperRepositoryImpl @Inject constructor(
                         ?.classPercentile
                     networkPaperInfo.asEntity(userRepository.userId, reportId, classPercentile)
                 }
-                .sortedBy { it.subjectCode }
                 .run { paperInfoDao.insertPaperInfoList(this) }
         } catch (e: Exception) {
             e.printStackTrace()

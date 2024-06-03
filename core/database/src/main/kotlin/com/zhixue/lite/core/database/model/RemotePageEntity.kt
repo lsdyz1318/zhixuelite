@@ -5,7 +5,7 @@ import androidx.room.Entity
 
 @Entity(
     tableName = "remote_page",
-    primaryKeys = ["label"]
+    primaryKeys = ["user_id", "label"]
 )
 data class RemotePageEntity(
     @ColumnInfo(name = "user_id")

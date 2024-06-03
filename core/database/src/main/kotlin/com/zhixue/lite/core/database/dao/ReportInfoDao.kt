@@ -24,6 +24,7 @@ interface ReportInfoDao {
         """
             SELECT * FROM report_info
             WHERE user_id = :userId AND type = :reportType
+            ORDER BY create_date DESC
         """
     )
     fun reportInfoPagingSource(
