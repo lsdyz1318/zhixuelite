@@ -11,5 +11,4 @@ android {
 dependencies {
     api(projects.core.model)
     implementation(libs.androidx.room.paging)
-    implementation(libs.kotlinx.serialization.json)
 }
