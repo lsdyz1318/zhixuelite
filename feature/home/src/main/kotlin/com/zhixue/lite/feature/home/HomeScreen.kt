@@ -165,7 +165,7 @@ internal fun LazyListScope.reportInfoBody(
                     .clickable { onReportInfoClick(reportInfo.isPublished, reportInfo.id) }
                     .padding(horizontal = 32.dp, vertical = 16.dp)
             )
-            Divider()
+            Divider(modifier = Modifier.padding(horizontal = 16.dp))
         } else {
             ReportInfoItemPlaceHolder(
                 modifier = Modifier.padding(horizontal = 32.dp, vertical = 16.dp)
