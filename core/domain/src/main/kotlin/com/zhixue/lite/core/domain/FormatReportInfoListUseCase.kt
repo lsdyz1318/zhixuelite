@@ -19,8 +19,8 @@ class FormatReportInfoListUseCase @Inject constructor(
         return reportRepository.getReportInfoList(reportType).map { pagingData ->
             pagingData.map {
                 FormatReportInfo(
-                    reportId = it.reportId,
-                    reportName = it.reportName,
+                    id = it.id,
+                    name = it.name,
                     datetime = formatter.format(it.datetime),
                     isPublished = it.isPublished
                 )

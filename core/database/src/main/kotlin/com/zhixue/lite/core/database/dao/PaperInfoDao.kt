@@ -14,12 +14,19 @@ interface PaperInfoDao {
     suspend fun insertPaperInfoList(entities: List<PaperInfoEntity>)
 
     @Query(
-        "SELECT id FROM paper_info " +
-        "WHERE report_id = :reportId"
+        """
+            SELECT id FROM paper_info
+            WHERE report_id = :reportId
+        """
     )
     suspend fun getPaperInfoIds(reportId: String): List<String>
 
     @Transaction
-    @Query("SELECT * FROM paper_info")
+    @Query(
+        """
+            SELECT * FROM paper_info
+            WHERE report_id = :reportId
+        """
+    )
     suspend fun getPaperInfoList(reportId: String): List<PopulatedPaperInfo>
 }

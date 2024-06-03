@@ -8,7 +8,7 @@ data class PopulatedPaperInfo(
     @Embedded
     val paperInfoEntity: PaperInfoEntity,
     @Relation(
-        parentColumn = "paper_id",
+        parentColumn = "id",
         entityColumn = "paper_id"
     )
     val trendInfoEntities: List<TrendInfoEntity>

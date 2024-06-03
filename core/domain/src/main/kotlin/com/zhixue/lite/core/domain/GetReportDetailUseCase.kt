@@ -20,15 +20,15 @@ class GetReportDetailUseCase @Inject constructor(
         val overviewInfoList = mutableListOf<ReportDetail.OverviewInfo>()
 
         for (paperInfo in paperInfoList) {
-            val paperId = paperInfo.paperId
+            val paperId = paperInfo.id
             val userScore = paperInfo.userScore?.toBigDecimal()
             val standardScore = paperInfo.standardScore.toBigDecimal()
             var classRank = paperInfo.classRank
             val classPercentile = paperInfo.classPercentile
-            val studentNumber = paperInfo.studentNumber
+            val classTrendInfo = paperInfo.classTrendInfo
 
-            if (classRank == null && classPercentile != null && studentNumber != null) {
-                classRank = calculateRank(studentNumber, classPercentile)
+            if (classRank == null && classPercentile != null && classTrendInfo != null) {
+                classRank = calculateRank(classTrendInfo.studentNumber, classPercentile)
             }
 
             if (!paperId.contains("!")) {
@@ -45,9 +45,9 @@ class GetReportDetailUseCase @Inject constructor(
                     userScore = userScore?.transformPlainString() ?: "-",
                     standardScore = standardScore.transformPlainString(),
                     scoreRate = paperInfo.scoreRate,
+                    level = classTrendInfo?.level.orEmpty(),
                     classRank = classRank?.toString() ?: "-",
-                    trendLevel = paperInfo.trendLevel.orEmpty(),
-                    trendDirection = paperInfo.trendDirection
+                    direction = classTrendInfo?.direction
                 )
             )
         }

@@ -16,8 +16,8 @@ data class ReportDetail(
         val userScore: String,
         val standardScore: String,
         val scoreRate: Float,
+        val level: String,
         val classRank: String,
-        val trendLevel: String,
-        val trendDirection: TrendDirection?
+        val direction: TrendDirection?
     )
 }

@@ -13,20 +13,26 @@ interface ReportInfoDao {
     suspend fun insertReportInfoList(entities: List<ReportInfoEntity>)
 
     @Query(
-        "SELECT id FROM report_info " +
-        "WHERE type = :reportType"
+        """
+            SELECT id FROM report_info
+            WHERE type = :reportType
+        """
     )
     suspend fun getReportInfoLatestId(reportType: String): String?
 
     @Query(
-        "SELECT * FROM report_info " +
-        "WHERE type = :reportType"
+        """
+            SELECT * FROM report_info
+            WHERE type = :reportType
+        """
     )
     fun reportInfoPagingSource(reportType: String): PagingSource<Int, ReportInfoEntity>
 
     @Query(
-        "DELETE FROM report_info " +
-        "WHERE type = :reportType"
+        """
+            DELETE FROM report_info
+            WHERE type = :reportType
+        """
     )
     suspend fun deleteReportInfoList(reportType: String)
 }

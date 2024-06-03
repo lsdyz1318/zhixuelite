@@ -214,12 +214,12 @@ internal fun OverviewItem(
                                 .toSpanStyle()
                         ) {
                             append(" ")
-                            append(overviewInfo.trendLevel)
+                            append(overviewInfo.level)
                         }
                     }
                 )
                 Spacer(modifier = Modifier.width(8.dp))
-                when (overviewInfo.trendDirection) {
+                when (overviewInfo.direction) {
                     TrendDirection.UP -> TrendingIcon(
                         iconId = commonR.drawable.ic_trending_up,
                         tint = Theme.colorScheme.primary
