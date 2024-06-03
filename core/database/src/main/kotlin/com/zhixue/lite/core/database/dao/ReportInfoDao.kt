@@ -16,6 +16,8 @@ interface ReportInfoDao {
         """
             SELECT id FROM report_info
             WHERE user_id = :userId AND type = :reportType
+            ORDER BY create_date DESC
+            LIMIT 1
         """
     )
     suspend fun getReportInfoLatestId(userId: String, reportType: String): String?
