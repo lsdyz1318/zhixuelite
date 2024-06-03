@@ -9,11 +9,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
@@ -21,6 +21,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -52,7 +53,7 @@ internal fun HomeRoute(
         homeState = homeState,
         examReportInfoList = viewModel.examReportInfoList.collectAsLazyPagingItems(),
         homeworkReportInfoList = viewModel.homeworkReportInfoList.collectAsLazyPagingItems(),
-        onReportInfoClick = { isPublished, reportId ->
+        onReportInfoClick = { reportId, isPublished ->
             if (isPublished) {
                 onReportInfoClick(reportId)
             } else {
@@ -67,7 +68,7 @@ internal fun HomeScreen(
     homeState: HomeState,
     examReportInfoList: LazyPagingItems<FormatReportInfo>,
     homeworkReportInfoList: LazyPagingItems<FormatReportInfo>,
-    onReportInfoClick: (Boolean, String) -> Unit
+    onReportInfoClick: (String, Boolean) -> Unit
 ) {
     Column {
         HomeTabs(
@@ -118,7 +119,7 @@ internal fun HomeTabs(
 @Composable
 internal fun HomeReportInfoPage(
     reportInfoList: LazyPagingItems<FormatReportInfo>,
-    onReportInfoClick: (Boolean, String) -> Unit,
+    onReportInfoClick: (String, Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Crossfade(
@@ -141,8 +142,9 @@ internal fun HomeReportInfoPage(
 
 internal fun LazyListScope.placeholderBody() {
     items(20) {
-        ReportInfoItemPlaceHolder(
-            modifier = Modifier.padding(horizontal = 32.dp, vertical = 16.dp)
+        ReportInfoItem(
+            enabledPlaceholder = true,
+            modifier = Modifier.padding(horizontal = 8.dp)
         )
         Spacer(modifier = Modifier.height(1.dp))
     }
@@ -150,102 +152,73 @@ internal fun LazyListScope.placeholderBody() {
 
 internal fun LazyListScope.reportInfoBody(
     reportInfoList: LazyPagingItems<FormatReportInfo>,
-    onReportInfoClick: (Boolean, String) -> Unit
+    onReportInfoClick: (String, Boolean) -> Unit
 ) {
     items(
         count = reportInfoList.itemCount,
         key = reportInfoList.itemKey()
     ) { index ->
-        val reportInfo = reportInfoList[index]
-        if (reportInfo != null) {
+        with(reportInfoList[index]!!) {
             ReportInfoItem(
-                name = reportInfo.name,
-                createDate = reportInfo.createDate,
+                name = name,
+                createDate = createDate,
                 modifier = Modifier
-                    .clickable { onReportInfoClick(reportInfo.isPublished, reportInfo.id) }
-                    .padding(horizontal = 32.dp, vertical = 16.dp)
+                    .padding(horizontal = 8.dp)
+                    .clip(Theme.shapes.small)
+                    .clickable { onReportInfoClick(id, isPublished) }
             )
             Divider(modifier = Modifier.padding(horizontal = 16.dp))
-        } else {
-            ReportInfoItemPlaceHolder(
-                modifier = Modifier.padding(horizontal = 32.dp, vertical = 16.dp)
-            )
-            Spacer(modifier = Modifier.height(1.dp))
         }
     }
 }
 
 @Composable
 internal fun ReportInfoItem(
-    name: String,
-    createDate: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    name: String = "",
+    createDate: String = "",
+    enabledPlaceholder: Boolean = false
 ) {
-    Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Column(modifier = Modifier.weight(1f)) {
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = name,
-                color = Theme.colorScheme.onBackground,
-                style = Theme.typography.bodyMedium
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = createDate,
-                color = Theme.colorScheme.onBackgroundVariant,
-                style = Theme.typography.bodySmall.copy(fontWeight = FontWeight.Light)
-            )
-        }
-        Spacer(modifier = Modifier.width(24.dp))
-        Icon(
-            painter = painterResource(commonR.drawable.ic_next),
-            tint = Theme.colorScheme.onBackgroundVariant
-        )
-    }
-}
-
-@Composable
-internal fun ReportInfoItemPlaceHolder(modifier: Modifier = Modifier) {
     // 占位符Modifier
-    val placeholderModifier = Modifier.placeholder(
-        visible = true,
-        color = Theme.colorScheme.container,
-        highlightColor = Theme.colorScheme.background,
-        shape = Theme.shapes.medium
-    )
+    val placeholderModifier = Modifier
+        .placeholder(
+            visible = enabledPlaceholder,
+            color = Theme.colorScheme.container,
+            highlightColor = Theme.colorScheme.background,
+            shape = Theme.shapes.medium
+        )
 
-    Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Column(modifier = Modifier.weight(1f)) {
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = "",
-                color = Theme.colorScheme.onBackground,
-                style = Theme.typography.bodyMedium,
-                modifier = Modifier
-                    .width(168.dp)
-                    .then(placeholderModifier)
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = "",
-                color = Theme.colorScheme.onBackgroundVariant,
-                style = Theme.typography.bodySmall.copy(fontWeight = FontWeight.Light),
-                modifier = Modifier
-                    .width(64.dp)
-                    .then(placeholderModifier)
+    Box(modifier = modifier) {
+        Row(
+            modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = name,
+                    color = Theme.colorScheme.onBackground,
+                    style = Theme.typography.bodyMedium,
+                    modifier = Modifier
+                        .defaultMinSize(minWidth = 168.dp)
+                        .then(placeholderModifier)
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = createDate,
+                    color = Theme.colorScheme.onBackgroundVariant,
+                    style = Theme.typography.bodySmall.copy(fontWeight = FontWeight.Light),
+                    modifier = Modifier
+                        .defaultMinSize(minWidth = 64.dp)
+                        .then(placeholderModifier)
+                )
+            }
+            Spacer(modifier = Modifier.width(24.dp))
+            Icon(
+                painter = painterResource(commonR.drawable.ic_next),
+                tint = Theme.colorScheme.onBackgroundVariant,
+                modifier = Modifier.then(placeholderModifier)
             )
         }
-        Spacer(modifier = Modifier.width(24.dp))
-        Box(
-            modifier = Modifier
-                .size(24.dp)
-                .then(placeholderModifier)
-        )
     }
 }
