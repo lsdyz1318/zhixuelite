@@ -158,16 +158,23 @@ internal fun LazyListScope.reportInfoBody(
         count = reportInfoList.itemCount,
         key = reportInfoList.itemKey()
     ) { index ->
-        with(reportInfoList[index]!!) {
+        val reportInfo = reportInfoList[index]
+        if (reportInfo != null) {
             ReportInfoItem(
-                name = name,
-                createDate = createDate,
+                name = reportInfo.name,
+                createDate = reportInfo.createDate,
                 modifier = Modifier
                     .padding(horizontal = 8.dp)
                     .clip(Theme.shapes.small)
-                    .clickable { onReportInfoClick(id, isPublished) }
+                    .clickable { onReportInfoClick(reportInfo.id, reportInfo.isPublished) }
             )
             Divider(modifier = Modifier.padding(horizontal = 16.dp))
+        } else {
+            ReportInfoItem(
+                enabledPlaceholder = true,
+                modifier = Modifier.padding(horizontal = 8.dp)
+            )
+            Spacer(modifier = Modifier.height(1.dp))
         }
     }
 }
