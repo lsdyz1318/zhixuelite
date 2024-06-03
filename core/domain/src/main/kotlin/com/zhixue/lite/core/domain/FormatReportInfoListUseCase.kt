@@ -21,7 +21,7 @@ class FormatReportInfoListUseCase @Inject constructor(
                 FormatReportInfo(
                     id = it.id,
                     name = it.name,
-                    datetime = formatter.format(it.datetime),
+                    createDate = formatter.format(it.createDate),
                     isPublished = it.isPublished
                 )
             }

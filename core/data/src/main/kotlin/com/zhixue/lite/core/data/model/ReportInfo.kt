@@ -8,6 +8,6 @@ fun NetworkReportInfo.asEntity(reportType: String): ReportInfoEntity =
         id = id,
         type = reportType,
         name = name,
-        datetime = datetime,
+        createDate = createDate,
         isPublished = isPublished
     )
