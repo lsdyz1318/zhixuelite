@@ -5,3 +5,7 @@ plugins {
 android {
     namespace = "com.zhixue.lite.feature.profile"
 }
+
+dependencies {
+    implementation(projects.core.common)
+}

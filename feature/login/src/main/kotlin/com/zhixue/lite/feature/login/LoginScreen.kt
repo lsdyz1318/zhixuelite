@@ -130,10 +130,7 @@ internal fun LoginScreen(
             }
             Spacer(modifier = Modifier.height(16.dp))
             Spacer(modifier = Modifier.weight(1f))
-            LoginFooter(
-                onRegisterClick = onRegisterClick,
-                modifier = Modifier.fillMaxWidth()
-            )
+            LoginFooter(onRegisterClick = onRegisterClick)
             Spacer(modifier = Modifier.height(16.dp))
         }
     }
@@ -215,7 +212,7 @@ internal fun LoginFooter(
     modifier: Modifier = Modifier
 ) {
     Box(
-        modifier = modifier,
+        modifier = modifier.fillMaxWidth(),
         contentAlignment = Alignment.Center
     ) {
         TextButton(onClick = onRegisterClick) {
