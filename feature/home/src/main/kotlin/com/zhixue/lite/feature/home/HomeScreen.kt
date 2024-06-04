@@ -174,7 +174,6 @@ internal fun ReportInfoItem(
     createDate: String = "",
     enabledPlaceholder: Boolean = false
 ) {
-    // 占位符Modifier
     val placeholderModifier = Modifier
         .placeholder(
             visible = enabledPlaceholder,
