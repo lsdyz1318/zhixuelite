@@ -5,16 +5,13 @@ import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.pager.HorizontalPager
@@ -23,9 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
@@ -33,13 +28,11 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import com.zhixue.lite.core.designsystem.component.Divider
-import com.zhixue.lite.core.designsystem.component.Icon
 import com.zhixue.lite.core.designsystem.component.Text
 import com.zhixue.lite.core.designsystem.component.TextButton
-import com.zhixue.lite.core.designsystem.modifier.placeholder
 import com.zhixue.lite.core.designsystem.theme.Theme
 import com.zhixue.lite.core.model.FormatReportInfo
-import com.zhixue.lite.core.common.R as commonR
+import com.zhixue.lite.core.ui.ReportInfoItem
 
 @Composable
 internal fun HomeRoute(
@@ -138,7 +131,11 @@ internal fun HomeReportInfoPage(
 
 internal fun LazyListScope.placeholderBody() {
     items(20) {
-        ReportInfoPlaceHolderItem()
+        ReportInfoItem(
+            enabledPlaceholder = true,
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+        )
+        Spacer(modifier = Modifier.height(1.dp))
     }
 }
 
@@ -162,66 +159,11 @@ internal fun LazyListScope.reportInfoBody(
             )
             Divider(modifier = Modifier.padding(horizontal = 16.dp))
         } else {
-            ReportInfoPlaceHolderItem()
-        }
-    }
-}
-
-@Composable
-internal fun ReportInfoItem(
-    modifier: Modifier = Modifier,
-    name: String = "",
-    createDate: String = "",
-    enabledPlaceholder: Boolean = false
-) {
-    val placeholderModifier = Modifier
-        .placeholder(
-            visible = enabledPlaceholder,
-            color = Theme.colorScheme.container,
-            highlightColor = Theme.colorScheme.background,
-            shape = Theme.shapes.medium
-        )
-
-    Box(modifier = modifier) {
-        Row(
-            modifier = Modifier.padding(horizontal = 24.dp, vertical = 12.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Column(modifier = Modifier.weight(1f)) {
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = name,
-                    color = Theme.colorScheme.onBackground,
-                    style = Theme.typography.bodyMedium,
-                    modifier = Modifier
-                        .defaultMinSize(minWidth = 168.dp)
-                        .then(placeholderModifier)
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = createDate,
-                    color = Theme.colorScheme.onBackgroundVariant,
-                    style = Theme.typography.bodySmall.copy(fontWeight = FontWeight.Light),
-                    modifier = Modifier
-                        .defaultMinSize(minWidth = 64.dp)
-                        .then(placeholderModifier)
-                )
-            }
-            Spacer(modifier = Modifier.width(24.dp))
-            Icon(
-                painter = painterResource(commonR.drawable.ic_next),
-                tint = Theme.colorScheme.onBackgroundVariant,
-                modifier = Modifier.then(placeholderModifier)
+            ReportInfoItem(
+                enabledPlaceholder = true,
+                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
             )
+            Spacer(modifier = Modifier.height(1.dp))
         }
     }
-}
-
-@Composable
-internal fun ReportInfoPlaceHolderItem() {
-    ReportInfoItem(
-        enabledPlaceholder = true,
-        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
-    )
-    Spacer(modifier = Modifier.height(1.dp))
 }

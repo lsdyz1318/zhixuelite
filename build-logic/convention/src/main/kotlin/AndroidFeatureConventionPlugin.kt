@@ -16,6 +16,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
             dependencies {
                 add("implementation", project(":core:data"))
                 add("implementation", project(":core:designsystem"))
+                add("implementation", project(":core:ui"))
                 add("implementation", libs.androidx.hilt.navigation.compose)
                 add("implementation", libs.androidx.navigation.compose)
                 add("implementation", libs.kotlinx.serialization.json)

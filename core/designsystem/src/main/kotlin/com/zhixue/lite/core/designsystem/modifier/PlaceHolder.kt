@@ -2,23 +2,17 @@
 
 package com.zhixue.lite.core.designsystem.modifier
 
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.isSpecified
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.placeholder
 import com.google.accompanist.placeholder.shimmer
+import com.zhixue.lite.core.designsystem.theme.Theme
 
-fun Modifier.placeholder(
-    visible: Boolean,
-    color: Color,
-    highlightColor: Color = Color.Unspecified,
-    shape: Shape = RectangleShape
-): Modifier = placeholder(
+@Composable
+fun Modifier.themePlaceholder(visible: Boolean): Modifier = placeholder(
     visible = visible,
-    color = color,
-    shape = shape,
-    highlight = highlightColor.takeIf { it.isSpecified }?.let(PlaceholderHighlight::shimmer)
+    color = Theme.colorScheme.container,
+    shape = Theme.shapes.medium,
+    highlight = PlaceholderHighlight.shimmer(Theme.colorScheme.background)
 )
