@@ -34,7 +34,7 @@ internal class HomeState(
     val pagerState: PagerState,
     private val coroutineScope: CoroutineScope
 ) {
-    val currentPage: Int
+    val currentPageIndex: Int
         get() = pagerState.currentPage
 
     val pageTitleIds: List<Int> = pages.map { it.titleId }

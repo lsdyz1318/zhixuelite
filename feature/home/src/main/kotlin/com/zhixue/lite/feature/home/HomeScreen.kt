@@ -44,8 +44,8 @@ import com.zhixue.lite.core.common.R as commonR
 @Composable
 internal fun HomeRoute(
     onReportInfoClick: (String) -> Unit,
-    homeState: HomeState = rememberHomeState(),
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
+    homeState: HomeState = rememberHomeState()
 ) {
     val context = LocalContext.current
 
@@ -73,11 +73,8 @@ internal fun HomeScreen(
     Column {
         HomeTabs(
             pageTitleIds = homeState.pageTitleIds,
-            currentPage = homeState.currentPage,
-            onTabClick = homeState::scrollToPage,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 24.dp, bottom = 12.dp)
+            currentPageIndex = homeState.currentPageIndex,
+            onTabClick = homeState::scrollToPage
         )
         Divider()
         HorizontalPager(homeState.pagerState) { index ->
@@ -86,8 +83,7 @@ internal fun HomeScreen(
                     HomePage.EXAM -> examReportInfoList
                     HomePage.HOMEWORK -> homeworkReportInfoList
                 },
-                onReportInfoClick = onReportInfoClick,
-                modifier = Modifier.fillMaxSize()
+                onReportInfoClick = onReportInfoClick
             )
         }
     }
@@ -96,19 +92,20 @@ internal fun HomeScreen(
 @Composable
 internal fun HomeTabs(
     pageTitleIds: List<Int>,
-    currentPage: Int,
-    onTabClick: (Int) -> Unit,
-    modifier: Modifier = Modifier
+    currentPageIndex: Int,
+    onTabClick: (Int) -> Unit
 ) {
     Row(
-        modifier = modifier,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 24.dp, bottom = 12.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally)
     ) {
         pageTitleIds.forEachIndexed { index, pageTitleId ->
             TextButton(onClick = { onTabClick(index) }) {
                 Text(
                     text = stringResource(pageTitleId),
-                    color = if (index == currentPage) Theme.colorScheme.primary else Theme.colorScheme.onBackgroundVariant,
+                    color = if (index == currentPageIndex) Theme.colorScheme.primary else Theme.colorScheme.onBackgroundVariant,
                     style = Theme.typography.titleSmall
                 )
             }
@@ -119,16 +116,15 @@ internal fun HomeTabs(
 @Composable
 internal fun HomeReportInfoPage(
     reportInfoList: LazyPagingItems<FormatReportInfo>,
-    onReportInfoClick: (String, Boolean) -> Unit,
-    modifier: Modifier = Modifier
+    onReportInfoClick: (String, Boolean) -> Unit
 ) {
     Crossfade(
-        label = "HomeReportInfoPage",
+        label = "Loading",
         targetState = reportInfoList.loadState.refresh is LoadState.Loading,
         animationSpec = tween(800)
     ) { isLoading ->
         LazyColumn(
-            modifier = modifier,
+            modifier = Modifier.fillMaxSize(),
             userScrollEnabled = !isLoading
         ) {
             if (isLoading) {
@@ -142,11 +138,7 @@ internal fun HomeReportInfoPage(
 
 internal fun LazyListScope.placeholderBody() {
     items(20) {
-        ReportInfoItem(
-            enabledPlaceholder = true,
-            modifier = Modifier.padding(horizontal = 8.dp)
-        )
-        Spacer(modifier = Modifier.height(1.dp))
+        ReportInfoPlaceHolderItem()
     }
 }
 
@@ -164,17 +156,13 @@ internal fun LazyListScope.reportInfoBody(
                 name = reportInfo.name,
                 createDate = reportInfo.createDate,
                 modifier = Modifier
-                    .padding(horizontal = 8.dp)
+                    .padding(horizontal = 8.dp, vertical = 4.dp)
                     .clip(Theme.shapes.small)
                     .clickable { onReportInfoClick(reportInfo.id, reportInfo.isPublished) }
             )
             Divider(modifier = Modifier.padding(horizontal = 16.dp))
         } else {
-            ReportInfoItem(
-                enabledPlaceholder = true,
-                modifier = Modifier.padding(horizontal = 8.dp)
-            )
-            Spacer(modifier = Modifier.height(1.dp))
+            ReportInfoPlaceHolderItem()
         }
     }
 }
@@ -197,7 +185,7 @@ internal fun ReportInfoItem(
 
     Box(modifier = modifier) {
         Row(
-            modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp),
+            modifier = Modifier.padding(horizontal = 24.dp, vertical = 12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(modifier = Modifier.weight(1f)) {
@@ -228,4 +216,13 @@ internal fun ReportInfoItem(
             )
         }
     }
+}
+
+@Composable
+internal fun ReportInfoPlaceHolderItem() {
+    ReportInfoItem(
+        enabledPlaceholder = true,
+        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+    )
+    Spacer(modifier = Modifier.height(1.dp))
 }
