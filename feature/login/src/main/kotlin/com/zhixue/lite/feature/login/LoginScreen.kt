@@ -35,6 +35,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.geetest.captcha.GTCaptcha4Client
 import com.zhixue.lite.core.designsystem.component.Button
+import com.zhixue.lite.core.designsystem.component.Divider
 import com.zhixue.lite.core.designsystem.component.SecureTextField
 import com.zhixue.lite.core.designsystem.component.Text
 import com.zhixue.lite.core.designsystem.component.TextButton
@@ -61,6 +62,7 @@ internal fun LoginRoute(
     LoginScreen(
         loginState = loginState,
         onLoginClick = {
+            focusManager.clearFocus()
             captchaDialog(context) { captcha ->
                 viewModel.login(
                     username = loginState.usernameText,
@@ -69,7 +71,6 @@ internal fun LoginRoute(
                     onSuccess = onLoginSuccess
                 )
             }
-            focusManager.clearFocus()
         },
         onRegisterClick = onRegisterClick,
         onForgetPasswordClick = onForgetPasswordClick
@@ -101,20 +102,30 @@ internal fun LoginScreen(
                 modifier = Modifier.padding(horizontal = 32.dp)
             )
             Spacer(modifier = Modifier.height(20.dp))
-            Box(modifier = Modifier.padding(horizontal = 24.dp)) {
-                TextButton(onClick = onForgetPasswordClick) {
-                    Text(
-                        text = stringResource(R.string.login_navigate_to_forget_password),
-                        color = Theme.colorScheme.onBackgroundVariant,
-                        style = Theme.typography.bodyMedium
-                    )
-                }
+            TextButton(
+                onClick = onForgetPasswordClick,
+                modifier = Modifier.padding(horizontal = 24.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.login_navigate_to_forget_password),
+                    color = Theme.colorScheme.onBackgroundVariant,
+                    style = Theme.typography.bodyMedium
+                )
             }
             Spacer(modifier = Modifier.height(16.dp))
-            Box(modifier = Modifier.padding(horizontal = 32.dp)) {
-                LoginButton(
-                    enabled = isFormsValid,
-                    onClick = onLoginClick
+            Button(
+                onClick = onLoginClick,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 32.dp),
+                enabled = isFormsValid,
+                shape = Theme.shapes.large,
+                contentPadding = PaddingValues(horizontal = 24.dp, vertical = 16.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.login_submit_forms),
+                    color = if (isFormsValid) Theme.colorScheme.onPrimary else Theme.colorScheme.onBackgroundVariant,
+                    style = Theme.typography.bodyMedium.copy(fontWeight = FontWeight.Medium)
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
@@ -218,33 +229,12 @@ internal fun LoginFooter(
 }
 
 @Composable
-internal fun LoginButton(
-    enabled: Boolean,
-    onClick: () -> Unit
-) {
-    Button(
-        onClick = onClick,
-        modifier = Modifier.fillMaxWidth(),
-        enabled = enabled,
-        shape = Theme.shapes.large,
-        contentPadding = PaddingValues(horizontal = 24.dp, vertical = 16.dp)
-    ) {
-        Text(
-            text = stringResource(R.string.login_submit_forms),
-            color = if (enabled) Theme.colorScheme.onPrimary else Theme.colorScheme.onBackgroundVariant,
-            style = Theme.typography.bodyMedium.copy(fontWeight = FontWeight.Medium)
-        )
-    }
-}
-
-@Composable
 internal fun LoginTextFieldDecorator(
     hintText: String,
     isHintVisible: Boolean,
-    innerTextField: @Composable () -> Unit,
-    modifier: Modifier = Modifier
+    innerTextField: @Composable () -> Unit
 ) {
-    Column(modifier = modifier) {
+    Column {
         Box {
             androidx.compose.animation.AnimatedVisibility(
                 visible = isHintVisible,
@@ -260,19 +250,11 @@ internal fun LoginTextFieldDecorator(
             innerTextField()
         }
         Spacer(modifier = Modifier.height(12.dp))
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(1.dp)
-                .background(Theme.colorScheme.outline)
-        )
+        Divider()
     }
 }
 
-internal fun captchaDialog(
-    context: Context,
-    onVerifySuccess: (String) -> Unit
-) {
+internal fun captchaDialog(context: Context, onVerifySuccess: (String) -> Unit) {
     GTCaptcha4Client.getClient(context)
         .init("a6474422e78e5bb048082ec77d141068")
         .addOnSuccessListener { status, captcha ->
