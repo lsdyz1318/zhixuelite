@@ -62,7 +62,7 @@ fun ReportInfoItem(
     }
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
 private fun ReportInfoItemPreview() {
     ZhixueLiteTheme {
