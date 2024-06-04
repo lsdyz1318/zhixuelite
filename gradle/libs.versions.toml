@@ -55,10 +55,10 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 # project
-zhixuelite-android-application = { id = "zhixuelite.android.application", version = "unspecified" }
-zhixuelite-android-compose = { id = "zhixuelite.android.compose", version = "unspecified" }
-zhixuelite-android-feature = { id = "zhixuelite.android.feature", version = "unspecified" }
-zhixuelite-android-hilt = { id = "zhixuelite.android.hilt", version = "unspecified" }
-zhixuelite-android-library = { id = "zhixuelite.android.library", version = "unspecified" }
-zhixuelite-android-room = { id = "zhixuelite.android.room", version = "unspecified" }
-zhixuelite-jvm-library = { id = "zhixuelite.jvm.library", version = "unspecified" }
+zhixuelite-android-application = { id = "zhixuelite.android.application" }
+zhixuelite-android-compose = { id = "zhixuelite.android.compose" }
+zhixuelite-android-feature = { id = "zhixuelite.android.feature" }
+zhixuelite-android-hilt = { id = "zhixuelite.android.hilt" }
+zhixuelite-android-library = { id = "zhixuelite.android.library" }
+zhixuelite-android-room = { id = "zhixuelite.android.room" }
+zhixuelite-jvm-library = { id = "zhixuelite.jvm.library" }
