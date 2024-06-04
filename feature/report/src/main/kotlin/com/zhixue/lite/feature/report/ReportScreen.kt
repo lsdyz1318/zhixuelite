@@ -70,26 +70,24 @@ internal fun ReportScreen(
     }
 }
 
-internal fun LazyListScope.reportHeader(
-    onBackClick: () -> Unit
-) {
+internal fun LazyListScope.reportHeader(onBackClick: () -> Unit) {
     item {
-        Box(modifier = Modifier.padding(16.dp)) {
-            IconButton(onClick = onBackClick) {
-                Icon(
-                    painter = painterResource(commonR.drawable.ic_back),
-                    tint = Theme.colorScheme.onBackground
-                )
-            }
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-        Box(modifier = Modifier.padding(horizontal = 32.dp)) {
-            Text(
-                text = stringResource(R.string.report_title),
-                color = Theme.colorScheme.onBackground,
-                style = Theme.typography.headline
+        IconButton(
+            onClick = onBackClick,
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Icon(
+                painter = painterResource(commonR.drawable.ic_back),
+                tint = Theme.colorScheme.onBackground
             )
         }
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = stringResource(R.string.report_title),
+            color = Theme.colorScheme.onBackground,
+            style = Theme.typography.headline,
+            modifier = Modifier.padding(horizontal = 32.dp)
+        )
     }
 }
 
@@ -107,17 +105,11 @@ internal fun LazyListScope.reportBody(
                         .padding(24.dp)
                         .border(1.dp, Theme.colorScheme.outline, Theme.shapes.medium)
                 ) {
-                    TotalScorePanel(
-                        totalInfo = uiState.reportDetail.totalInfo,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 24.dp, top = 32.dp, end = 24.dp, bottom = 24.dp)
-                    )
+                    TotalScorePanel(totalInfo = uiState.reportDetail.totalInfo)
                     Divider()
                     OverviewPanel(
                         overviewInfoList = uiState.reportDetail.overviewInfoList,
-                        onOverviewInfoClick = onOverviewInfoClick,
-                        modifier = Modifier.padding(vertical = 16.dp)
+                        onOverviewInfoClick = onOverviewInfoClick
                     )
                 }
             }
@@ -126,21 +118,21 @@ internal fun LazyListScope.reportBody(
 }
 
 @Composable
-internal fun TotalScorePanel(
-    totalInfo: ReportDetail.TotalInfo,
-    modifier: Modifier = Modifier
-) {
+internal fun TotalScorePanel(totalInfo: ReportDetail.TotalInfo) {
     Row(
-        modifier = modifier,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(24.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = stringResource(R.string.report_total_score_label),
                 color = Theme.colorScheme.onBackgroundVariant,
-                style = Theme.typography.titleMedium.copy(fontWeight = FontWeight.Medium)
+                style = Theme.typography.titleMedium.copy(fontWeight = FontWeight.Medium),
+                modifier = Modifier.padding(vertical = 8.dp)
             )
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = buildAnnotatedString {
                     withStyle(
@@ -151,7 +143,7 @@ internal fun TotalScorePanel(
                         append(totalInfo.userScore)
                     }
                     withStyle(
-                        Theme.typography.titleMedium
+                        Theme.typography.bodyLarge
                             .copy(color = Theme.colorScheme.onBackground)
                             .toSpanStyle()
                     ) {
@@ -172,19 +164,16 @@ internal fun TotalScorePanel(
 @Composable
 internal fun OverviewPanel(
     overviewInfoList: List<ReportDetail.OverviewInfo>,
-    onOverviewInfoClick: (String) -> Unit,
-    modifier: Modifier = Modifier
+    onOverviewInfoClick: (String) -> Unit
 ) {
-    Column(modifier = modifier) {
-        Spacer(modifier = Modifier.height(8.dp))
-        Box(modifier = Modifier.padding(horizontal = 24.dp)) {
-            Text(
-                text = stringResource(R.string.report_overview_label),
-                color = Theme.colorScheme.onBackgroundVariant,
-                style = Theme.typography.titleMedium.copy(fontWeight = FontWeight.Medium)
-            )
-        }
-        Spacer(modifier = Modifier.height(12.dp))
+    Column(modifier = Modifier.padding(vertical = 16.dp)) {
+        Text(
+            text = stringResource(R.string.report_overview_label),
+            color = Theme.colorScheme.onBackgroundVariant,
+            style = Theme.typography.titleMedium.copy(fontWeight = FontWeight.Medium),
+            modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp)
+        )
+        Spacer(modifier = Modifier.height(4.dp))
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             overviewInfoList.forEach { overviewInfo ->
                 OverviewItem(
