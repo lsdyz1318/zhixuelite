@@ -20,9 +20,10 @@ fun Text(
     androidx.compose.foundation.text.BasicText(
         text = text,
         modifier = modifier,
-        style = style.merge(color = color),
+        style = style,
         maxLines = maxLines,
-        overflow = overflow
+        overflow = overflow,
+        color = { color }
     )
 }
 
@@ -30,14 +31,16 @@ fun Text(
 fun Text(
     text: AnnotatedString,
     modifier: Modifier = Modifier,
+    color: Color,
     singleLine: Boolean = true,
     maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
-    overflow: TextOverflow = TextOverflow.Ellipsis,
+    overflow: TextOverflow = TextOverflow.Ellipsis
 ) {
     androidx.compose.foundation.text.BasicText(
         text = text,
         modifier = modifier,
         maxLines = maxLines,
-        overflow = overflow
+        overflow = overflow,
+        color = { color }
     )
 }

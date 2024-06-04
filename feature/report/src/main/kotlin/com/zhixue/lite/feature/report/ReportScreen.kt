@@ -135,22 +135,15 @@ internal fun TotalScorePanel(totalInfo: ReportDetail.TotalInfo) {
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = buildAnnotatedString {
-                    withStyle(
-                        Theme.typography.display
-                            .copy(color = Theme.colorScheme.onBackground)
-                            .toSpanStyle()
-                    ) {
+                    withStyle(Theme.typography.display.toSpanStyle()) {
                         append(totalInfo.userScore)
                     }
-                    withStyle(
-                        Theme.typography.bodyLarge
-                            .copy(color = Theme.colorScheme.onBackground)
-                            .toSpanStyle()
-                    ) {
+                    withStyle(Theme.typography.bodyLarge.toSpanStyle()) {
                         append(" / ")
                         append(totalInfo.standardScore)
                     }
-                }
+                },
+                color = Theme.colorScheme.onBackground
             )
         }
         Spacer(modifier = Modifier.width(24.dp))
@@ -198,22 +191,15 @@ internal fun OverviewItem(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     text = buildAnnotatedString {
-                        withStyle(
-                            Theme.typography.bodyMedium
-                                .copy(color = Theme.colorScheme.onBackground)
-                                .toSpanStyle()
-                        ) {
+                        withStyle(Theme.typography.bodyMedium.toSpanStyle()) {
                             append(overviewInfo.subjectName)
                         }
-                        withStyle(
-                            Theme.typography.bodySmall
-                                .copy(color = Theme.colorScheme.onBackground)
-                                .toSpanStyle()
-                        ) {
+                        withStyle(Theme.typography.bodySmall.toSpanStyle()) {
                             append(" ")
                             append(overviewInfo.level)
                         }
-                    }
+                    },
+                    color = Theme.colorScheme.onBackground
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 when (overviewInfo.direction) {

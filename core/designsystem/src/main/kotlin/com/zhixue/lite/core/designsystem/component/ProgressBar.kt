@@ -24,7 +24,7 @@ fun ProgressBar(
 ) {
     val progress = remember { Animatable(0f) }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(value) {
         progress.animateTo(value)
     }
 
