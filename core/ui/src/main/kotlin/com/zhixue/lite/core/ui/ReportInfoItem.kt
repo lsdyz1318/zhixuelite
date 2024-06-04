@@ -3,7 +3,6 @@ package com.zhixue.lite.core.ui
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -13,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.zhixue.lite.core.designsystem.component.Icon
 import com.zhixue.lite.core.designsystem.component.Text
@@ -39,7 +39,7 @@ fun ReportInfoItem(
                 style = Theme.typography.bodyMedium,
                 modifier = Modifier
                     .padding(vertical = 4.dp)
-                    .defaultMinSize(minWidth = 168.dp)
+                    .width(if (enabledPlaceholder) 168.dp else Dp.Unspecified)
                     .themePlaceholder(enabledPlaceholder)
             )
             Text(
@@ -47,7 +47,7 @@ fun ReportInfoItem(
                 color = Theme.colorScheme.onBackgroundVariant,
                 style = Theme.typography.bodySmall.copy(fontWeight = FontWeight.Light),
                 modifier = Modifier
-                    .defaultMinSize(minWidth = 64.dp)
+                    .width(if (enabledPlaceholder) 64.dp else Dp.Unspecified)
                     .themePlaceholder(enabledPlaceholder)
             )
         }

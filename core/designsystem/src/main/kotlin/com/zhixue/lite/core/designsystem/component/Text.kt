@@ -32,6 +32,7 @@ fun Text(
     text: AnnotatedString,
     modifier: Modifier = Modifier,
     color: Color,
+    style: TextStyle,
     singleLine: Boolean = true,
     maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
     overflow: TextOverflow = TextOverflow.Ellipsis
@@ -39,6 +40,7 @@ fun Text(
     androidx.compose.foundation.text.BasicText(
         text = text,
         modifier = modifier,
+        style = style,
         maxLines = maxLines,
         overflow = overflow,
         color = { color }
